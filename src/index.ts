@@ -1,3 +1,7 @@
-import { test } from "./playground/circular-linked-list";
+import { DoublyLinkedList } from "./playground/doubly";
 
-console.log(test);
+const list = new DoublyLinkedList();
+
+list.push("A");
+const t = list.get(1);
+console.log(t);

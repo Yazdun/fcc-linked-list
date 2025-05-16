@@ -1,11 +1,13 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SinglyLinkedList = void 0;
 class N {
     constructor(value) {
         this.next = null;
         this.value = value;
     }
 }
-class LinkedList {
+class SinglyLinkedList {
     constructor() {
         this.head = null;
     }
@@ -104,10 +106,11 @@ class LinkedList {
     findMiddle() {
         let slow = this.head;
         let fast = this.head;
-        while (fast && fast.next) {
+        while (fast && fast.next?.next) {
             slow = slow?.next ?? null;
             fast = fast.next.next;
         }
         return slow;
     }
 }
+exports.SinglyLinkedList = SinglyLinkedList;

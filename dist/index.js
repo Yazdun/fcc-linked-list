@@ -1,4 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const circular_linked_list_1 = require("./playground/circular-linked-list");
-console.log(circular_linked_list_1.test);
+const doubly_1 = require("./playground/doubly");
+const list = new doubly_1.DoublyLinkedList();
+list.push("A");
+const t = list.get(1);
+console.log(t);
