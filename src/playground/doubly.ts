@@ -24,11 +24,9 @@ export class DoublyLinkedList<T> {
   push(data: T): void {
     let newNode = new N(data);
     if (!this.head) {
-      console.log(newNode);
       this.head = newNode;
       this.tail = newNode;
     } else {
-      console.log("here");
       this.tail!.next = newNode;
       newNode.prev = this.tail;
       this.tail = newNode;
