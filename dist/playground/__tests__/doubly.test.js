@@ -1,6 +1,6 @@
 "use strict";
-// import { DoublyLinkedList } from "../../examples/doubly";
 Object.defineProperty(exports, "__esModule", { value: true });
+// import { DoublyLinkedList } from "../../examples/doubly";
 const doubly_1 = require("../doubly");
 describe("DoublyLinkedList", () => {
     let list;

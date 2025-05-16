@@ -169,4 +169,33 @@ export class DoublyLinkedList<T> {
 
     return result;
   }
+
+  reverse(): void {
+    if (this.len <= 1) return;
+    let current = this.head;
+    let temp: N<T> | null = null;
+    while (current) {
+      temp = current.prev;
+      current.prev = current.next;
+      current.next = temp;
+      current = current.prev;
+    }
+    temp = this.head;
+    this.head = this.tail;
+    this.tail = temp;
+  }
+
+  remove(data: T): boolean {
+    let current = this.head;
+    let idx = 0;
+    while (current) {
+      if (current.data === data) {
+        this.removeAt(idx);
+        return true;
+      }
+      current = current.next;
+      idx++;
+    }
+    return false;
+  }
 }

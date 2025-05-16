@@ -3,8 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DoublyLinkedList = exports.N = void 0;
 class N {
     constructor(data) {
-        this.next = null;
-        this.prev = null;
         this.data = data;
         this.next = null;
         this.prev = null;
@@ -20,12 +18,10 @@ class DoublyLinkedList {
     push(data) {
         let newNode = new N(data);
         if (!this.head) {
-            console.log(newNode);
             this.head = newNode;
             this.tail = newNode;
         }
         else {
-            console.log("here");
             this.tail.next = newNode;
             newNode.prev = this.tail;
             this.tail = newNode;
@@ -79,7 +75,7 @@ class DoublyLinkedList {
         return removedItem.data;
     }
     get(idx) {
-        if (idx < 0 || idx < this.len)
+        if (idx < 0 || idx >= this.len)
             return null;
         let current = this.head;
         if (idx <= this.len / 2) {
@@ -90,20 +86,20 @@ class DoublyLinkedList {
         }
         else {
             current = this.tail;
-            for (let i = this.len - 1; i < idx; i--) {
+            for (let i = this.len - 1; i > idx; i--) {
                 current = current?.prev ?? null;
             }
         }
         return current;
     }
     insertAt(idx, data) {
-        if (idx < 0 || idx >= this.len)
+        if (idx < 0 || idx > this.len)
             return false;
         if (idx === 0) {
             this.unshift(data);
             return true;
         }
-        if (idx == this.len) {
+        if (idx === this.len) {
             this.push(data);
             return true;
         }
@@ -116,7 +112,7 @@ class DoublyLinkedList {
         current.prev.next = newNode;
         current.prev = newNode;
         this.len++;
-        return false;
+        return true;
     }
     removeAt(idx) {
         if (idx < 0 || idx >= this.len)

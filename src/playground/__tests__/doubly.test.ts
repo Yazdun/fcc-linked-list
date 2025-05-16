@@ -1,4 +1,3 @@
-// import { DoublyLinkedList } from "../../examples/doubly";
 import { DoublyLinkedList } from "../doubly";
 
 describe("DoublyLinkedList", () => {
@@ -213,6 +212,109 @@ describe("DoublyLinkedList", () => {
       list.push("B");
       list.push("C");
       expect(list.traverse("backward")).toEqual(["C", "B", "A"]);
+    });
+  });
+
+  describe("reverse", () => {
+    test("should do nothing for an empty list", () => {
+      list.reverse();
+      expect(list.traverse()).toEqual([]);
+      expect(list.len).toBe(0);
+      expect(list.head).toBeNull();
+      expect(list.tail).toBeNull();
+    });
+
+    test("should do nothing for a single-node list", () => {
+      list.push("A");
+      list.reverse();
+      expect(list.traverse()).toEqual(["A"]);
+      expect(list.len).toBe(1);
+      expect(list.head?.data).toBe("A");
+      expect(list.tail?.data).toBe("A");
+      expect(list.head?.next).toBeNull();
+      expect(list.head?.prev).toBeNull();
+    });
+
+    test("should reverse a two-node list", () => {
+      list.push("A");
+      list.push("B");
+      list.reverse();
+      expect(list.traverse()).toEqual(["B", "A"]);
+      expect(list.len).toBe(2);
+      expect(list.head?.data).toBe("B");
+      expect(list.tail?.data).toBe("A");
+      expect(list.head?.next?.data).toBe("A");
+      expect(list.tail?.prev?.data).toBe("B");
+    });
+
+    test("should reverse a multi-node list", () => {
+      list.push("A");
+      list.push("B");
+      list.push("C");
+      list.reverse();
+      expect(list.traverse()).toEqual(["C", "B", "A"]);
+      expect(list.len).toBe(3);
+      expect(list.head?.data).toBe("C");
+      expect(list.tail?.data).toBe("A");
+      expect(list.get(1)?.data).toBe("B");
+      expect(list.get(1)?.prev?.data).toBe("C");
+      expect(list.get(1)?.next?.data).toBe("A");
+    });
+  });
+
+  describe("remove", () => {
+    test("should return false for an empty list", () => {
+      expect(list.remove("A")).toBe(false);
+      expect(list.len).toBe(0);
+    });
+
+    test("should return false if value not found", () => {
+      list.push("A");
+      list.push("B");
+      expect(list.remove("C")).toBe(false);
+      expect(list.traverse()).toEqual(["A", "B"]);
+      expect(list.len).toBe(2);
+    });
+
+    test("should remove the head node", () => {
+      list.push("A");
+      list.push("B");
+      expect(list.remove("A")).toBe(true);
+      expect(list.traverse()).toEqual(["B"]);
+      expect(list.len).toBe(1);
+      expect(list.head?.data).toBe("B");
+      expect(list.head?.prev).toBeNull();
+    });
+
+    test("should remove the tail node", () => {
+      list.push("A");
+      list.push("B");
+      expect(list.remove("B")).toBe(true);
+      expect(list.traverse()).toEqual(["A"]);
+      expect(list.len).toBe(1);
+      expect(list.tail?.data).toBe("A");
+      expect(list.tail?.next).toBeNull();
+    });
+
+    test("should remove a middle node", () => {
+      list.push("A");
+      list.push("B");
+      list.push("C");
+      expect(list.remove("B")).toBe(true);
+      expect(list.traverse()).toEqual(["A", "C"]);
+      expect(list.len).toBe(2);
+      const nodeA = list.get(0);
+      expect(nodeA?.next?.data).toBe("C");
+      expect(nodeA?.next?.prev?.data).toBe("A");
+    });
+
+    test("should remove only the first occurrence", () => {
+      list.push("A");
+      list.push("B");
+      list.push("A");
+      expect(list.remove("A")).toBe(true);
+      expect(list.traverse()).toEqual(["B", "A"]);
+      expect(list.len).toBe(2);
     });
   });
 });
