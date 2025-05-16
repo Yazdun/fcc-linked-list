@@ -101,7 +101,7 @@ export class DoublyLinkedList<T> {
       }
     } else {
       current = this.tail;
-      for (let i = this.len - 1; i < idx; i--) {
+      for (let i = this.len - 1; i > idx; i--) {
         current = current?.prev ?? null;
       }
     }
@@ -117,7 +117,7 @@ export class DoublyLinkedList<T> {
       return true;
     }
 
-    if (idx == this.len) {
+    if (idx === this.len) {
       this.push(data);
       return true;
     }
