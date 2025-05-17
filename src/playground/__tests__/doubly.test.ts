@@ -1,320 +1,290 @@
 import { DoublyLinkedList } from "../doubly";
 
 describe("DoublyLinkedList", () => {
-  let list: DoublyLinkedList<string | number>;
-
-  beforeEach(() => {
-    list = new DoublyLinkedList<string | number>();
+  test("constructor initializes empty list", () => {
+    const list = new DoublyLinkedList<number>();
+    expect(list.head).toBeNull();
+    expect(list.tail).toBeNull();
+    expect(list.len).toBe(0);
   });
 
-  describe("push", () => {
-    test("should add to an empty list", () => {
-      list.push("A");
-      expect(list.get(0)?.data).toBe("A");
-      expect(list.traverse()).toEqual(["A"]);
-      expect(list.len).toBe(1);
-      expect(list.head?.next).toBeNull();
-      expect(list.tail?.prev).toBeNull();
-    });
-
-    test("should add to a non-empty list", () => {
-      list.push("A");
-      list.push("B");
-      expect(list.get(1)?.data).toBe("B");
-      expect(list.traverse()).toEqual(["A", "B"]);
-      expect(list.len).toBe(2);
-      expect(list.head?.next?.data).toBe("B");
-      expect(list.tail?.prev?.data).toBe("A");
-    });
+  test("push adds elements to the end", () => {
+    const list = new DoublyLinkedList<number>();
+    list.push(1);
+    expect(list.head?.data).toBe(1);
+    expect(list.tail?.data).toBe(1);
+    expect(list.len).toBe(1);
+    list.push(2);
+    expect(list.head?.data).toBe(1);
+    expect(list.tail?.data).toBe(2);
+    expect(list.len).toBe(2);
+    expect(list.head?.next?.data).toBe(2);
+    expect(list.tail?.prev?.data).toBe(1);
   });
 
-  describe("pop", () => {
-    test("should return null for an empty list", () => {
-      expect(list.pop()).toBeNull();
-      expect(list.len).toBe(0);
-    });
-
-    test("should remove and return the only node", () => {
-      list.push("A");
-      expect(list.pop()).toBe("A");
-      expect(list.traverse()).toEqual([]);
-      expect(list.len).toBe(0);
-      expect(list.head).toBeNull();
-      expect(list.tail).toBeNull();
-    });
-
-    test("should remove and return the last node", () => {
-      list.push("A");
-      list.push("B");
-      expect(list.pop()).toBe("B");
-      expect(list.traverse()).toEqual(["A"]);
-      expect(list.len).toBe(1);
-      expect(list.tail?.data).toBe("A");
-      expect(list.tail?.next).toBeNull();
-    });
+  test("pop removes elements from the end", () => {
+    const list = new DoublyLinkedList<number>();
+    expect(list.pop()).toBeNull();
+    list.push(1);
+    list.push(2);
+    expect(list.pop()).toBe(2);
+    expect(list.tail?.data).toBe(1);
+    expect(list.len).toBe(1);
+    expect(list.pop()).toBe(1);
+    expect(list.head).toBeNull();
+    expect(list.tail).toBeNull();
+    expect(list.len).toBe(0);
   });
 
-  describe("unshift", () => {
-    test("should add to an empty list", () => {
-      list.unshift("A");
-      expect(list.get(0)?.data).toBe("A");
-      expect(list.traverse()).toEqual(["A"]);
-      expect(list.len).toBe(1);
-      expect(list.head?.next).toBeNull();
-      expect(list.tail?.prev).toBeNull();
-    });
-
-    test("should add to a non-empty list", () => {
-      list.push("B");
-      list.unshift("A");
-      expect(list.get(0)?.data).toBe("A");
-      expect(list.traverse()).toEqual(["A", "B"]);
-      expect(list.len).toBe(2);
-      expect(list.head?.next?.data).toBe("B");
-      expect(list.tail?.prev?.data).toBe("A");
-    });
+  test("unshift adds elements to the beginning", () => {
+    const list = new DoublyLinkedList<number>();
+    list.unshift(1);
+    expect(list.head?.data).toBe(1);
+    expect(list.tail?.data).toBe(1);
+    expect(list.len).toBe(1);
+    list.unshift(2);
+    expect(list.head?.data).toBe(2);
+    expect(list.tail?.data).toBe(1);
+    expect(list.len).toBe(2);
+    expect(list.head?.next?.data).toBe(1);
+    expect(list.tail?.prev?.data).toBe(2);
   });
 
-  describe("shift", () => {
-    test("should return null for an empty list", () => {
-      expect(list.shift()).toBeNull();
-      expect(list.len).toBe(0);
-    });
-
-    test("should remove and return the only node", () => {
-      list.push("A");
-      expect(list.shift()).toBe("A");
-      expect(list.traverse()).toEqual([]);
-      expect(list.len).toBe(0);
-      expect(list.head).toBeNull();
-      expect(list.tail).toBeNull();
-    });
-
-    test("should remove and return the first node", () => {
-      list.push("A");
-      list.push("B");
-      expect(list.shift()).toBe("A");
-      expect(list.traverse()).toEqual(["B"]);
-      expect(list.len).toBe(1);
-      expect(list.head?.data).toBe("B");
-      expect(list.head?.prev).toBeNull();
-    });
+  test("shift removes elements from the beginning", () => {
+    const list = new DoublyLinkedList<number>();
+    expect(list.shift()).toBeNull();
+    list.push(1);
+    list.push(2);
+    expect(list.shift()).toBe(1);
+    expect(list.head?.data).toBe(2);
+    expect(list.len).toBe(1);
+    expect(list.shift()).toBe(2);
+    expect(list.head).toBeNull();
+    expect(list.tail).toBeNull();
+    expect(list.len).toBe(0);
   });
 
-  describe("get", () => {
-    test("should return null for an empty list", () => {
-      expect(list.get(0)).toBeNull();
-    });
-
-    test("should return null for invalid index", () => {
-      list.push("A");
-      expect(list.get(-1)).toBeNull();
-      expect(list.get(1)).toBeNull();
-    });
-
-    test("should get node from the head (forward)", () => {
-      list.push("A");
-      list.push("B");
-      list.push("C");
-      expect(list.get(1)?.data).toBe("B");
-    });
-
-    test("should get node from the tail (backward)", () => {
-      list.push("A");
-      list.push("B");
-      list.push("C");
-      expect(list.get(2)?.data).toBe("C");
-    });
+  test("get retrieves elements at specified index", () => {
+    const list = new DoublyLinkedList<number>();
+    expect(list.get(0)).toBeNull();
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    expect(list.get(0)?.data).toBe(1);
+    expect(list.get(1)?.data).toBe(2);
+    expect(list.get(2)?.data).toBe(3);
+    expect(list.get(3)).toBeNull();
+    expect(list.get(-1)).toBeNull();
   });
 
-  describe("insertAt", () => {
-    test("should return false for invalid index", () => {
-      expect(list.insertAt(-1, "A")).toBe(false);
-      expect(list.insertAt(1, "A")).toBe(false);
-      expect(list.len).toBe(0);
-    });
-
-    test("should insert at index 0 (unshift)", () => {
-      expect(list.insertAt(0, "A")).toBe(true);
-      expect(list.traverse()).toEqual(["A"]);
-      expect(list.len).toBe(1);
-    });
-
-    test("should insert at the end (push)", () => {
-      list.push("A");
-      expect(list.insertAt(1, "B")).toBe(true);
-      expect(list.traverse()).toEqual(["A", "B"]);
-      expect(list.len).toBe(2);
-    });
-
-    test("should insert in the middle", () => {
-      list.push("A");
-      list.push("C");
-      expect(list.insertAt(1, "B")).toBe(true);
-      expect(list.traverse()).toEqual(["A", "B", "C"]);
-      expect(list.len).toBe(3);
-      const nodeB = list.get(1);
-      expect(nodeB?.prev?.data).toBe("A");
-      expect(nodeB?.next?.data).toBe("C");
-    });
+  test("insertAt inserts elements at specified index", () => {
+    const list = new DoublyLinkedList<number>();
+    expect(list.insertAt(0, 1)).toBe(true);
+    expect(list.head?.data).toBe(1);
+    expect(list.tail?.data).toBe(1);
+    expect(list.len).toBe(1);
+    expect(list.insertAt(1, 3)).toBe(true);
+    expect(list.head?.data).toBe(1);
+    expect(list.tail?.data).toBe(3);
+    expect(list.len).toBe(2);
+    expect(list.insertAt(1, 2)).toBe(true);
+    expect(list.head?.data).toBe(1);
+    expect(list.head?.next?.data).toBe(2);
+    expect(list.tail?.data).toBe(3);
+    expect(list.len).toBe(3);
+    expect(list.insertAt(3, 4)).toBe(true);
+    expect(list.tail?.data).toBe(4);
+    expect(list.len).toBe(4);
+    expect(list.insertAt(5, 5)).toBe(false);
   });
 
-  describe("removeAt", () => {
-    test("should return null for invalid index", () => {
-      expect(list.removeAt(-1)).toBeNull();
-      expect(list.removeAt(0)).toBeNull();
-      expect(list.len).toBe(0);
-    });
-
-    test("should remove at index 0 (shift)", () => {
-      list.push("A");
-      expect(list.removeAt(0)).toBe("A");
-      expect(list.traverse()).toEqual([]);
-      expect(list.len).toBe(0);
-    });
-
-    test("should remove at the end (pop)", () => {
-      list.push("A");
-      list.push("B");
-      expect(list.removeAt(1)).toBe("B");
-      expect(list.traverse()).toEqual(["A"]);
-      expect(list.len).toBe(1);
-    });
-
-    test("should remove in the middle", () => {
-      list.push("A");
-      list.push("B");
-      list.push("C");
-      expect(list.removeAt(1)).toBe("B");
-      expect(list.traverse()).toEqual(["A", "C"]);
-      expect(list.len).toBe(2);
-      const nodeA = list.get(0);
-      expect(nodeA?.next?.data).toBe("C");
-      expect(nodeA?.next?.prev?.data).toBe("A");
-    });
+  test("removeAt removes elements at specified index", () => {
+    const list = new DoublyLinkedList<number>();
+    expect(list.removeAt(0)).toBeNull();
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    expect(list.removeAt(1)).toBe(2);
+    expect(list.head?.data).toBe(1);
+    expect(list.head?.next?.data).toBe(3);
+    expect(list.tail?.data).toBe(3);
+    expect(list.len).toBe(2);
+    expect(list.removeAt(0)).toBe(1);
+    expect(list.head?.data).toBe(3);
+    expect(list.tail?.data).toBe(3);
+    expect(list.len).toBe(1);
+    expect(list.removeAt(0)).toBe(3);
+    expect(list.head).toBeNull();
+    expect(list.tail).toBeNull();
+    expect(list.len).toBe(0);
   });
 
-  describe("traverse", () => {
-    test("should return empty array for an empty list", () => {
-      expect(list.traverse("forward")).toEqual([]);
-      expect(list.traverse("backward")).toEqual([]);
-    });
-
-    test("should traverse forward correctly", () => {
-      list.push("A");
-      list.push("B");
-      list.push("C");
-      expect(list.traverse("forward")).toEqual(["A", "B", "C"]);
-    });
-
-    test("should traverse backward correctly", () => {
-      list.push("A");
-      list.push("B");
-      list.push("C");
-      expect(list.traverse("backward")).toEqual(["C", "B", "A"]);
-    });
+  test("traverse returns array of data in specified direction", () => {
+    const list = new DoublyLinkedList<number>();
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    expect(list.traverse("forward")).toEqual([1, 2, 3]);
+    expect(list.traverse("backward")).toEqual([3, 2, 1]);
   });
 
-  describe("reverse", () => {
-    test("should do nothing for an empty list", () => {
-      list.reverse();
-      expect(list.traverse()).toEqual([]);
-      expect(list.len).toBe(0);
-      expect(list.head).toBeNull();
-      expect(list.tail).toBeNull();
-    });
-
-    test("should do nothing for a single-node list", () => {
-      list.push("A");
-      list.reverse();
-      expect(list.traverse()).toEqual(["A"]);
-      expect(list.len).toBe(1);
-      expect(list.head?.data).toBe("A");
-      expect(list.tail?.data).toBe("A");
-      expect(list.head?.next).toBeNull();
-      expect(list.head?.prev).toBeNull();
-    });
-
-    test("should reverse a two-node list", () => {
-      list.push("A");
-      list.push("B");
-      list.reverse();
-      expect(list.traverse()).toEqual(["B", "A"]);
-      expect(list.len).toBe(2);
-      expect(list.head?.data).toBe("B");
-      expect(list.tail?.data).toBe("A");
-      expect(list.head?.next?.data).toBe("A");
-      expect(list.tail?.prev?.data).toBe("B");
-    });
-
-    test("should reverse a multi-node list", () => {
-      list.push("A");
-      list.push("B");
-      list.push("C");
-      list.reverse();
-      expect(list.traverse()).toEqual(["C", "B", "A"]);
-      expect(list.len).toBe(3);
-      expect(list.head?.data).toBe("C");
-      expect(list.tail?.data).toBe("A");
-      expect(list.get(1)?.data).toBe("B");
-      expect(list.get(1)?.prev?.data).toBe("C");
-      expect(list.get(1)?.next?.data).toBe("A");
-    });
+  test("reverse reverses the list in place", () => {
+    const list = new DoublyLinkedList<number>();
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    list.reverse();
+    expect(list.head?.data).toBe(3);
+    expect(list.head?.next?.data).toBe(2);
+    expect(list.tail?.data).toBe(1);
+    expect(list.traverse("forward")).toEqual([3, 2, 1]);
   });
 
-  describe("remove", () => {
-    test("should return false for an empty list", () => {
-      expect(list.remove("A")).toBe(false);
-      expect(list.len).toBe(0);
-    });
+  test("remove removes the first node with specified data", () => {
+    const list = new DoublyLinkedList<number>();
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    list.push(2);
+    expect(list.remove(2)).toBe(true);
+    expect(list.traverse("forward")).toEqual([1, 3, 2]);
+    expect(list.remove(4)).toBe(false);
+    expect(list.traverse("forward")).toEqual([1, 3, 2]);
+  });
 
-    test("should return false if value not found", () => {
-      list.push("A");
-      list.push("B");
-      expect(list.remove("C")).toBe(false);
-      expect(list.traverse()).toEqual(["A", "B"]);
-      expect(list.len).toBe(2);
-    });
+  test("push after popping all elements", () => {
+    const list = new DoublyLinkedList<number>();
+    list.push(1);
+    list.push(2);
+    expect(list.pop()).toBe(2);
+    expect(list.pop()).toBe(1);
+    list.push(3);
+    expect(list.traverse("forward")).toEqual([3]);
+    expect(list.head?.data).toBe(3);
+    expect(list.tail?.data).toBe(3);
+    expect(list.len).toBe(1);
+  });
 
-    test("should remove the head node", () => {
-      list.push("A");
-      list.push("B");
-      expect(list.remove("A")).toBe(true);
-      expect(list.traverse()).toEqual(["B"]);
-      expect(list.len).toBe(1);
-      expect(list.head?.data).toBe("B");
-      expect(list.head?.prev).toBeNull();
-    });
+  test("unshift after shifting all elements", () => {
+    const list = new DoublyLinkedList<number>();
+    list.unshift(1);
+    list.unshift(2);
+    expect(list.shift()).toBe(2);
+    expect(list.shift()).toBe(1);
+    list.unshift(3);
+    expect(list.traverse("forward")).toEqual([3]);
+    expect(list.head?.data).toBe(3);
+    expect(list.tail?.data).toBe(3);
+    expect(list.len).toBe(1);
+  });
 
-    test("should remove the tail node", () => {
-      list.push("A");
-      list.push("B");
-      expect(list.remove("B")).toBe(true);
-      expect(list.traverse()).toEqual(["A"]);
-      expect(list.len).toBe(1);
-      expect(list.tail?.data).toBe("A");
-      expect(list.tail?.next).toBeNull();
-    });
+  test("get with out-of-bounds index", () => {
+    const list = new DoublyLinkedList<number>();
+    expect(list.get(0)).toBeNull();
+    list.push(1);
+    list.push(2);
+    expect(list.get(2)).toBeNull();
+    expect(list.get(-1)).toBeNull();
+  });
 
-    test("should remove a middle node", () => {
-      list.push("A");
-      list.push("B");
-      list.push("C");
-      expect(list.remove("B")).toBe(true);
-      expect(list.traverse()).toEqual(["A", "C"]);
-      expect(list.len).toBe(2);
-      const nodeA = list.get(0);
-      expect(nodeA?.next?.data).toBe("C");
-      expect(nodeA?.next?.prev?.data).toBe("A");
-    });
+  test("insertAt with out-of-bounds index", () => {
+    const list = new DoublyLinkedList<number>();
+    expect(list.insertAt(1, 1)).toBe(false);
+    list.push(2);
+    expect(list.insertAt(2, 3)).toBe(false);
+    expect(list.traverse("forward")).toEqual([2]);
+    expect(list.len).toBe(1);
+  });
 
-    test("should remove only the first occurrence", () => {
-      list.push("A");
-      list.push("B");
-      list.push("A");
-      expect(list.remove("A")).toBe(true);
-      expect(list.traverse()).toEqual(["B", "A"]);
-      expect(list.len).toBe(2);
-    });
+  test("removeAt with out-of-bounds index", () => {
+    const list = new DoublyLinkedList<number>();
+    expect(list.removeAt(0)).toBeNull();
+    list.push(1);
+    expect(list.removeAt(1)).toBeNull();
+    expect(list.traverse("forward")).toEqual([1]);
+    expect(list.len).toBe(1);
+  });
+
+  test("complex sequence: push, unshift, remove, reverse", () => {
+    const list = new DoublyLinkedList<number>();
+    list.push(1);
+    list.push(2);
+    list.unshift(0);
+    expect(list.traverse("forward")).toEqual([0, 1, 2]);
+    list.remove(1);
+    expect(list.traverse("forward")).toEqual([0, 2]);
+    list.reverse();
+    expect(list.traverse("forward")).toEqual([2, 0]);
+    expect(list.len).toBe(2);
+  });
+
+  test("multiple reverses", () => {
+    const list = new DoublyLinkedList<number>();
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    list.reverse();
+    expect(list.traverse("forward")).toEqual([3, 2, 1]);
+    list.reverse();
+    expect(list.traverse("forward")).toEqual([1, 2, 3]);
+    list.reverse();
+    expect(list.traverse("forward")).toEqual([3, 2, 1]);
+    expect(list.len).toBe(3);
+  });
+
+  test("insertAt and shift combination", () => {
+    const list = new DoublyLinkedList<number>();
+    list.insertAt(0, 2);
+    list.insertAt(0, 1);
+    list.insertAt(2, 3);
+    expect(list.traverse("forward")).toEqual([1, 2, 3]);
+    expect(list.shift()).toBe(1);
+    expect(list.traverse("forward")).toEqual([2, 3]);
+    expect(list.len).toBe(2);
+  });
+
+  test("remove non-existent element", () => {
+    const list = new DoublyLinkedList<number>();
+    list.push(1);
+    list.push(3);
+    expect(list.remove(2)).toBe(false);
+    expect(list.traverse("forward")).toEqual([1, 3]);
+    expect(list.len).toBe(2);
+  });
+
+  test("traverse backward after reverse", () => {
+    const list = new DoublyLinkedList<number>();
+    list.push(1);
+    list.push(2);
+    list.push(3);
+    list.reverse();
+    expect(list.traverse("backward")).toEqual([1, 2, 3]);
+    expect(list.len).toBe(3);
+  });
+
+  test("mixed data types", () => {
+    const list = new DoublyLinkedList<any>();
+    list.push(1);
+    list.push("two");
+    list.push({ value: 3 });
+    expect(list.traverse("forward")).toEqual([1, "two", { value: 3 }]);
+    expect(list.pop()).toEqual({ value: 3 });
+    expect(list.shift()).toBe(1);
+    expect(list.traverse("forward")).toEqual(["two"]);
+    expect(list.len).toBe(1);
+  });
+
+  test("large number of elements", () => {
+    const list = new DoublyLinkedList<number>();
+    for (let i = 0; i < 100; i++) {
+      list.push(i);
+    }
+    expect(list.len).toBe(100);
+    expect(list.get(0)?.data).toBe(0);
+    expect(list.get(99)?.data).toBe(99);
+    list.reverse();
+    expect(list.get(0)?.data).toBe(99);
+    expect(list.get(99)?.data).toBe(0);
+    expect(list.len).toBe(100);
   });
 });

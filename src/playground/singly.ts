@@ -10,7 +10,8 @@ class N<T> {
 export class SinglyLinkedList<T> {
   protected head: N<T> | null = null;
 
-  append(val: T): void {
+  // appends a new node to the end of the list
+  push(val: T): void {
     const newNode = new N(val);
 
     if (!this.head) {
@@ -19,6 +20,7 @@ export class SinglyLinkedList<T> {
     }
 
     let current = this.head;
+
     while (current.next) {
       current = current.next;
     }
@@ -26,6 +28,7 @@ export class SinglyLinkedList<T> {
     current.next = newNode;
   }
 
+  // deletes the first node with the specified value from the list
   delete(val: T): void {
     if (!this.head) return;
 
@@ -46,6 +49,7 @@ export class SinglyLinkedList<T> {
     }
   }
 
+  // searches for a node with the specified value
   search(val: T): N<T> | null {
     if (!this.head) return null;
 
@@ -59,6 +63,7 @@ export class SinglyLinkedList<T> {
     return null;
   }
 
+  // traverses the list and logs each node's value to the console
   traverse(): void {
     let current = this.head;
     while (current) {
@@ -67,6 +72,7 @@ export class SinglyLinkedList<T> {
     }
   }
 
+  // inserts a new node at the given position
   insertAt(pos: number, val: T): void {
     const newNode = new N(val);
     let current: N<T> | null = this.head;
@@ -92,6 +98,7 @@ export class SinglyLinkedList<T> {
     current.next = newNode;
   }
 
+  // deletes the node at the position
   deleteAt(pos: number): void {
     let current: N<T> | null = this.head;
     let idx = 0;
@@ -110,6 +117,20 @@ export class SinglyLinkedList<T> {
     }
   }
 
+  // finds the middle node of the list using the slow and fast pointer technique
+  findMiddle(): N<T> | null {
+    let slow: N<T> | null = this.head;
+    let fast: N<T> | null | undefined = this.head;
+
+    while (fast && fast.next?.next) {
+      slow = slow?.next ?? null;
+      fast = fast.next.next;
+    }
+
+    return slow;
+  }
+
+  // reverses the linked list in place
   reverse(): void {
     type TT = N<T> | null | undefined;
     let current: TT = this.head;
@@ -124,17 +145,5 @@ export class SinglyLinkedList<T> {
     }
 
     this.head = prev;
-  }
-
-  findMiddle(): N<T> | null {
-    let slow: N<T> | null = this.head;
-    let fast: N<T> | null | undefined = this.head;
-
-    while (fast && fast.next?.next) {
-      slow = slow?.next ?? null;
-      fast = fast.next.next;
-    }
-
-    return slow;
   }
 }

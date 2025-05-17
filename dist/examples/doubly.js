@@ -15,25 +15,25 @@ class DoublyLinkedList {
         this.tail = null;
         this.len = 0;
     }
-    // Add to the end - O(1)
+    // adds a new node to the end of the list
     push(data) {
-        const newN = new N(data);
+        let newNode = new N(data);
         if (!this.head) {
-            this.head = newN;
-            this.tail = newN;
+            this.head = newNode;
+            this.tail = newNode;
         }
         else {
-            this.tail.next = newN;
-            newN.prev = this.tail;
-            this.tail = newN;
+            this.tail.next = newNode;
+            newNode.prev = this.tail;
+            this.tail = newNode;
         }
         this.len++;
     }
-    // Remove from the end - O(1)
+    // removes the last node in the list
     pop() {
         if (!this.tail)
             return null;
-        const removed = this.tail;
+        let removedItem = this.tail;
         if (this.len === 1) {
             this.head = null;
             this.tail = null;
@@ -41,102 +41,104 @@ class DoublyLinkedList {
         else {
             this.tail = this.tail.prev;
             this.tail.next = null;
-            removed.prev = null;
+            removedItem.prev = null;
         }
         this.len--;
-        return removed.data;
+        return removedItem.data;
     }
-    // Add to the beginning - O(1)
+    // adds a new node to the beginning of the list
     unshift(data) {
-        const newN = new N(data);
+        let newNode = new N(data);
         if (!this.head) {
-            this.head = newN;
-            this.tail = newN;
+            this.head = newNode;
+            this.tail = newNode;
         }
         else {
-            newN.next = this.head;
-            this.head.prev = newN;
-            this.head = newN;
+            let prevHead = this.head;
+            newNode.next = prevHead;
+            prevHead.prev = newNode;
+            this.head = newNode;
         }
         this.len++;
     }
-    // Remove from the beginning - O(1)
+    // removes the first node in the list.
     shift() {
         if (!this.head)
             return null;
-        const removed = this.head;
+        let removedItem = this.head;
         if (this.len === 1) {
             this.head = null;
             this.tail = null;
         }
         else {
-            this.head = this.head.next;
+            this.head = removedItem.next;
             this.head.prev = null;
-            removed.next = null;
+            removedItem.next = null;
         }
         this.len--;
-        return removed.data;
+        return removedItem.data;
     }
-    // Get data at index, optimized - O(n/2)
-    get(index) {
-        if (index < 0 || index >= this.len)
+    // retrieves the node at the specified index
+    get(idx) {
+        if (idx < 0 || idx >= this.len)
             return null;
-        let current;
-        if (index <= this.len / 2) {
+        let current = this.head;
+        if (idx <= this.len / 2) {
             current = this.head;
-            for (let i = 0; i < index; i++) {
+            for (let i = 0; i < idx; i++) {
                 current = current.next;
             }
         }
         else {
             current = this.tail;
-            for (let i = this.len - 1; i > index; i--) {
-                current = current.prev;
+            for (let i = this.len - 1; i > idx; i--) {
+                current = current?.prev ?? null;
             }
         }
         return current;
     }
-    // Insert at index - O(n)
-    insertAt(index, data) {
-        if (index < 0 || index > this.len)
+    // inserts a new node at the given index
+    insertAt(idx, data) {
+        if (idx < 0 || idx > this.len)
             return false;
-        if (index === 0) {
+        if (idx === 0) {
             this.unshift(data);
             return true;
         }
-        if (index === this.len) {
+        if (idx === this.len) {
             this.push(data);
             return true;
         }
-        const newN = new N(data);
-        const current = this.get(index);
+        let newNode = new N(data);
+        let current = this.get(idx);
         if (!current)
             return false;
-        newN.next = current;
-        newN.prev = current.prev;
-        current.prev.next = newN;
-        current.prev = newN;
+        newNode.next = current;
+        newNode.prev = current?.prev ?? null;
+        current.prev.next = newNode;
+        current.prev = newNode;
         this.len++;
         return true;
     }
-    // Remove at index - O(n)
-    removeAt(index) {
-        if (index < 0 || index >= this.len)
+    // removes the node at the specified index
+    removeAt(idx) {
+        if (idx < 0 || idx >= this.len)
             return null;
-        if (index === 0)
+        if (idx === 0)
             return this.shift();
-        if (index === this.len - 1)
+        if (idx === this.len - 1)
             return this.pop();
-        const current = this.get(index);
+        let current = this.get(idx);
         if (!current)
             return null;
-        current.prev.next = current.next;
         current.next.prev = current.prev;
+        current.prev.next = current.next;
         current.next = null;
         current.prev = null;
         this.len--;
         return current.data;
     }
+    // traverses the list and returns an array of the data in the specified direction.
     traverse(dir = "forward") {
         const isForward = dir === "forward";
         let current = isForward ? this.head : this.tail;
@@ -146,6 +148,36 @@ class DoublyLinkedList {
             current = isForward ? current.next : current.prev;
         }
         return result;
+    }
+    // reverses the doubly linked list in place
+    reverse() {
+        if (this.len <= 1)
+            return;
+        let current = this.head;
+        let temp = null;
+        while (current) {
+            temp = current.prev;
+            current.prev = current.next;
+            current.next = temp;
+            current = current.prev;
+        }
+        temp = this.head;
+        this.head = this.tail;
+        this.tail = temp;
+    }
+    // removes the first node with the specified data from the list.
+    remove(data) {
+        let current = this.head;
+        let idx = 0;
+        while (current) {
+            if (current.data === data) {
+                this.removeAt(idx);
+                return true;
+            }
+            current = current.next;
+            idx++;
+        }
+        return false;
     }
 }
 exports.DoublyLinkedList = DoublyLinkedList;

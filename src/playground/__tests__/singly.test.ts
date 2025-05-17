@@ -9,14 +9,14 @@ describe("SinglyLinkedList", () => {
 
   describe("append", () => {
     test("should append to an empty list", () => {
-      list.append("A");
+      list.push("A");
       expect(list.search("A")?.value).toBe("A");
       expect(list.search("A")?.next).toBeNull();
     });
 
     test("should append to a non-empty list", () => {
-      list.append("A");
-      list.append("B");
+      list.push("A");
+      list.push("B");
       const nodeA = list.search("A");
       expect(nodeA?.next?.value).toBe("B");
       expect(list.search("B")?.next).toBeNull();
@@ -30,17 +30,17 @@ describe("SinglyLinkedList", () => {
     });
 
     test("should delete the head node", () => {
-      list.append("A");
-      list.append("B");
+      list.push("A");
+      list.push("B");
       list.delete("A");
       expect(list.search("A")).toBeNull();
       expect(list.search("B")?.value).toBe("B");
     });
 
     test("should delete a middle node", () => {
-      list.append("A");
-      list.append("B");
-      list.append("C");
+      list.push("A");
+      list.push("B");
+      list.push("C");
       list.delete("B");
       const nodeA = list.search("A");
       expect(nodeA?.next?.value).toBe("C");
@@ -48,7 +48,7 @@ describe("SinglyLinkedList", () => {
     });
 
     test("should do nothing if value not found", () => {
-      list.append("A");
+      list.push("A");
       list.delete("B");
       expect(list.search("A")?.value).toBe("A");
     });
@@ -60,14 +60,14 @@ describe("SinglyLinkedList", () => {
     });
 
     test("should find a value in the list", () => {
-      list.append("A");
-      list.append("B");
+      list.push("A");
+      list.push("B");
       const node = list.search("B");
       expect(node?.value).toBe("B");
     });
 
     test("should return null if value not found", () => {
-      list.append("A");
+      list.push("A");
       expect(list.search("B")).toBeNull();
     });
   });
@@ -89,8 +89,8 @@ describe("SinglyLinkedList", () => {
     });
 
     test("should log all values in order", () => {
-      list.append("A");
-      list.append("B");
+      list.push("A");
+      list.push("B");
       list.traverse();
       expect(consoleSpy).toHaveBeenCalledWith("A");
       expect(consoleSpy).toHaveBeenCalledWith("B");
@@ -106,14 +106,14 @@ describe("SinglyLinkedList", () => {
     });
 
     test("should insert at position 0 in a non-empty list", () => {
-      list.append("B");
+      list.push("B");
       list.insertAt(0, "A");
       expect(list.search("A")?.next?.value).toBe("B");
     });
 
     test("should insert in the middle", () => {
-      list.append("A");
-      list.append("C");
+      list.push("A");
+      list.push("C");
       list.insertAt(1, "B");
       const nodeA = list.search("A");
       expect(nodeA?.next?.value).toBe("B");
@@ -125,7 +125,7 @@ describe("SinglyLinkedList", () => {
     });
 
     test("should throw error for position beyond list length", () => {
-      list.append("A");
+      list.push("A");
       expect(() => list.insertAt(2, "B")).toThrow("failed");
     });
   });
@@ -137,17 +137,17 @@ describe("SinglyLinkedList", () => {
     });
 
     test("should delete at position 0", () => {
-      list.append("A");
-      list.append("B");
+      list.push("A");
+      list.push("B");
       list.deleteAt(0);
       expect(list.search("A")).toBeNull();
       expect(list.search("B")?.value).toBe("B");
     });
 
     test("should delete in the middle", () => {
-      list.append("A");
-      list.append("B");
-      list.append("C");
+      list.push("A");
+      list.push("B");
+      list.push("C");
       list.deleteAt(1);
       const nodeA = list.search("A");
       expect(nodeA?.next?.value).toBe("C");
@@ -155,7 +155,7 @@ describe("SinglyLinkedList", () => {
     });
 
     test("should not throw for position beyond list length", () => {
-      list.append("A");
+      list.push("A");
       list.deleteAt(1); // No-op
       expect(list.search("A")?.value).toBe("A");
     });
@@ -168,16 +168,16 @@ describe("SinglyLinkedList", () => {
     });
 
     test("should reverse a single-node list", () => {
-      list.append("A");
+      list.push("A");
       list.reverse();
       expect(list.search("A")?.value).toBe("A");
       expect(list.search("A")?.next).toBeNull();
     });
 
     test("should reverse a multi-node list", () => {
-      list.append("A");
-      list.append("B");
-      list.append("C");
+      list.push("A");
+      list.push("B");
+      list.push("C");
       list.reverse();
       const nodeC = list.search("C");
       expect(nodeC?.next?.value).toBe("B");
@@ -192,24 +192,24 @@ describe("SinglyLinkedList", () => {
     });
 
     test("should find middle of a single-node list", () => {
-      list.append("A");
+      list.push("A");
       const middle = list.findMiddle();
       expect(middle?.value).toBe("A");
     });
 
     test("should find middle of an odd-length list", () => {
-      list.append("A");
-      list.append("B");
-      list.append("C");
+      list.push("A");
+      list.push("B");
+      list.push("C");
       const middle = list.findMiddle();
       expect(middle?.value).toBe("B");
     });
 
     test("should find middle of an even-length list", () => {
-      list.append("A");
-      list.append("B");
-      list.append("C");
-      list.append("D");
+      list.push("A");
+      list.push("B");
+      list.push("C");
+      list.push("D");
       const middle = list.findMiddle();
       expect(middle?.value).toBe("B");
     });

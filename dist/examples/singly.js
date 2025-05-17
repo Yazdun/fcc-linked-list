@@ -1,14 +1,17 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SinglyLinkedList = void 0;
 class N {
     constructor(value) {
         this.next = null;
         this.value = value;
     }
 }
-class LinkedList {
+class SinglyLinkedList {
     constructor() {
         this.head = null;
     }
+    // appends a new node to the end of the list
     append(val) {
         const newNode = new N(val);
         if (!this.head) {
@@ -21,6 +24,7 @@ class LinkedList {
         }
         current.next = newNode;
     }
+    // deletes the first node with the specified value from the list
     delete(val) {
         if (!this.head)
             return;
@@ -37,6 +41,7 @@ class LinkedList {
             current = current.next;
         }
     }
+    // searches for a node with the specified value
     search(val) {
         if (!this.head)
             return null;
@@ -48,6 +53,7 @@ class LinkedList {
         }
         return null;
     }
+    // traverses the list and logs each node's value to the console
     traverse() {
         let current = this.head;
         while (current) {
@@ -55,6 +61,7 @@ class LinkedList {
             current = current.next;
         }
     }
+    // inserts a new node at the given position
     insertAt(pos, val) {
         const newNode = new N(val);
         let current = this.head;
@@ -75,6 +82,7 @@ class LinkedList {
         newNode.next = current.next;
         current.next = newNode;
     }
+    // deletes the node at the position
     deleteAt(pos) {
         let current = this.head;
         let idx = 0;
@@ -89,6 +97,17 @@ class LinkedList {
             current.next = current.next.next;
         }
     }
+    // finds the middle node of the list using the slow and fast pointer technique
+    findMiddle() {
+        let slow = this.head;
+        let fast = this.head;
+        while (fast && fast.next?.next) {
+            slow = slow?.next ?? null;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+    // reverses the linked list in place
     reverse() {
         let current = this.head;
         let following = this.head;
@@ -101,13 +120,5 @@ class LinkedList {
         }
         this.head = prev;
     }
-    findMiddle() {
-        let slow = this.head;
-        let fast = this.head;
-        while (fast && fast.next) {
-            slow = slow?.next ?? null;
-            fast = fast.next.next;
-        }
-        return slow;
-    }
 }
+exports.SinglyLinkedList = SinglyLinkedList;

@@ -7,9 +7,10 @@ class N<T> {
   }
 }
 
-class LinkedList<T> {
+export class SinglyLinkedList<T> {
   protected head: N<T> | null = null;
 
+  // appends a new node to the end of the list
   append(val: T): void {
     const newNode = new N(val);
 
@@ -19,6 +20,7 @@ class LinkedList<T> {
     }
 
     let current = this.head;
+
     while (current.next) {
       current = current.next;
     }
@@ -26,6 +28,7 @@ class LinkedList<T> {
     current.next = newNode;
   }
 
+  // deletes the first node with the specified value from the list
   delete(val: T): void {
     if (!this.head) return;
 
@@ -46,6 +49,7 @@ class LinkedList<T> {
     }
   }
 
+  // searches for a node with the specified value
   search(val: T): N<T> | null {
     if (!this.head) return null;
 
@@ -59,6 +63,7 @@ class LinkedList<T> {
     return null;
   }
 
+  // traverses the list and logs each node's value to the console
   traverse(): void {
     let current = this.head;
     while (current) {
@@ -67,6 +72,7 @@ class LinkedList<T> {
     }
   }
 
+  // inserts a new node at the given position
   insertAt(pos: number, val: T): void {
     const newNode = new N(val);
     let current: N<T> | null = this.head;
@@ -92,6 +98,7 @@ class LinkedList<T> {
     current.next = newNode;
   }
 
+  // deletes the node at the position
   deleteAt(pos: number): void {
     let current: N<T> | null = this.head;
     let idx = 0;
@@ -110,6 +117,20 @@ class LinkedList<T> {
     }
   }
 
+  // finds the middle node of the list using the slow and fast pointer technique
+  findMiddle(): N<T> | null {
+    let slow: N<T> | null = this.head;
+    let fast: N<T> | null | undefined = this.head;
+
+    while (fast && fast.next?.next) {
+      slow = slow?.next ?? null;
+      fast = fast.next.next;
+    }
+
+    return slow;
+  }
+
+  // reverses the linked list in place
   reverse(): void {
     type TT = N<T> | null | undefined;
     let current: TT = this.head;
@@ -124,17 +145,5 @@ class LinkedList<T> {
     }
 
     this.head = prev;
-  }
-
-  findMiddle(): N<T> | null {
-    let slow: N<T> | null = this.head;
-    let fast: N<T> | null | undefined = this.head;
-
-    while (fast && fast.next) {
-      slow = slow?.next ?? null;
-      fast = fast.next.next;
-    }
-
-    return slow;
   }
 }

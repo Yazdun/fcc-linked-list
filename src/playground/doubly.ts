@@ -21,6 +21,7 @@ export class DoublyLinkedList<T> {
     this.len = 0;
   }
 
+  // adds a new node to the end of the list
   push(data: T): void {
     let newNode = new N(data);
     if (!this.head) {
@@ -35,6 +36,7 @@ export class DoublyLinkedList<T> {
     this.len++;
   }
 
+  // removes the last node in the list
   pop(): T | null {
     if (!this.tail) return null;
 
@@ -54,6 +56,7 @@ export class DoublyLinkedList<T> {
     return removedItem.data;
   }
 
+  // adds a new node to the beginning of the list
   unshift(data: T): void {
     let newNode = new N(data);
 
@@ -70,6 +73,7 @@ export class DoublyLinkedList<T> {
     this.len++;
   }
 
+  // removes the first node in the list.
   shift(): T | null {
     if (!this.head) return null;
 
@@ -89,6 +93,7 @@ export class DoublyLinkedList<T> {
     return removedItem.data;
   }
 
+  // retrieves the node at the specified index
   get(idx: number): N<T> | null {
     if (idx < 0 || idx >= this.len) return null;
 
@@ -109,6 +114,7 @@ export class DoublyLinkedList<T> {
     return current;
   }
 
+  // inserts a new node at the given index
   insertAt(idx: number, data: T): boolean {
     if (idx < 0 || idx > this.len) return false;
 
@@ -137,6 +143,7 @@ export class DoublyLinkedList<T> {
     return true;
   }
 
+  // removes the node at the specified index
   removeAt(idx: number): T | null {
     if (idx < 0 || idx >= this.len) return null;
 
@@ -157,6 +164,7 @@ export class DoublyLinkedList<T> {
     return current.data;
   }
 
+  // traverses the list and returns an array of the data in the specified direction.
   traverse(dir: "forward" | "backward" = "forward"): T[] {
     const isForward = dir === "forward";
     let current = isForward ? this.head : this.tail;
@@ -170,6 +178,7 @@ export class DoublyLinkedList<T> {
     return result;
   }
 
+  // reverses the doubly linked list in place
   reverse(): void {
     if (this.len <= 1) return;
     let current = this.head;
@@ -185,6 +194,7 @@ export class DoublyLinkedList<T> {
     this.tail = temp;
   }
 
+  // removes the first node with the specified data from the list.
   remove(data: T): boolean {
     let current = this.head;
     let idx = 0;

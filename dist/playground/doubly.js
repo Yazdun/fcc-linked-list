@@ -15,6 +15,7 @@ class DoublyLinkedList {
         this.tail = null;
         this.len = 0;
     }
+    // adds a new node to the end of the list
     push(data) {
         let newNode = new N(data);
         if (!this.head) {
@@ -28,6 +29,7 @@ class DoublyLinkedList {
         }
         this.len++;
     }
+    // removes the last node in the list
     pop() {
         if (!this.tail)
             return null;
@@ -44,6 +46,7 @@ class DoublyLinkedList {
         this.len--;
         return removedItem.data;
     }
+    // adds a new node to the beginning of the list
     unshift(data) {
         let newNode = new N(data);
         if (!this.head) {
@@ -58,6 +61,7 @@ class DoublyLinkedList {
         }
         this.len++;
     }
+    // removes the first node in the list.
     shift() {
         if (!this.head)
             return null;
@@ -74,6 +78,7 @@ class DoublyLinkedList {
         this.len--;
         return removedItem.data;
     }
+    // retrieves the node at the specified index
     get(idx) {
         if (idx < 0 || idx >= this.len)
             return null;
@@ -92,6 +97,7 @@ class DoublyLinkedList {
         }
         return current;
     }
+    // inserts a new node at the given index
     insertAt(idx, data) {
         if (idx < 0 || idx > this.len)
             return false;
@@ -114,6 +120,7 @@ class DoublyLinkedList {
         this.len++;
         return true;
     }
+    // removes the node at the specified index
     removeAt(idx) {
         if (idx < 0 || idx >= this.len)
             return null;
@@ -131,6 +138,7 @@ class DoublyLinkedList {
         this.len--;
         return current.data;
     }
+    // traverses the list and returns an array of the data in the specified direction.
     traverse(dir = "forward") {
         const isForward = dir === "forward";
         let current = isForward ? this.head : this.tail;
@@ -140,6 +148,36 @@ class DoublyLinkedList {
             current = isForward ? current.next : current.prev;
         }
         return result;
+    }
+    // reverses the doubly linked list in place
+    reverse() {
+        if (this.len <= 1)
+            return;
+        let current = this.head;
+        let temp = null;
+        while (current) {
+            temp = current.prev;
+            current.prev = current.next;
+            current.next = temp;
+            current = current.prev;
+        }
+        temp = this.head;
+        this.head = this.tail;
+        this.tail = temp;
+    }
+    // removes the first node with the specified data from the list.
+    remove(data) {
+        let current = this.head;
+        let idx = 0;
+        while (current) {
+            if (current.data === data) {
+                this.removeAt(idx);
+                return true;
+            }
+            current = current.next;
+            idx++;
+        }
+        return false;
     }
 }
 exports.DoublyLinkedList = DoublyLinkedList;

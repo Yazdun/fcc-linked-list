@@ -11,7 +11,8 @@ class SinglyLinkedList {
     constructor() {
         this.head = null;
     }
-    append(val) {
+    // appends a new node to the end of the list
+    push(val) {
         const newNode = new N(val);
         if (!this.head) {
             this.head = newNode;
@@ -23,6 +24,7 @@ class SinglyLinkedList {
         }
         current.next = newNode;
     }
+    // deletes the first node with the specified value from the list
     delete(val) {
         if (!this.head)
             return;
@@ -39,6 +41,7 @@ class SinglyLinkedList {
             current = current.next;
         }
     }
+    // searches for a node with the specified value
     search(val) {
         if (!this.head)
             return null;
@@ -50,6 +53,7 @@ class SinglyLinkedList {
         }
         return null;
     }
+    // traverses the list and logs each node's value to the console
     traverse() {
         let current = this.head;
         while (current) {
@@ -57,6 +61,7 @@ class SinglyLinkedList {
             current = current.next;
         }
     }
+    // inserts a new node at the given position
     insertAt(pos, val) {
         const newNode = new N(val);
         let current = this.head;
@@ -77,6 +82,7 @@ class SinglyLinkedList {
         newNode.next = current.next;
         current.next = newNode;
     }
+    // deletes the node at the position
     deleteAt(pos) {
         let current = this.head;
         let idx = 0;
@@ -91,6 +97,17 @@ class SinglyLinkedList {
             current.next = current.next.next;
         }
     }
+    // finds the middle node of the list using the slow and fast pointer technique
+    findMiddle() {
+        let slow = this.head;
+        let fast = this.head;
+        while (fast && fast.next?.next) {
+            slow = slow?.next ?? null;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+    // reverses the linked list in place
     reverse() {
         let current = this.head;
         let following = this.head;
@@ -102,15 +119,6 @@ class SinglyLinkedList {
             current = following;
         }
         this.head = prev;
-    }
-    findMiddle() {
-        let slow = this.head;
-        let fast = this.head;
-        while (fast && fast.next?.next) {
-            slow = slow?.next ?? null;
-            fast = fast.next.next;
-        }
-        return slow;
     }
 }
 exports.SinglyLinkedList = SinglyLinkedList;
