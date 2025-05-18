@@ -1,7 +1,10 @@
-import { DoublyLinkedList } from "./playground/doubly";
+import { CircularLinkedList } from "./playground/circular";
 
-const list = new DoublyLinkedList();
+const list = new CircularLinkedList();
 
-list.push("A");
-const t = list.get(1);
-console.log(t);
+list.push(1);
+list.push(2);
+list.push(3);
+list.pop();
+
+console.log(list.traverse());

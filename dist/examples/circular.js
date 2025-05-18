@@ -12,7 +12,7 @@ class CircularLinkedList {
     constructor() {
         this.head = null;
     }
-    // Adds a new node to the beginning of the list
+    // adds a new node to the beginning of the list
     unshift(data) {
         const newN = new N(data);
         if (this.head === null) {
@@ -29,12 +29,12 @@ class CircularLinkedList {
             this.head = newN;
         }
     }
-    // Inserts a new node at the end
+    // inserts a new node at the end
     push(data) {
         const newN = new N(data);
         if (this.head === null) {
             this.head = newN;
-            newN.next = this.head; // Points to itself
+            newN.next = this.head;
         }
         else {
             let last = this.head;
@@ -45,7 +45,7 @@ class CircularLinkedList {
             last.next = newN;
         }
     }
-    // Removes the first node in the list
+    // removes the first node in the list
     shift() {
         if (this.head === null) {
             return;
@@ -62,7 +62,7 @@ class CircularLinkedList {
         last.next = newHead;
         this.head = newHead;
     }
-    // Removes the last node
+    // removes the last node
     pop() {
         if (this.head === null) {
             return;
@@ -81,7 +81,7 @@ class CircularLinkedList {
         }
         secondLast.next = this.head;
     }
-    // Checks if the given data exists in the list
+    // checks if the given data exists in the list
     search(data) {
         if (this.head === null) {
             return false;
@@ -95,7 +95,7 @@ class CircularLinkedList {
         } while (current !== this.head);
         return false;
     }
-    // Gets the data at the specified index (0-based)
+    // gets the data at the specified index (0-based)
     get(index) {
         if (this.head === null || index < 0) {
             return null;
@@ -109,22 +109,29 @@ class CircularLinkedList {
             current = current.next;
             count++;
         } while (current !== this.head);
-        return null; // Index out of bounds
+        return null;
     }
-    // Inserts a new node at the specified index (0-based)
+    // gets the size of the list
+    size() {
+        if (this.head === null) {
+            return 0;
+        }
+        let count = 1;
+        let current = this.head.next;
+        while (current !== this.head) {
+            count++;
+            current = current.next;
+        }
+        return count;
+    }
+    // inserts a new node at the specified index (0-based)
     insertAt(data, index) {
         if (index < 0) {
-            return; // Invalid index
-        }
-        if (index === 0) {
-            this.unshift(data);
             return;
         }
-        if (this.head === null) {
-            if (index === 0) {
-                this.unshift(data);
-            }
-            return; // Cannot insert at non-zero index in empty list
+        if (index === 0 || !this.head) {
+            this.unshift(data);
+            return;
         }
         let current = this.head;
         let prev = null;
@@ -141,10 +148,10 @@ class CircularLinkedList {
             count++;
         } while (current !== this.head);
         if (count === index) {
-            this.push(data); // Insert at end if index equals size
+            this.push(data);
         }
     }
-    // Removes the node at the specified index (0-based)
+    // removes the node at the specified index (0-based)
     removeAt(index) {
         if (this.head === null || index < 0) {
             return;
@@ -166,7 +173,7 @@ class CircularLinkedList {
             count++;
         } while (current !== this.head);
     }
-    // Removes the first occurrence of the given data
+    // removes the first occurrence of the given data
     remove(data) {
         if (this.head === null) {
             return;
@@ -186,7 +193,7 @@ class CircularLinkedList {
             current = current.next;
         } while (current !== this.head);
     }
-    // Traverses the list and returns elements
+    // traverses the list and returns elements
     traverse() {
         if (this.head === null) {
             return [];
@@ -198,19 +205,6 @@ class CircularLinkedList {
             current = current.next;
         } while (current !== this.head);
         return result;
-    }
-    // Gets the size of the list
-    size() {
-        if (this.head === null) {
-            return 0;
-        }
-        let count = 1;
-        let current = this.head.next;
-        while (current !== this.head) {
-            count++;
-            current = current.next;
-        }
-        return count;
     }
 }
 exports.CircularLinkedList = CircularLinkedList;

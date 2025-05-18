@@ -11,7 +11,7 @@ export class N<T> {
 export class CircularLinkedList<T> {
   head: N<T> | null = null;
 
-  // Adds a new node to the beginning of the list
+  // adds a new node to the beginning of the list
   unshift(data: T): void {
     const newN = new N(data);
     if (this.head === null) {
@@ -28,12 +28,12 @@ export class CircularLinkedList<T> {
     }
   }
 
-  // Inserts a new node at the end
+  // inserts a new node at the end
   push(data: T): void {
     const newN = new N(data);
     if (this.head === null) {
       this.head = newN;
-      newN.next = this.head; // Points to itself
+      newN.next = this.head;
     } else {
       let last: N<T> | null = this.head;
       while (last!.next !== this.head) {
@@ -44,7 +44,7 @@ export class CircularLinkedList<T> {
     }
   }
 
-  // Removes the first node in the list
+  // removes the first node in the list
   shift(): void {
     if (this.head === null) {
       return;
@@ -62,7 +62,7 @@ export class CircularLinkedList<T> {
     this.head = newHead;
   }
 
-  // Removes the last node
+  // removes the last node
   pop(): void {
     if (this.head === null) {
       return;
@@ -82,7 +82,7 @@ export class CircularLinkedList<T> {
     secondLast!.next = this.head;
   }
 
-  // Checks if the given data exists in the list
+  // checks if the given data exists in the list
   search(data: T): boolean {
     if (this.head === null) {
       return false;
@@ -97,7 +97,7 @@ export class CircularLinkedList<T> {
     return false;
   }
 
-  // Gets the data at the specified index (0-based)
+  // gets the data at the specified index (0-based)
   get(index: number): T | null {
     if (this.head === null || index < 0) {
       return null;
@@ -111,27 +111,37 @@ export class CircularLinkedList<T> {
       current = current!.next;
       count++;
     } while (current !== this.head);
-    return null; // Index out of bounds
+    return null;
   }
 
-  // Inserts a new node at the specified index (0-based)
+  // gets the size of the list
+  size(): number {
+    if (this.head === null) {
+      return 0;
+    }
+    let count: number = 1;
+    let current: N<T> | null = this.head!.next;
+    while (current !== this.head) {
+      count++;
+      current = current!.next;
+    }
+    return count;
+  }
+
+  // inserts a new node at the specified index (0-based)
   insertAt(data: T, index: number): void {
     if (index < 0) {
-      return; // Invalid index
+      return;
     }
-    if (index === 0) {
+    if (index === 0 || !this.head) {
       this.unshift(data);
       return;
     }
-    if (this.head === null) {
-      if (index === 0) {
-        this.unshift(data);
-      }
-      return; // Cannot insert at non-zero index in empty list
-    }
+
     let current: N<T> | null = this.head;
     let prev: N<T> | null = null;
     let count = 0;
+
     do {
       if (count === index) {
         const newN = new N(data);
@@ -144,11 +154,11 @@ export class CircularLinkedList<T> {
       count++;
     } while (current !== this.head);
     if (count === index) {
-      this.push(data); // Insert at end if index equals size
+      this.push(data);
     }
   }
 
-  // Removes the node at the specified index (0-based)
+  // removes the node at the specified index (0-based)
   removeAt(index: number): void {
     if (this.head === null || index < 0) {
       return;
@@ -171,7 +181,7 @@ export class CircularLinkedList<T> {
     } while (current !== this.head);
   }
 
-  // Removes the first occurrence of the given data
+  // removes the first occurrence of the given data
   remove(data: T): void {
     if (this.head === null) {
       return;
@@ -192,7 +202,7 @@ export class CircularLinkedList<T> {
     } while (current !== this.head);
   }
 
-  // Traverses the list and returns elements
+  // traverses the list and returns elements
   traverse(): T[] {
     if (this.head === null) {
       return [];
@@ -204,19 +214,5 @@ export class CircularLinkedList<T> {
       current = current!.next;
     } while (current !== this.head);
     return result;
-  }
-
-  // Gets the size of the list
-  size(): number {
-    if (this.head === null) {
-      return 0;
-    }
-    let count: number = 1;
-    let current: N<T> | null = this.head!.next;
-    while (current !== this.head) {
-      count++;
-      current = current!.next;
-    }
-    return count;
   }
 }
