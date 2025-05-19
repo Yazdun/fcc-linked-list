@@ -12,8 +12,8 @@ class CircularSinglyLinkedList {
     constructor() {
         this.head = null;
     }
-    // adds a new node to the beginning of the list
-    unshift(data) {
+    // ======= MAIN OPERATIONS =======
+    prepend(data) {
         let newNode = new N(data);
         if (!this.head) {
             this.head = newNode;
@@ -31,8 +31,7 @@ class CircularSinglyLinkedList {
             this.head = newNode;
         }
     }
-    // adds a new node with the specified data to the end of the list.
-    push(data) {
+    append(data) {
         let newNode = new N(data);
         if (!this.head) {
             this.head = newNode;
@@ -49,8 +48,7 @@ class CircularSinglyLinkedList {
             newNode.next = this.head;
         }
     }
-    // removes the first node from the list
-    shift() {
+    deleteHead() {
         if (!this.head)
             return;
         if (this.head.next === this.head) {
@@ -67,8 +65,7 @@ class CircularSinglyLinkedList {
         last.next = newHead;
         this.head = newHead;
     }
-    // removes the last node from the list.
-    pop() {
+    deleteTail() {
         if (!this.head)
             return false;
         if (this.head.next === this.head) {
@@ -84,23 +81,26 @@ class CircularSinglyLinkedList {
         prev.next = this.head;
         return true;
     }
-    // searches for a node with the specified data in the list
-    search(data) {
+    delete(data) {
         if (!this.head)
             return false;
+        if (this.head.data === data) {
+            this.deleteHead();
+            return true;
+        }
         let current = this.head;
+        let prev = null;
         do {
-            if (!current.next)
-                throw new Error("invalid list");
             if (current.data === data) {
+                prev.next = current.next;
                 return true;
             }
+            prev = current;
             current = current.next;
         } while (current !== this.head);
         return false;
     }
-    // retrieves the data at the specified index in the list
-    get(idx) {
+    find(idx) {
         if (!this.head || idx < 0)
             return null;
         let current = this.head;
@@ -116,7 +116,21 @@ class CircularSinglyLinkedList {
         } while (current !== this.head);
         return null;
     }
-    // returns the number of nodes in the list.
+    // ======= BONUS OPERATIONS =======
+    search(data) {
+        if (!this.head)
+            return false;
+        let current = this.head;
+        do {
+            if (!current.next)
+                throw new Error("invalid list");
+            if (current.data === data) {
+                return true;
+            }
+            current = current.next;
+        } while (current !== this.head);
+        return false;
+    }
     size() {
         if (!this.head)
             return 0;
@@ -130,17 +144,16 @@ class CircularSinglyLinkedList {
         }
         return count;
     }
-    // inserts a new node with the specified data at the given index.
     insertAt(data, idx) {
         if (idx < 0)
             return false;
         if (idx === 0) {
-            this.unshift(data);
+            this.prepend(data);
             return true;
         }
         if (!this.head) {
             if (idx === 0) {
-                this.unshift(data);
+                this.prepend(data);
                 return true;
             }
             return false;
@@ -160,17 +173,16 @@ class CircularSinglyLinkedList {
             count++;
         } while (current !== this.head);
         if (count === idx) {
-            this.push(data);
+            this.append(data);
             return true;
         }
         return false;
     }
-    // removes the node at the specified index.
-    removeAt(idx) {
+    deleteAt(idx) {
         if (!this.head || idx < 0)
             return false;
         if (idx === 0) {
-            this.shift();
+            this.deleteHead();
             return true;
         }
         let current = this.head;
@@ -187,27 +199,6 @@ class CircularSinglyLinkedList {
         } while (current !== this.head);
         return false;
     }
-    // removes the first node with the specified data.
-    remove(data) {
-        if (!this.head)
-            return false;
-        if (this.head.data === data) {
-            this.shift();
-            return true;
-        }
-        let current = this.head;
-        let prev = null;
-        do {
-            if (current.data === data) {
-                prev.next = current.next;
-                return true;
-            }
-            prev = current;
-            current = current.next;
-        } while (current !== this.head);
-        return false;
-    }
-    // traverses the list and returns an array of all data in the order of traversal.
     traverse() {
         if (!this.head)
             return [];
