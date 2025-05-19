@@ -14,7 +14,7 @@ describe("SinglyLinkedList", () => {
         const values = [];
         let current = list.head;
         while (current) {
-            values.push(current.value);
+            values.push(current.data);
             current = current.next;
         }
         return values;
@@ -127,7 +127,7 @@ describe("SinglyLinkedList", () => {
             list.append(2);
             const node = list.find(2);
             expect(node).not.toBeNull();
-            expect(node.value).toBe(2);
+            expect(node.data).toBe(2);
         });
         test("find non-existent value", () => {
             list.append(1);
@@ -205,14 +205,14 @@ describe("SinglyLinkedList", () => {
             list.append(1);
             const middle = list.findMiddle();
             expect(middle).not.toBeNull();
-            expect(middle.value).toBe(1);
+            expect(middle.data).toBe(1);
         });
         test("findMiddle of odd-length list", () => {
             list.append(1);
             list.append(2);
             list.append(3);
             const middle = list.findMiddle();
-            expect(middle.value).toBe(2);
+            expect(middle.data).toBe(2);
         });
         test("findMiddle of even-length list", () => {
             list.append(1);
@@ -220,7 +220,7 @@ describe("SinglyLinkedList", () => {
             list.append(3);
             list.append(4);
             const middle = list.findMiddle();
-            expect(middle.value).toBe(2);
+            expect(middle.data).toBe(2);
         });
     });
     describe("reverse", () => {

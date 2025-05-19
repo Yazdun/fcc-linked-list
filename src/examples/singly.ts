@@ -1,13 +1,13 @@
 /** Node for singly linked list */
 class N<T> {
   /** Node value */
-  public value: T;
+  public data: T;
   /** Next node reference */
   public next: N<T> | null = null;
 
   /** Creates a node with given value */
   constructor(value: T) {
-    this.value = value;
+    this.data = value;
   }
 }
 
@@ -72,7 +72,7 @@ export class SinglyLinkedList<T> {
   delete(val: T): void {
     if (!this.head) return;
 
-    if (this.head.value === val) {
+    if (this.head.data === val) {
       this.head = this.head.next;
       return;
     }
@@ -80,7 +80,7 @@ export class SinglyLinkedList<T> {
     let current = this.head;
 
     while (current.next) {
-      if (current.next.value === val) {
+      if (current.next.data === val) {
         current.next = current.next.next;
         return;
       }
@@ -96,7 +96,7 @@ export class SinglyLinkedList<T> {
     let current: N<T> | null = this.head;
 
     while (current) {
-      if (current.value === val) return current;
+      if (current.data === val) return current;
       current = current.next;
     }
 
@@ -107,7 +107,7 @@ export class SinglyLinkedList<T> {
   traverse(): void {
     let current = this.head;
     while (current) {
-      console.log(current.value);
+      console.log(current.data);
       current = current.next;
     }
   }

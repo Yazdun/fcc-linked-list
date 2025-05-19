@@ -7,7 +7,7 @@ class N {
     constructor(value) {
         /** Next node reference */
         this.next = null;
-        this.value = value;
+        this.data = value;
     }
 }
 /** Singly linked list implementation */
@@ -62,13 +62,13 @@ class SinglyLinkedList {
     delete(val) {
         if (!this.head)
             return;
-        if (this.head.value === val) {
+        if (this.head.data === val) {
             this.head = this.head.next;
             return;
         }
         let current = this.head;
         while (current.next) {
-            if (current.next.value === val) {
+            if (current.next.data === val) {
                 current.next = current.next.next;
                 return;
             }
@@ -81,7 +81,7 @@ class SinglyLinkedList {
             return null;
         let current = this.head;
         while (current) {
-            if (current.value === val)
+            if (current.data === val)
                 return current;
             current = current.next;
         }
@@ -91,7 +91,7 @@ class SinglyLinkedList {
     traverse() {
         let current = this.head;
         while (current) {
-            console.log(current.value);
+            console.log(current.data);
             current = current.next;
         }
     }
