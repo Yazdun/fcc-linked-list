@@ -30,10 +30,10 @@ export class CircularDoublyLinkedList<T> {
       newNode.next = newNode;
       newNode.prev = newNode;
     } else {
-      this.head.prev = newNode;
-      this.tail!.next = newNode;
-      newNode.next = this.head;
+      newNode.next = this.head; // Set newNode links first
       newNode.prev = this.tail;
+      this.tail!.next = newNode; // Then update existing nodes
+      this.head!.prev = newNode;
       this.tail = newNode;
     }
 
@@ -101,22 +101,20 @@ export class CircularDoublyLinkedList<T> {
   }
 
   get(idx: number): N<T> | null {
-    if (!this.head || idx >= this.len - 1) {
+    if (!this.head || idx < 0 || idx >= this.len) {
       return null;
     }
 
     let current = this.head;
-
-    for (let i = 0; i <= idx; idx++) {
-      if (!current.next) throw new Error("invalid list");
-      current = current!.next;
+    for (let i = 0; i < idx; i++) {
+      current = current!.next!;
     }
 
     return current;
   }
 
   insertAt(idx: number, data: T): boolean {
-    if (idx < 0 || idx >= this.len) return false;
+    if (idx < 0 || idx > this.len) return false;
 
     if (idx === 0) {
       this.unshift(data);
@@ -142,9 +140,59 @@ export class CircularDoublyLinkedList<T> {
     return true;
   }
 
-  removeAt(idx: number) {}
+  removeAt(idx: number): T | null {
+    if (idx < 0 || idx >= this.len || !this.head) {
+      return null;
+    }
 
-  remove(data: T) {}
+    if (idx === 0) return this.shift();
+    if (idx === this.len - 1) return this.pop();
 
-  traverse() {}
+    let current = this.get(idx);
+
+    current!.next!.prev = current!.prev;
+    current!.prev!.next = current!.next;
+
+    current!.next = null;
+    current!.prev = null;
+    this.len--;
+
+    return current!.data;
+  }
+
+  remove(data: T): boolean {
+    let current = this.head;
+    let idx = 0;
+
+    if (!current) return false;
+
+    do {
+      if (current!.data === data) {
+        this.removeAt(idx);
+        return true;
+      }
+
+      current = current!.next;
+      idx++;
+    } while (current !== this.head);
+
+    return false;
+  }
+
+  traverse(): T[] {
+    if (!this.head) return [];
+
+    let current = this.head;
+    const result: T[] = [];
+
+    do {
+      if (!current.next) throw new Error("invalid list");
+
+      result.push(current.data);
+
+      current = current.next;
+    } while (current !== this.head);
+
+    return result;
+  }
 }

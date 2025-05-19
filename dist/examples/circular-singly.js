@@ -12,7 +12,7 @@ class CircularSinglyLinkedList {
     constructor() {
         this.head = null;
     }
-    // adds a new node with the specified data to the beginning of the list
+    // adds a new node to the beginning of the list
     unshift(data) {
         let newNode = new N(data);
         if (!this.head) {

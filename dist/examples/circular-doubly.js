@@ -24,10 +24,10 @@ class CircularDoublyLinkedList {
             newNode.prev = newNode;
         }
         else {
-            this.head.prev = newNode;
-            this.tail.next = newNode;
             newNode.next = this.head;
             newNode.prev = this.tail;
+            this.tail.next = newNode;
+            this.head.prev = newNode;
             this.tail = newNode;
         }
         this.len++;
@@ -41,13 +41,13 @@ class CircularDoublyLinkedList {
             this.tail = null;
         }
         else {
-            this.tail = this.tail.prev;
+            this.tail = removedItem.prev;
             this.tail.next = this.head;
             this.head.prev = this.tail;
         }
+        this.len--;
         removedItem.next = null;
         removedItem.prev = null;
-        this.len--;
         return removedItem.data;
     }
     unshift(data) {
@@ -86,19 +86,16 @@ class CircularDoublyLinkedList {
         return removedItem.data;
     }
     get(idx) {
-        if (!this.head || idx >= this.len - 1) {
+        if (idx < 0 || idx >= this.len)
             return null;
-        }
         let current = this.head;
-        for (let i = 0; i <= idx; idx++) {
-            if (!current.next)
-                throw new Error("invalid list");
+        for (let i = 0; i < idx; i++) {
             current = current.next;
         }
         return current;
     }
     insertAt(idx, data) {
-        if (idx < 0 || idx >= this.len)
+        if (idx < 0 || idx > this.len)
             return false;
         if (idx === 0) {
             this.unshift(data);
@@ -119,8 +116,48 @@ class CircularDoublyLinkedList {
         this.len++;
         return true;
     }
-    removeAt(idx) { }
-    remove(data) { }
-    traverse() { }
+    removeAt(idx) {
+        if (idx < 0 || idx >= this.len)
+            return null;
+        if (idx === 0)
+            return this.shift();
+        if (idx === this.len - 1)
+            return this.pop();
+        let current = this.get(idx);
+        if (!current)
+            return null;
+        current.next.prev = current.prev;
+        current.prev.next = current.next;
+        this.len--;
+        current.next = null;
+        current.prev = null;
+        return current.data;
+    }
+    remove(data) {
+        let current = this.head;
+        let idx = 0;
+        if (!current)
+            return false;
+        do {
+            if (current.data === data) {
+                this.removeAt(idx);
+                return true;
+            }
+            current = current.next;
+            idx++;
+        } while (current !== this.head);
+        return false;
+    }
+    traverse() {
+        if (!this.head)
+            return [];
+        let current = this.head;
+        const result = [];
+        do {
+            result.push(current.data);
+            current = current.next;
+        } while (current !== this.head);
+        return result;
+    }
 }
 exports.CircularDoublyLinkedList = CircularDoublyLinkedList;
