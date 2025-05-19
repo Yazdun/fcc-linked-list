@@ -21,43 +21,8 @@ export class DoublyLinkedList<T> {
     this.len = 0;
   }
 
-  // adds a new node to the end of the list
-  push(data: T): void {
-    let newNode = new N(data);
-    if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode;
-    } else {
-      this.tail!.next = newNode;
-      newNode.prev = this.tail;
-      this.tail = newNode;
-    }
-
-    this.len++;
-  }
-
-  // removes the last node in the list
-  pop(): T | null {
-    if (!this.tail) return null;
-
-    let removedItem = this.tail;
-
-    if (this.len === 1) {
-      this.head = null;
-      this.tail = null;
-    } else {
-      this.tail = this.tail.prev;
-      this.tail!.next = null;
-      removedItem.prev = null;
-    }
-
-    this.len--;
-
-    return removedItem.data;
-  }
-
-  // adds a new node to the beginning of the list
-  unshift(data: T): void {
+  // ======= MAIN OPERATIONS =======
+  prepend(data: T): void {
     let newNode = new N(data);
 
     if (!this.head) {
@@ -73,8 +38,21 @@ export class DoublyLinkedList<T> {
     this.len++;
   }
 
-  // removes the first node in the list.
-  shift(): T | null {
+  append(data: T): void {
+    let newNode = new N(data);
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      this.tail!.next = newNode;
+      newNode.prev = this.tail;
+      this.tail = newNode;
+    }
+
+    this.len++;
+  }
+
+  deleteHead(): T | null {
     if (!this.head) return null;
 
     let removedItem = this.head;
@@ -93,8 +71,40 @@ export class DoublyLinkedList<T> {
     return removedItem.data;
   }
 
-  // retrieves the node at the specified index
-  get(idx: number): N<T> | null {
+  deleteTail(): T | null {
+    if (!this.tail) return null;
+
+    let removedItem = this.tail;
+
+    if (this.len === 1) {
+      this.head = null;
+      this.tail = null;
+    } else {
+      this.tail = this.tail.prev;
+      this.tail!.next = null;
+      removedItem.prev = null;
+    }
+
+    this.len--;
+
+    return removedItem.data;
+  }
+
+  delete(data: T): boolean {
+    let current = this.head;
+    let idx = 0;
+    while (current) {
+      if (current.data === data) {
+        this.removeAt(idx);
+        return true;
+      }
+      current = current.next;
+      idx++;
+    }
+    return false;
+  }
+
+  find(idx: number): N<T> | null {
     if (idx < 0 || idx >= this.len) return null;
 
     let current: N<T> | null = this.head;
@@ -114,22 +124,22 @@ export class DoublyLinkedList<T> {
     return current;
   }
 
-  // inserts a new node at the given index
+  // ======= BONUS OPERATIONS =======
   insertAt(idx: number, data: T): boolean {
     if (idx < 0 || idx > this.len) return false;
 
     if (idx === 0) {
-      this.unshift(data);
+      this.prepend(data);
       return true;
     }
 
     if (idx === this.len) {
-      this.push(data);
+      this.append(data);
       return true;
     }
 
     let newNode = new N(data);
-    let current = this.get(idx);
+    let current = this.find(idx);
 
     if (!current) return false;
 
@@ -143,14 +153,13 @@ export class DoublyLinkedList<T> {
     return true;
   }
 
-  // removes the node at the specified index
   removeAt(idx: number): T | null {
     if (idx < 0 || idx >= this.len) return null;
 
-    if (idx === 0) return this.shift();
-    if (idx === this.len - 1) return this.pop();
+    if (idx === 0) return this.deleteHead();
+    if (idx === this.len - 1) return this.deleteTail();
 
-    let current = this.get(idx);
+    let current = this.find(idx);
 
     if (!current) return null;
 
@@ -164,7 +173,6 @@ export class DoublyLinkedList<T> {
     return current.data;
   }
 
-  // traverses the list and returns an array of the data in the specified direction.
   traverse(dir: "forward" | "backward" = "forward"): T[] {
     const isForward = dir === "forward";
     let current = isForward ? this.head : this.tail;
@@ -178,7 +186,6 @@ export class DoublyLinkedList<T> {
     return result;
   }
 
-  // reverses the doubly linked list in place
   reverse(): void {
     if (this.len <= 1) return;
     let current = this.head;
@@ -192,20 +199,5 @@ export class DoublyLinkedList<T> {
     temp = this.head;
     this.head = this.tail;
     this.tail = temp;
-  }
-
-  // removes the first node with the specified data from the list.
-  remove(data: T): boolean {
-    let current = this.head;
-    let idx = 0;
-    while (current) {
-      if (current.data === data) {
-        this.removeAt(idx);
-        return true;
-      }
-      current = current.next;
-      idx++;
-    }
-    return false;
   }
 }

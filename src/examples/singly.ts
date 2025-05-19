@@ -10,7 +10,13 @@ class N<T> {
 export class SinglyLinkedList<T> {
   protected head: N<T> | null = null;
 
-  // appends a new node to the end of the list
+  // ======= MAIN OPERATIONS =======
+  prepend(val: T): void {
+    const newNode = new N(val);
+    newNode.next = this.head;
+    this.head = newNode;
+  }
+
   append(val: T): void {
     const newNode = new N(val);
 
@@ -28,7 +34,28 @@ export class SinglyLinkedList<T> {
     current.next = newNode;
   }
 
-  // deletes the first node with the specified value from the list
+  deleteHead(): void {
+    if (this.head) {
+      this.head = this.head.next;
+    }
+  }
+
+  deleteTail(): void {
+    if (!this.head) return;
+
+    if (!this.head.next) {
+      this.head = null;
+      return;
+    }
+
+    let current = this.head;
+    while (current.next && current.next.next) {
+      current = current.next;
+    }
+
+    current.next = null;
+  }
+
   delete(val: T): void {
     if (!this.head) return;
 
@@ -49,8 +76,7 @@ export class SinglyLinkedList<T> {
     }
   }
 
-  // searches for a node with the specified value
-  search(val: T): N<T> | null {
+  find(val: T): N<T> | null {
     if (!this.head) return null;
 
     let current: N<T> | null = this.head;
@@ -63,7 +89,6 @@ export class SinglyLinkedList<T> {
     return null;
   }
 
-  // traverses the list and logs each node's value to the console
   traverse(): void {
     let current = this.head;
     while (current) {
@@ -72,7 +97,7 @@ export class SinglyLinkedList<T> {
     }
   }
 
-  // inserts a new node at the given position
+  // ======= BONUS OPERATIONS =======
   insertAt(pos: number, val: T): void {
     const newNode = new N(val);
     let current: N<T> | null = this.head;
@@ -98,7 +123,6 @@ export class SinglyLinkedList<T> {
     current.next = newNode;
   }
 
-  // deletes the node at the position
   deleteAt(pos: number): void {
     let current: N<T> | null = this.head;
     let idx = 0;
@@ -117,7 +141,6 @@ export class SinglyLinkedList<T> {
     }
   }
 
-  // finds the middle node of the list using the slow and fast pointer technique
   findMiddle(): N<T> | null {
     let slow: N<T> | null = this.head;
     let fast: N<T> | null | undefined = this.head;
@@ -130,7 +153,6 @@ export class SinglyLinkedList<T> {
     return slow;
   }
 
-  // reverses the linked list in place
   reverse(): void {
     type TT = N<T> | null | undefined;
     let current: TT = this.head;

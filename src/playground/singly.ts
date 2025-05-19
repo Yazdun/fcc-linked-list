@@ -10,8 +10,16 @@ class N<T> {
 export class SinglyLinkedList<T> {
   protected head: N<T> | null = null;
 
+  // ======= MAIN OPERATIONS =======
+  // appends a new node to the begininng of the list
+  prepend(val: T): void {
+    const newNode = new N(val);
+    newNode.next = this.head;
+    this.head = newNode;
+  }
+
   // appends a new node to the end of the list
-  push(val: T): void {
+  append(val: T): void {
     const newNode = new N(val);
 
     if (!this.head) {
@@ -26,6 +34,30 @@ export class SinglyLinkedList<T> {
     }
 
     current.next = newNode;
+  }
+
+  // deletes the head node of the list.
+  deleteHead(): void {
+    if (this.head) {
+      this.head = this.head.next;
+    }
+  }
+
+  // deletes the tail node of the list.
+  deleteTail(): void {
+    if (!this.head) return;
+
+    if (!this.head.next) {
+      this.head = null;
+      return;
+    }
+
+    let current = this.head;
+    while (current.next && current.next.next) {
+      current = current.next;
+    }
+
+    current.next = null;
   }
 
   // deletes the first node with the specified value from the list
@@ -50,7 +82,7 @@ export class SinglyLinkedList<T> {
   }
 
   // searches for a node with the specified value
-  search(val: T): N<T> | null {
+  find(val: T): N<T> | null {
     if (!this.head) return null;
 
     let current: N<T> | null = this.head;
@@ -72,6 +104,7 @@ export class SinglyLinkedList<T> {
     }
   }
 
+  // ======= BONUS OPERATIONS =======
   // inserts a new node at the given position
   insertAt(pos: number, val: T): void {
     const newNode = new N(val);

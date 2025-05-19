@@ -8,7 +8,7 @@ describe("DoublyLinkedList", () => {
     });
     describe("push", () => {
         it("should add a node to an empty list", () => {
-            list.push(1);
+            list.append(1);
             expect(list.head.data).toBe(1);
             expect(list.tail.data).toBe(1);
             expect(list.head.next).toBeNull();
@@ -16,9 +16,9 @@ describe("DoublyLinkedList", () => {
             expect(list.len).toBe(1);
         });
         it("should add multiple nodes to the end", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
+            list.append(1);
+            list.append(2);
+            list.append(3);
             expect(list.traverse()).toEqual([1, 2, 3]);
             expect(list.head.data).toBe(1);
             expect(list.tail.data).toBe(3);
@@ -29,23 +29,23 @@ describe("DoublyLinkedList", () => {
     });
     describe("pop", () => {
         it("should return null when popping an empty list", () => {
-            expect(list.pop()).toBeNull();
+            expect(list.deleteTail()).toBeNull();
             expect(list.len).toBe(0);
             expect(list.head).toBeNull();
             expect(list.tail).toBeNull();
         });
         it("should remove and return the only node in a single-node list", () => {
-            list.push(1);
-            expect(list.pop()).toBe(1);
+            list.append(1);
+            expect(list.deleteTail()).toBe(1);
             expect(list.len).toBe(0);
             expect(list.head).toBeNull();
             expect(list.tail).toBeNull();
         });
         it("should remove and return the last node in a multi-node list", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
-            expect(list.pop()).toBe(3);
+            list.append(1);
+            list.append(2);
+            list.append(3);
+            expect(list.deleteTail()).toBe(3);
             expect(list.traverse()).toEqual([1, 2]);
             expect(list.tail.data).toBe(2);
             expect(list.tail.next).toBeNull();
@@ -55,7 +55,7 @@ describe("DoublyLinkedList", () => {
     });
     describe("unshift", () => {
         it("should add a node to an empty list", () => {
-            list.unshift(1);
+            list.prepend(1);
             expect(list.head.data).toBe(1);
             expect(list.tail.data).toBe(1);
             expect(list.head.next).toBeNull();
@@ -63,9 +63,9 @@ describe("DoublyLinkedList", () => {
             expect(list.len).toBe(1);
         });
         it("should add multiple nodes to the beginning", () => {
-            list.unshift(3);
-            list.unshift(2);
-            list.unshift(1);
+            list.prepend(3);
+            list.prepend(2);
+            list.prepend(1);
             expect(list.traverse()).toEqual([1, 2, 3]);
             expect(list.head.data).toBe(1);
             expect(list.tail.data).toBe(3);
@@ -76,23 +76,23 @@ describe("DoublyLinkedList", () => {
     });
     describe("shift", () => {
         it("should return null when shifting an empty list", () => {
-            expect(list.shift()).toBeNull();
+            expect(list.deleteHead()).toBeNull();
             expect(list.len).toBe(0);
             expect(list.head).toBeNull();
             expect(list.tail).toBeNull();
         });
         it("should remove and return the only node in a single-node list", () => {
-            list.push(1);
-            expect(list.shift()).toBe(1);
+            list.append(1);
+            expect(list.deleteHead()).toBe(1);
             expect(list.len).toBe(0);
             expect(list.head).toBeNull();
             expect(list.tail).toBeNull();
         });
         it("should remove and return the first node in a multi-node list", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
-            expect(list.shift()).toBe(1);
+            list.append(1);
+            list.append(2);
+            list.append(3);
+            expect(list.deleteHead()).toBe(1);
             expect(list.traverse()).toEqual([2, 3]);
             expect(list.head.data).toBe(2);
             expect(list.head.prev).toBeNull();
@@ -102,32 +102,32 @@ describe("DoublyLinkedList", () => {
     });
     describe("get", () => {
         it("should return null for an empty list", () => {
-            expect(list.get(0)).toBeNull();
+            expect(list.find(0)).toBeNull();
         });
         it("should return null for negative index", () => {
-            list.push(1);
-            expect(list.get(-1)).toBeNull();
+            list.append(1);
+            expect(list.find(-1)).toBeNull();
         });
         it("should return null for index >= length", () => {
-            list.push(1);
-            list.push(2);
-            expect(list.get(2)).toBeNull();
+            list.append(1);
+            list.append(2);
+            expect(list.find(2)).toBeNull();
         });
         it("should return the correct node from the head side (index <= len/2)", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
-            const node = list.get(1);
+            list.append(1);
+            list.append(2);
+            list.append(3);
+            const node = list.find(1);
             expect(node.data).toBe(2);
             expect(node.prev.data).toBe(1);
             expect(node.next.data).toBe(3);
         });
         it("should return the correct node from the tail side (index > len/2)", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
-            list.push(4);
-            const node = list.get(3);
+            list.append(1);
+            list.append(2);
+            list.append(3);
+            list.append(4);
+            const node = list.find(3);
             expect(node.data).toBe(4);
             expect(node.prev.data).toBe(3);
             expect(node.next).toBeNull();
@@ -139,7 +139,7 @@ describe("DoublyLinkedList", () => {
             expect(list.len).toBe(0);
         });
         it("should return false for index > length", () => {
-            list.push(1);
+            list.append(1);
             expect(list.insertAt(2, 2)).toBe(false);
             expect(list.len).toBe(1);
         });
@@ -149,18 +149,18 @@ describe("DoublyLinkedList", () => {
             expect(list.len).toBe(1);
         });
         it("should insert at index = length (push)", () => {
-            list.push(1);
+            list.append(1);
             expect(list.insertAt(1, 2)).toBe(true);
             expect(list.traverse()).toEqual([1, 2]);
             expect(list.len).toBe(2);
         });
         it("should insert in the middle", () => {
-            list.push(1);
-            list.push(3);
+            list.append(1);
+            list.append(3);
             expect(list.insertAt(1, 2)).toBe(true);
             expect(list.traverse()).toEqual([1, 2, 3]);
             expect(list.len).toBe(3);
-            const node = list.get(1);
+            const node = list.find(1);
             expect(node.prev.data).toBe(1);
             expect(node.next.data).toBe(3);
         });
@@ -171,33 +171,33 @@ describe("DoublyLinkedList", () => {
             expect(list.len).toBe(0);
         });
         it("should return null for negative index", () => {
-            list.push(1);
+            list.append(1);
             expect(list.removeAt(-1)).toBeNull();
             expect(list.len).toBe(1);
         });
         it("should return null for index >= length", () => {
-            list.push(1);
+            list.append(1);
             expect(list.removeAt(1)).toBeNull();
             expect(list.len).toBe(1);
         });
         it("should remove at index 0 (shift)", () => {
-            list.push(1);
-            list.push(2);
+            list.append(1);
+            list.append(2);
             expect(list.removeAt(0)).toBe(1);
             expect(list.traverse()).toEqual([2]);
             expect(list.len).toBe(1);
         });
         it("should remove at index = length - 1 (pop)", () => {
-            list.push(1);
-            list.push(2);
+            list.append(1);
+            list.append(2);
             expect(list.removeAt(1)).toBe(2);
             expect(list.traverse()).toEqual([1]);
             expect(list.len).toBe(1);
         });
         it("should remove from the middle", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
+            list.append(1);
+            list.append(2);
+            list.append(3);
             expect(list.removeAt(1)).toBe(2);
             expect(list.traverse()).toEqual([1, 3]);
             expect(list.len).toBe(2);
@@ -211,15 +211,15 @@ describe("DoublyLinkedList", () => {
             expect(list.traverse("backward")).toEqual([]);
         });
         it("should traverse forward correctly", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
+            list.append(1);
+            list.append(2);
+            list.append(3);
             expect(list.traverse("forward")).toEqual([1, 2, 3]);
         });
         it("should traverse backward correctly", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
+            list.append(1);
+            list.append(2);
+            list.append(3);
             expect(list.traverse("backward")).toEqual([3, 2, 1]);
         });
     });
@@ -231,7 +231,7 @@ describe("DoublyLinkedList", () => {
             expect(list.len).toBe(0);
         });
         it("should do nothing for a single-node list", () => {
-            list.push(1);
+            list.append(1);
             list.reverse();
             expect(list.traverse()).toEqual([1]);
             expect(list.head.data).toBe(1);
@@ -239,9 +239,9 @@ describe("DoublyLinkedList", () => {
             expect(list.len).toBe(1);
         });
         it("should reverse a multi-node list", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
+            list.append(1);
+            list.append(2);
+            list.append(3);
             list.reverse();
             expect(list.traverse("forward")).toEqual([3, 2, 1]);
             expect(list.head.data).toBe(3);
@@ -253,37 +253,37 @@ describe("DoublyLinkedList", () => {
     });
     describe("remove", () => {
         it("should return false for an empty list", () => {
-            expect(list.remove(1)).toBe(false);
+            expect(list.delete(1)).toBe(false);
             expect(list.len).toBe(0);
         });
         it("should return false if the data is not found", () => {
-            list.push(1);
-            list.push(2);
-            expect(list.remove(3)).toBe(false);
+            list.append(1);
+            list.append(2);
+            expect(list.delete(3)).toBe(false);
             expect(list.traverse()).toEqual([1, 2]);
             expect(list.len).toBe(2);
         });
         it("should remove the head node", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
-            expect(list.remove(1)).toBe(true);
+            list.append(1);
+            list.append(2);
+            list.append(3);
+            expect(list.delete(1)).toBe(true);
             expect(list.traverse()).toEqual([2, 3]);
             expect(list.len).toBe(2);
         });
         it("should remove a middle node", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
-            expect(list.remove(2)).toBe(true);
+            list.append(1);
+            list.append(2);
+            list.append(3);
+            expect(list.delete(2)).toBe(true);
             expect(list.traverse()).toEqual([1, 3]);
             expect(list.len).toBe(2);
         });
         it("should remove the tail node", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
-            expect(list.remove(3)).toBe(true);
+            list.append(1);
+            list.append(2);
+            list.append(3);
+            expect(list.delete(3)).toBe(true);
             expect(list.traverse()).toEqual([1, 2]);
             expect(list.len).toBe(2);
         });
@@ -293,34 +293,34 @@ describe("DoublyLinkedList", () => {
             expect(list.len).toBe(0);
             expect(list.head).toBeNull();
             expect(list.tail).toBeNull();
-            list.push(1);
+            list.append(1);
             expect(list.len).toBe(1);
             expect(list.head.data).toBe(1);
             expect(list.tail.data).toBe(1);
             expect(list.head.next).toBeNull();
             expect(list.head.prev).toBeNull();
-            list.push(2);
-            list.push(3);
+            list.append(2);
+            list.append(3);
             expect(list.len).toBe(3);
             expect(list.head.data).toBe(1);
             expect(list.tail.data).toBe(3);
             expect(list.head.next.data).toBe(2);
             expect(list.tail.prev.data).toBe(2);
-            list.pop();
+            list.deleteTail();
             expect(list.len).toBe(2);
             expect(list.tail.data).toBe(2);
-            list.shift();
+            list.deleteHead();
             expect(list.len).toBe(1);
             expect(list.head.data).toBe(2);
             expect(list.tail.data).toBe(2);
         });
         it("should maintain prev and next pointers correctly", () => {
-            list.push(1);
-            list.push(2);
-            list.push(3);
-            const node1 = list.get(0);
-            const node2 = list.get(1);
-            const node3 = list.get(2);
+            list.append(1);
+            list.append(2);
+            list.append(3);
+            const node1 = list.find(0);
+            const node2 = list.find(1);
+            const node3 = list.find(2);
             expect(node1.prev).toBeNull();
             expect(node1.next).toBe(node2);
             expect(node2.prev).toBe(node1);

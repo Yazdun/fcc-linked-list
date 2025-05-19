@@ -21,8 +21,8 @@ export class CircularDoublyLinkedList<T> {
     this.len = 0;
   }
 
-  // adds a new node with the given data to the end of the list
-  push(data: T): void {
+  // ======= MAIN OPERATIONS =======
+  append(data: T): void {
     let newNode = new N(data);
 
     if (!this.head) {
@@ -41,8 +41,7 @@ export class CircularDoublyLinkedList<T> {
     this.len++;
   }
 
-  // removes and returns the data from the last node in the list
-  pop(): T | null {
+  deleteTail(): T | null {
     if (!this.tail) return null;
 
     let removedItem = this.tail;
@@ -63,8 +62,7 @@ export class CircularDoublyLinkedList<T> {
     return removedItem.data;
   }
 
-  // adds a new node with the given data to the beginning of the list
-  unshift(data: T): void {
+  prepend(data: T): void {
     let newNode = new N(data);
 
     if (!this.head) {
@@ -83,8 +81,7 @@ export class CircularDoublyLinkedList<T> {
     this.len++;
   }
 
-  // removes and returns the data from the first node in the list
-  shift(): T | null {
+  deleteHead(): T | null {
     if (!this.head) return null;
 
     let removedItem = this.head;
@@ -104,8 +101,7 @@ export class CircularDoublyLinkedList<T> {
     return removedItem.data;
   }
 
-  // retrieves the node at the specified index
-  get(idx: number): N<T> | null {
+  find(idx: number): N<T> | null {
     if (!this.head || idx < 0 || idx >= this.len) {
       return null;
     }
@@ -118,57 +114,7 @@ export class CircularDoublyLinkedList<T> {
     return current;
   }
 
-  // inserts a new node with the given data at the specified index
-  insertAt(idx: number, data: T): boolean {
-    if (idx < 0 || idx > this.len) return false;
-
-    if (idx === 0) {
-      this.unshift(data);
-      return true;
-    }
-
-    if (idx === this.len) {
-      this.push(data);
-      return true;
-    }
-
-    let newNode = new N(data);
-    let current = this.get(idx);
-
-    if (!current) return false;
-
-    newNode.next = current;
-    newNode.prev = current!.prev;
-    current.prev!.next = newNode;
-    current.prev = newNode;
-
-    this.len++;
-    return true;
-  }
-
-  // removes and returns the data from the node at the specified index
-  removeAt(idx: number): T | null {
-    if (idx < 0 || idx >= this.len || !this.head) {
-      return null;
-    }
-
-    if (idx === 0) return this.shift();
-    if (idx === this.len - 1) return this.pop();
-
-    let current = this.get(idx);
-
-    current!.next!.prev = current!.prev;
-    current!.prev!.next = current!.next;
-
-    current!.next = null;
-    current!.prev = null;
-    this.len--;
-
-    return current!.data;
-  }
-
-  // removes the first node with the specified data
-  remove(data: T): boolean {
+  delete(data: T): boolean {
     let current = this.head;
     let idx = 0;
 
@@ -187,7 +133,54 @@ export class CircularDoublyLinkedList<T> {
     return false;
   }
 
-  // traverses the list and returns an array of the data
+  // ======= BONUS OPERATIONS =======
+  insertAt(idx: number, data: T): boolean {
+    if (idx < 0 || idx > this.len) return false;
+
+    if (idx === 0) {
+      this.prepend(data);
+      return true;
+    }
+
+    if (idx === this.len) {
+      this.append(data);
+      return true;
+    }
+
+    let newNode = new N(data);
+    let current = this.find(idx);
+
+    if (!current) return false;
+
+    newNode.next = current;
+    newNode.prev = current!.prev;
+    current.prev!.next = newNode;
+    current.prev = newNode;
+
+    this.len++;
+    return true;
+  }
+
+  removeAt(idx: number): T | null {
+    if (idx < 0 || idx >= this.len || !this.head) {
+      return null;
+    }
+
+    if (idx === 0) return this.deleteHead();
+    if (idx === this.len - 1) return this.deleteTail();
+
+    let current = this.find(idx);
+
+    current!.next!.prev = current!.prev;
+    current!.prev!.next = current!.next;
+
+    current!.next = null;
+    current!.prev = null;
+    this.len--;
+
+    return current!.data;
+  }
+
   traverse(): T[] {
     if (!this.head) return [];
 

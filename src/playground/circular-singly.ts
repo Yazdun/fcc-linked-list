@@ -11,8 +11,9 @@ export class N<T> {
 export class CircularSinglyLinkedList<T> {
   public head: N<T> | null = null;
 
+  // ======= MAIN OPERATIONS =======
   // adds a new node with the specified data to the beginning of the list
-  unshift(data: T) {
+  prepend(data: T) {
     let newNode = new N(data);
 
     if (!this.head) {
@@ -33,7 +34,7 @@ export class CircularSinglyLinkedList<T> {
   }
 
   // adds a new node with the specified data to the end of the list.
-  push(data: T): void {
+  append(data: T): void {
     let newNode = new N(data);
 
     if (!this.head) {
@@ -53,7 +54,7 @@ export class CircularSinglyLinkedList<T> {
   }
 
   // removes the first node from the list
-  shift(): void {
+  deleteHead(): void {
     if (!this.head) return;
 
     if (this.head.next === this.head) {
@@ -74,7 +75,7 @@ export class CircularSinglyLinkedList<T> {
   }
 
   // removes the last node from the list.
-  pop(): boolean {
+  deleteTail(): boolean {
     if (!this.head) return false;
 
     if (this.head.next === this.head) {
@@ -94,27 +95,33 @@ export class CircularSinglyLinkedList<T> {
     return true;
   }
 
-  // searches for a node with the specified data in the list
-  search(data: T): boolean {
+  // removes the first node with the specified data.
+  delete(data: T): boolean {
     if (!this.head) return false;
 
-    let current = this.head;
+    if (this.head.data === data) {
+      this.deleteHead();
+      return true;
+    }
+
+    let current: N<T> = this.head;
+    let prev: N<T> | null = null;
 
     do {
-      if (!current.next) throw new Error("invalid list");
-
       if (current.data === data) {
+        prev!.next = current.next;
         return true;
       }
 
-      current = current.next;
+      prev = current;
+      current = current.next!;
     } while (current !== this.head);
 
     return false;
   }
 
   // retrieves the data at the specified index in the list
-  get(idx: number): T | null {
+  find(idx: number): T | null {
     if (!this.head || idx < 0) return null;
 
     let current = this.head;
@@ -132,6 +139,26 @@ export class CircularSinglyLinkedList<T> {
     } while (current !== this.head);
 
     return null;
+  }
+
+  // ======= BONUS OPERATIONS =======
+  // searches for a node with the specified data in the list
+  search(data: T): boolean {
+    if (!this.head) return false;
+
+    let current = this.head;
+
+    do {
+      if (!current.next) throw new Error("invalid list");
+
+      if (current.data === data) {
+        return true;
+      }
+
+      current = current.next;
+    } while (current !== this.head);
+
+    return false;
   }
 
   // returns the number of nodes in the list.
@@ -152,13 +179,13 @@ export class CircularSinglyLinkedList<T> {
     if (idx < 0) return false;
 
     if (idx === 0) {
-      this.unshift(data);
+      this.prepend(data);
       return true;
     }
 
     if (!this.head) {
       if (idx === 0) {
-        this.unshift(data);
+        this.prepend(data);
         return true;
       }
       return false;
@@ -181,7 +208,7 @@ export class CircularSinglyLinkedList<T> {
     } while (current !== this.head);
 
     if (count === idx) {
-      this.push(data);
+      this.append(data);
       return true;
     }
 
@@ -189,11 +216,11 @@ export class CircularSinglyLinkedList<T> {
   }
 
   // removes the node at the specified index.
-  removeAt(idx: number): boolean {
+  deleteAt(idx: number): boolean {
     if (!this.head || idx < 0) return false;
 
     if (idx === 0) {
-      this.shift();
+      this.deleteHead();
       return true;
     }
 
@@ -209,31 +236,6 @@ export class CircularSinglyLinkedList<T> {
       prev = current;
       current = current.next!;
       count++;
-    } while (current !== this.head);
-
-    return false;
-  }
-
-  // removes the first node with the specified data.
-  remove(data: T): boolean {
-    if (!this.head) return false;
-
-    if (this.head.data === data) {
-      this.shift();
-      return true;
-    }
-
-    let current: N<T> = this.head;
-    let prev: N<T> | null = null;
-
-    do {
-      if (current.data === data) {
-        prev!.next = current.next;
-        return true;
-      }
-
-      prev = current;
-      current = current.next!;
     } while (current !== this.head);
 
     return false;

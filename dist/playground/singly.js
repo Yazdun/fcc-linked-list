@@ -11,8 +11,15 @@ class SinglyLinkedList {
     constructor() {
         this.head = null;
     }
+    // ======= MAIN OPERATIONS =======
+    // appends a new node to the begininng of the list
+    prepend(val) {
+        const newNode = new N(val);
+        newNode.next = this.head;
+        this.head = newNode;
+    }
     // appends a new node to the end of the list
-    push(val) {
+    append(val) {
         const newNode = new N(val);
         if (!this.head) {
             this.head = newNode;
@@ -23,6 +30,26 @@ class SinglyLinkedList {
             current = current.next;
         }
         current.next = newNode;
+    }
+    // deletes the head node of the list.
+    deleteHead() {
+        if (this.head) {
+            this.head = this.head.next;
+        }
+    }
+    // deletes the tail node of the list.
+    deleteTail() {
+        if (!this.head)
+            return;
+        if (!this.head.next) {
+            this.head = null;
+            return;
+        }
+        let current = this.head;
+        while (current.next && current.next.next) {
+            current = current.next;
+        }
+        current.next = null;
     }
     // deletes the first node with the specified value from the list
     delete(val) {
@@ -42,7 +69,7 @@ class SinglyLinkedList {
         }
     }
     // searches for a node with the specified value
-    search(val) {
+    find(val) {
         if (!this.head)
             return null;
         let current = this.head;
@@ -61,6 +88,7 @@ class SinglyLinkedList {
             current = current.next;
         }
     }
+    // ======= BONUS OPERATIONS =======
     // inserts a new node at the given position
     insertAt(pos, val) {
         const newNode = new N(val);
