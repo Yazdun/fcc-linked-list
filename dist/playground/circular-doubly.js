@@ -15,6 +15,7 @@ class CircularDoublyLinkedList {
         this.tail = null;
         this.len = 0;
     }
+    // adds a new node with the given data to the end of the list
     push(data) {
         let newNode = new N(data);
         if (!this.head) {
@@ -24,14 +25,15 @@ class CircularDoublyLinkedList {
             newNode.prev = newNode;
         }
         else {
-            this.head.prev = newNode;
-            this.tail.next = newNode;
             newNode.next = this.head;
             newNode.prev = this.tail;
+            this.tail.next = newNode;
+            this.head.prev = newNode;
             this.tail = newNode;
         }
         this.len++;
     }
+    // removes and returns the data from the last node in the list
     pop() {
         if (!this.tail)
             return null;
@@ -50,6 +52,7 @@ class CircularDoublyLinkedList {
         this.len--;
         return removedItem.data;
     }
+    // adds a new node with the given data to the beginning of the list
     unshift(data) {
         let newNode = new N(data);
         if (!this.head) {
@@ -67,6 +70,7 @@ class CircularDoublyLinkedList {
         }
         this.len++;
     }
+    // removes and returns the data from the first node in the list
     shift() {
         if (!this.head)
             return null;
@@ -85,20 +89,20 @@ class CircularDoublyLinkedList {
         removedItem.prev = null;
         return removedItem.data;
     }
+    // retrieves the node at the specified index
     get(idx) {
-        if (!this.head || idx >= this.len - 1) {
+        if (!this.head || idx < 0 || idx >= this.len) {
             return null;
         }
         let current = this.head;
-        for (let i = 0; i <= idx; idx++) {
-            if (!current.next)
-                throw new Error("invalid list");
+        for (let i = 0; i < idx; i++) {
             current = current.next;
         }
         return current;
     }
+    // inserts a new node with the given data at the specified index
     insertAt(idx, data) {
-        if (idx < 0 || idx >= this.len)
+        if (idx < 0 || idx > this.len)
             return false;
         if (idx === 0) {
             this.unshift(data);
@@ -119,8 +123,52 @@ class CircularDoublyLinkedList {
         this.len++;
         return true;
     }
-    removeAt(idx) { }
-    remove(data) { }
-    traverse() { }
+    // removes and returns the data from the node at the specified index
+    removeAt(idx) {
+        if (idx < 0 || idx >= this.len || !this.head) {
+            return null;
+        }
+        if (idx === 0)
+            return this.shift();
+        if (idx === this.len - 1)
+            return this.pop();
+        let current = this.get(idx);
+        current.next.prev = current.prev;
+        current.prev.next = current.next;
+        current.next = null;
+        current.prev = null;
+        this.len--;
+        return current.data;
+    }
+    // removes the first node with the specified data
+    remove(data) {
+        let current = this.head;
+        let idx = 0;
+        if (!current)
+            return false;
+        do {
+            if (current.data === data) {
+                this.removeAt(idx);
+                return true;
+            }
+            current = current.next;
+            idx++;
+        } while (current !== this.head);
+        return false;
+    }
+    // traverses the list and returns an array of the data
+    traverse() {
+        if (!this.head)
+            return [];
+        let current = this.head;
+        const result = [];
+        do {
+            if (!current.next)
+                throw new Error("invalid list");
+            result.push(current.data);
+            current = current.next;
+        } while (current !== this.head);
+        return result;
+    }
 }
 exports.CircularDoublyLinkedList = CircularDoublyLinkedList;

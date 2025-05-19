@@ -1,7 +1,7 @@
 export class N<T> {
-  data: T;
-  next: N<T> | null;
-  prev: N<T> | null;
+  public data;
+  public next: N<T> | null;
+  public prev: N<T> | null;
 
   constructor(data: T) {
     this.data = data;
@@ -21,8 +21,10 @@ export class CircularDoublyLinkedList<T> {
     this.len = 0;
   }
 
+  // adds a new node with the given data to the end of the list
   push(data: T): void {
     let newNode = new N(data);
+
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
@@ -35,9 +37,11 @@ export class CircularDoublyLinkedList<T> {
       this.head!.prev = newNode;
       this.tail = newNode;
     }
+
     this.len++;
   }
 
+  // removes and returns the data from the last node in the list
   pop(): T | null {
     if (!this.tail) return null;
 
@@ -47,17 +51,19 @@ export class CircularDoublyLinkedList<T> {
       this.head = null;
       this.tail = null;
     } else {
-      this.tail = removedItem.prev;
+      this.tail = this.tail.prev;
       this.tail!.next = this.head;
       this.head!.prev = this.tail;
     }
 
-    this.len--;
     removedItem.next = null;
     removedItem.prev = null;
+    this.len--;
+
     return removedItem.data;
   }
 
+  // adds a new node with the given data to the beginning of the list
   unshift(data: T): void {
     let newNode = new N(data);
 
@@ -77,6 +83,7 @@ export class CircularDoublyLinkedList<T> {
     this.len++;
   }
 
+  // removes and returns the data from the first node in the list
   shift(): T | null {
     if (!this.head) return null;
 
@@ -97,17 +104,21 @@ export class CircularDoublyLinkedList<T> {
     return removedItem.data;
   }
 
+  // retrieves the node at the specified index
   get(idx: number): N<T> | null {
-    if (idx < 0 || idx >= this.len) return null;
+    if (!this.head || idx < 0 || idx >= this.len) {
+      return null;
+    }
 
-    let current: N<T> | null = this.head;
+    let current = this.head;
     for (let i = 0; i < idx; i++) {
-      current = current!.next;
+      current = current!.next!;
     }
 
     return current;
   }
 
+  // inserts a new node with the given data at the specified index
   insertAt(idx: number, data: T): boolean {
     if (idx < 0 || idx > this.len) return false;
 
@@ -127,7 +138,7 @@ export class CircularDoublyLinkedList<T> {
     if (!current) return false;
 
     newNode.next = current;
-    newNode.prev = current.prev;
+    newNode.prev = current!.prev;
     current.prev!.next = newNode;
     current.prev = newNode;
 
@@ -135,50 +146,60 @@ export class CircularDoublyLinkedList<T> {
     return true;
   }
 
+  // removes and returns the data from the node at the specified index
   removeAt(idx: number): T | null {
-    if (idx < 0 || idx >= this.len) return null;
+    if (idx < 0 || idx >= this.len || !this.head) {
+      return null;
+    }
 
     if (idx === 0) return this.shift();
     if (idx === this.len - 1) return this.pop();
 
     let current = this.get(idx);
 
-    if (!current) return null;
+    current!.next!.prev = current!.prev;
+    current!.prev!.next = current!.next;
 
-    current.next!.prev = current.prev;
-    current.prev!.next = current.next;
-
+    current!.next = null;
+    current!.prev = null;
     this.len--;
-    current.next = null;
-    current.prev = null;
-    return current.data;
+
+    return current!.data;
   }
 
+  // removes the first node with the specified data
   remove(data: T): boolean {
     let current = this.head;
     let idx = 0;
+
     if (!current) return false;
 
     do {
-      if (current.data === data) {
+      if (current!.data === data) {
         this.removeAt(idx);
         return true;
       }
-      current = current.next!;
+
+      current = current!.next;
       idx++;
     } while (current !== this.head);
 
     return false;
   }
 
+  // traverses the list and returns an array of the data
   traverse(): T[] {
     if (!this.head) return [];
 
     let current = this.head;
     const result: T[] = [];
+
     do {
+      if (!current.next) throw new Error("invalid list");
+
       result.push(current.data);
-      current = current.next!;
+
+      current = current.next;
     } while (current !== this.head);
 
     return result;

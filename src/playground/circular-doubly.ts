@@ -21,6 +21,7 @@ export class CircularDoublyLinkedList<T> {
     this.len = 0;
   }
 
+  // adds a new node with the given data to the end of the list
   push(data: T): void {
     let newNode = new N(data);
 
@@ -30,9 +31,9 @@ export class CircularDoublyLinkedList<T> {
       newNode.next = newNode;
       newNode.prev = newNode;
     } else {
-      newNode.next = this.head; // Set newNode links first
+      newNode.next = this.head;
       newNode.prev = this.tail;
-      this.tail!.next = newNode; // Then update existing nodes
+      this.tail!.next = newNode;
       this.head!.prev = newNode;
       this.tail = newNode;
     }
@@ -40,6 +41,7 @@ export class CircularDoublyLinkedList<T> {
     this.len++;
   }
 
+  // removes and returns the data from the last node in the list
   pop(): T | null {
     if (!this.tail) return null;
 
@@ -61,6 +63,7 @@ export class CircularDoublyLinkedList<T> {
     return removedItem.data;
   }
 
+  // adds a new node with the given data to the beginning of the list
   unshift(data: T): void {
     let newNode = new N(data);
 
@@ -80,6 +83,7 @@ export class CircularDoublyLinkedList<T> {
     this.len++;
   }
 
+  // removes and returns the data from the first node in the list
   shift(): T | null {
     if (!this.head) return null;
 
@@ -100,6 +104,7 @@ export class CircularDoublyLinkedList<T> {
     return removedItem.data;
   }
 
+  // retrieves the node at the specified index
   get(idx: number): N<T> | null {
     if (!this.head || idx < 0 || idx >= this.len) {
       return null;
@@ -113,6 +118,7 @@ export class CircularDoublyLinkedList<T> {
     return current;
   }
 
+  // inserts a new node with the given data at the specified index
   insertAt(idx: number, data: T): boolean {
     if (idx < 0 || idx > this.len) return false;
 
@@ -140,6 +146,7 @@ export class CircularDoublyLinkedList<T> {
     return true;
   }
 
+  // removes and returns the data from the node at the specified index
   removeAt(idx: number): T | null {
     if (idx < 0 || idx >= this.len || !this.head) {
       return null;
@@ -160,6 +167,7 @@ export class CircularDoublyLinkedList<T> {
     return current!.data;
   }
 
+  // removes the first node with the specified data
   remove(data: T): boolean {
     let current = this.head;
     let idx = 0;
@@ -179,6 +187,7 @@ export class CircularDoublyLinkedList<T> {
     return false;
   }
 
+  // traverses the list and returns an array of the data
   traverse(): T[] {
     if (!this.head) return [];
 
