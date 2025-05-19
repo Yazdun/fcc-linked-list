@@ -11,7 +11,7 @@ export class N<T> {
 export class CircularSinglyLinkedList<T> {
   public head: N<T> | null = null;
 
-  // adds a new node with the specified data to the beginning of the list
+  // adds a new node to the beginning of the list
   unshift(data: T) {
     let newNode = new N(data);
 

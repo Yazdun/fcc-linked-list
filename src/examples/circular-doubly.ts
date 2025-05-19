@@ -1,7 +1,7 @@
 export class N<T> {
-  public data;
-  public next: N<T> | null;
-  public prev: N<T> | null;
+  data: T;
+  next: N<T> | null;
+  prev: N<T> | null;
 
   constructor(data: T) {
     this.data = data;
@@ -23,20 +23,18 @@ export class CircularDoublyLinkedList<T> {
 
   push(data: T): void {
     let newNode = new N(data);
-
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
       newNode.next = newNode;
       newNode.prev = newNode;
     } else {
-      this.head.prev = newNode;
-      this.tail!.next = newNode;
       newNode.next = this.head;
       newNode.prev = this.tail;
+      this.tail!.next = newNode;
+      this.head!.prev = newNode;
       this.tail = newNode;
     }
-
     this.len++;
   }
 
@@ -49,15 +47,14 @@ export class CircularDoublyLinkedList<T> {
       this.head = null;
       this.tail = null;
     } else {
-      this.tail = this.tail.prev;
+      this.tail = removedItem.prev;
       this.tail!.next = this.head;
       this.head!.prev = this.tail;
     }
 
+    this.len--;
     removedItem.next = null;
     removedItem.prev = null;
-    this.len--;
-
     return removedItem.data;
   }
 
@@ -101,14 +98,10 @@ export class CircularDoublyLinkedList<T> {
   }
 
   get(idx: number): N<T> | null {
-    if (!this.head || idx >= this.len - 1) {
-      return null;
-    }
+    if (idx < 0 || idx >= this.len) return null;
 
-    let current = this.head;
-
-    for (let i = 0; i <= idx; idx++) {
-      if (!current.next) throw new Error("invalid list");
+    let current: N<T> | null = this.head;
+    for (let i = 0; i < idx; i++) {
       current = current!.next;
     }
 
@@ -116,7 +109,7 @@ export class CircularDoublyLinkedList<T> {
   }
 
   insertAt(idx: number, data: T): boolean {
-    if (idx < 0 || idx >= this.len) return false;
+    if (idx < 0 || idx > this.len) return false;
 
     if (idx === 0) {
       this.unshift(data);
@@ -134,7 +127,7 @@ export class CircularDoublyLinkedList<T> {
     if (!current) return false;
 
     newNode.next = current;
-    newNode.prev = current!.prev;
+    newNode.prev = current.prev;
     current.prev!.next = newNode;
     current.prev = newNode;
 
@@ -142,9 +135,52 @@ export class CircularDoublyLinkedList<T> {
     return true;
   }
 
-  removeAt(idx: number) {}
+  removeAt(idx: number): T | null {
+    if (idx < 0 || idx >= this.len) return null;
 
-  remove(data: T) {}
+    if (idx === 0) return this.shift();
+    if (idx === this.len - 1) return this.pop();
 
-  traverse() {}
+    let current = this.get(idx);
+
+    if (!current) return null;
+
+    current.next!.prev = current.prev;
+    current.prev!.next = current.next;
+
+    this.len--;
+    current.next = null;
+    current.prev = null;
+    return current.data;
+  }
+
+  remove(data: T): boolean {
+    let current = this.head;
+    let idx = 0;
+    if (!current) return false;
+
+    do {
+      if (current.data === data) {
+        this.removeAt(idx);
+        return true;
+      }
+      current = current.next!;
+      idx++;
+    } while (current !== this.head);
+
+    return false;
+  }
+
+  traverse(): T[] {
+    if (!this.head) return [];
+
+    let current = this.head;
+    const result: T[] = [];
+    do {
+      result.push(current.data);
+      current = current.next!;
+    } while (current !== this.head);
+
+    return result;
+  }
 }
