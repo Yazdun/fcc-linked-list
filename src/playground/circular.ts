@@ -11,6 +11,7 @@ export class N<T> {
 export class CircularLinkedList<T> {
   public head: N<T> | null = null;
 
+  // adds a new node with the specified data to the beginning of the list
   unshift(data: T) {
     let newNode = new N(data);
 
@@ -31,6 +32,7 @@ export class CircularLinkedList<T> {
     }
   }
 
+  // adds a new node with the specified data to the end of the list.
   push(data: T): void {
     let newNode = new N(data);
 
@@ -50,7 +52,7 @@ export class CircularLinkedList<T> {
     }
   }
 
-  // remove the first item from the list
+  // removes the first node from the list
   shift(): void {
     if (!this.head) return;
 
@@ -71,6 +73,7 @@ export class CircularLinkedList<T> {
     this.head = newHead;
   }
 
+  // removes the last node from the list.
   pop(): boolean {
     if (!this.head) return false;
 
@@ -91,6 +94,7 @@ export class CircularLinkedList<T> {
     return true;
   }
 
+  // searches for a node with the specified data in the list
   search(data: T): boolean {
     if (!this.head) return false;
 
@@ -109,6 +113,7 @@ export class CircularLinkedList<T> {
     return false;
   }
 
+  // retrieves the data at the specified index in the list
   get(idx: number): T | null {
     if (!this.head || idx < 0) return null;
 
@@ -129,23 +134,20 @@ export class CircularLinkedList<T> {
     return null;
   }
 
+  // returns the number of nodes in the list.
   size(): number {
     if (!this.head) return 0;
-
-    if (!this.head.next) throw new Error("invalid list");
-
     let count = 1;
     let current = this.head.next;
-
     while (current !== this.head) {
-      if (!current.next) throw new Error("invalid list");
-      current = current.next;
+      if (!current?.next) throw new Error("invalid list");
       count++;
+      current = current.next;
     }
-
     return count;
   }
 
+  // inserts a new node with the specified data at the given index.
   insertAt(data: T, idx: number): boolean {
     if (idx < 0) return false;
 
@@ -186,6 +188,7 @@ export class CircularLinkedList<T> {
     return false;
   }
 
+  // removes the node at the specified index.
   removeAt(idx: number): boolean {
     if (!this.head || idx < 0) return false;
 
@@ -211,6 +214,7 @@ export class CircularLinkedList<T> {
     return false;
   }
 
+  // removes the first node with the specified data.
   remove(data: T): boolean {
     if (!this.head) return false;
 
@@ -235,6 +239,7 @@ export class CircularLinkedList<T> {
     return false;
   }
 
+  // traverses the list and returns an array of all data in the order of traversal.
   traverse(): T[] {
     if (!this.head) return [];
     const result: T[] = [];

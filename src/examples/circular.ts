@@ -1,6 +1,6 @@
 export class N<T> {
-  data: T;
-  next: N<T> | null;
+  public data: T;
+  public next: N<T> | null;
 
   constructor(data: T) {
     this.data = data;
@@ -9,133 +9,159 @@ export class N<T> {
 }
 
 export class CircularLinkedList<T> {
-  head: N<T> | null = null;
+  public head: N<T> | null = null;
 
-  // adds a new node to the beginning of the list
-  unshift(data: T): void {
-    const newN = new N(data);
-    if (this.head === null) {
-      this.head = newN;
-      newN.next = this.head;
+  // adds a new node with the specified data to the beginning of the list
+  unshift(data: T) {
+    let newNode = new N(data);
+
+    if (!this.head) {
+      this.head = newNode;
+      newNode.next = newNode;
     } else {
-      let last: N<T> | null = this.head;
-      while (last!.next !== this.head) {
-        last = last!.next;
+      let last = this.head;
+
+      while (last.next !== this.head) {
+        if (!last.next) throw new Error("invalid list");
+        last = last.next;
       }
-      newN.next = this.head;
-      last!.next = newN;
-      this.head = newN;
+
+      last.next = newNode;
+      newNode.next = this.head;
+      this.head = newNode;
     }
   }
 
-  // inserts a new node at the end
+  // adds a new node with the specified data to the end of the list.
   push(data: T): void {
-    const newN = new N(data);
-    if (this.head === null) {
-      this.head = newN;
-      newN.next = this.head;
+    let newNode = new N(data);
+
+    if (!this.head) {
+      this.head = newNode;
+      newNode.next = this.head;
     } else {
-      let last: N<T> | null = this.head;
-      while (last!.next !== this.head) {
-        last = last!.next;
+      let last = this.head;
+
+      while (last.next !== this.head) {
+        if (!last.next) throw new Error("invalid list");
+        last = last.next;
       }
-      newN.next = this.head;
-      last!.next = newN;
+
+      last.next = newNode;
+      newNode.next = this.head;
     }
   }
 
-  // removes the first node in the list
+  // removes the first node from the list
   shift(): void {
-    if (this.head === null) {
-      return;
-    }
+    if (!this.head) return;
+
     if (this.head.next === this.head) {
       this.head = null;
       return;
     }
-    const newHead = this.head!.next!;
-    let last: N<T> | null = this.head;
-    while (last!.next !== this.head) {
-      last = last!.next;
+
+    let last = this.head;
+
+    while (last.next !== this.head) {
+      if (!last.next) throw new Error("invalid list");
+      last = last.next;
     }
-    last!.next = newHead;
+
+    let newHead = this.head.next;
+    last.next = newHead;
     this.head = newHead;
   }
 
-  // removes the last node
-  pop(): void {
-    if (this.head === null) {
-      return;
-    }
+  // removes the last node from the list.
+  pop(): boolean {
+    if (!this.head) return false;
+
     if (this.head.next === this.head) {
       this.head = null;
-      return;
+      return true;
     }
-    let last: N<T> | null = this.head;
-    while (last!.next !== this.head) {
-      last = last!.next;
+
+    let current: N<T> = this.head;
+    let prev: N<T> | null = null;
+
+    while (current.next !== this.head) {
+      prev = current;
+      current = current.next!;
     }
-    let secondLast: N<T> | null = this.head;
-    while (secondLast!.next !== last) {
-      secondLast = secondLast!.next;
-    }
-    secondLast!.next = this.head;
+
+    prev!.next = this.head;
+    return true;
   }
 
-  // checks if the given data exists in the list
+  // searches for a node with the specified data in the list
   search(data: T): boolean {
-    if (this.head === null) {
-      return false;
-    }
-    let current: N<T> | null = this.head;
+    if (!this.head) return false;
+
+    let current = this.head;
+
     do {
-      if (current!.data === data) {
+      if (!current.next) throw new Error("invalid list");
+
+      if (current.data === data) {
         return true;
       }
-      current = current!.next;
+
+      current = current.next;
     } while (current !== this.head);
+
     return false;
   }
 
-  // gets the data at the specified index (0-based)
-  get(index: number): T | null {
-    if (this.head === null || index < 0) {
-      return null;
-    }
-    let current: N<T> | null = this.head;
+  // retrieves the data at the specified index in the list
+  get(idx: number): T | null {
+    if (!this.head || idx < 0) return null;
+
+    let current = this.head;
     let count = 0;
+
     do {
-      if (count === index) {
-        return current!.data;
+      if (!current.next) throw new Error("invalid list");
+
+      if (count === idx) {
+        return current.data;
       }
-      current = current!.next;
+
       count++;
+      current = current.next;
     } while (current !== this.head);
+
     return null;
   }
 
-  // gets the size of the list
+  // returns the number of nodes in the list.
   size(): number {
-    if (this.head === null) {
-      return 0;
-    }
-    let count: number = 1;
-    let current: N<T> | null = this.head!.next;
+    if (!this.head) return 0;
+    let count = 1;
+    let current = this.head.next;
     while (current !== this.head) {
+      if (!current?.next) throw new Error("invalid list");
       count++;
-      current = current!.next;
+      current = current.next;
     }
     return count;
   }
 
-  // inserts a new node at the specified index (0-based)
-  insertAt(data: T, index: number): void {
-    if (index < 0) {
-      return;
-    }
-    if (index === 0 || !this.head) {
+  // inserts a new node with the specified data at the given index.
+  insertAt(data: T, idx: number): boolean {
+    if (idx < 0) return false;
+
+    if (idx === 0) {
       this.unshift(data);
-      return;
+      return true;
+    }
+
+    if (!this.head) {
+      if (idx === 0) {
+        this.unshift(data);
+        return true;
+      }
+      return false;
     }
 
     let current: N<T> | null = this.head;
@@ -143,76 +169,88 @@ export class CircularLinkedList<T> {
     let count = 0;
 
     do {
-      if (count === index) {
+      if (count === idx) {
         const newN = new N(data);
         newN.next = current;
         prev!.next = newN;
-        return;
+        return true;
       }
       prev = current;
       current = current!.next;
       count++;
     } while (current !== this.head);
-    if (count === index) {
+
+    if (count === idx) {
       this.push(data);
+      return true;
     }
+
+    return false;
   }
 
-  // removes the node at the specified index (0-based)
-  removeAt(index: number): void {
-    if (this.head === null || index < 0) {
-      return;
-    }
-    if (index === 0) {
+  // removes the node at the specified index.
+  removeAt(idx: number): boolean {
+    if (!this.head || idx < 0) return false;
+
+    if (idx === 0) {
       this.shift();
-      return;
+      return true;
     }
-    let current: N<T> | null = this.head;
+
+    let current: N<T> = this.head;
     let prev: N<T> | null = null;
     let count = 0;
+
     do {
-      if (count === index) {
-        prev!.next = current!.next;
-        return;
+      if (count === idx) {
+        prev!.next = current.next;
+        return true;
       }
       prev = current;
-      current = current!.next;
+      current = current.next!;
       count++;
     } while (current !== this.head);
+
+    return false;
   }
 
-  // removes the first occurrence of the given data
-  remove(data: T): void {
-    if (this.head === null) {
-      return;
-    }
+  // removes the first node with the specified data.
+  remove(data: T): boolean {
+    if (!this.head) return false;
+
     if (this.head.data === data) {
       this.shift();
-      return;
+      return true;
     }
-    let current: N<T> | null = this.head;
+
+    let current: N<T> = this.head;
     let prev: N<T> | null = null;
+
     do {
-      if (current!.data === data) {
-        prev!.next = current!.next;
-        return;
+      if (current.data === data) {
+        prev!.next = current.next;
+        return true;
       }
+
       prev = current;
-      current = current!.next;
+      current = current.next!;
     } while (current !== this.head);
+
+    return false;
   }
 
-  // traverses the list and returns elements
+  // traverses the list and returns an array of all data in the order of traversal.
   traverse(): T[] {
-    if (this.head === null) {
-      return [];
-    }
+    if (!this.head) return [];
     const result: T[] = [];
-    let current: N<T> | null = this.head;
+
+    let current = this.head;
+
     do {
-      result.push(current!.data);
-      current = current!.next;
+      result.push(current.data);
+      current = current.next!;
     } while (current !== this.head);
+
     return result;
   }
 }
