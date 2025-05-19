@@ -8,7 +8,7 @@ export class N<T> {
   }
 }
 
-export class CircularLinkedList<T> {
+export class CircularSinglyLinkedList<T> {
   public head: N<T> | null = null;
 
   // adds a new node with the specified data to the beginning of the list

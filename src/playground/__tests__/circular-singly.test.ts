@@ -1,10 +1,10 @@
-import { CircularLinkedList } from "../circular";
+import { CircularSinglyLinkedList } from "../circular-singly";
 
 describe("CircularLinkedList", () => {
-  let list: CircularLinkedList<number>;
+  let list: CircularSinglyLinkedList<number>;
 
   beforeEach(() => {
-    list = new CircularLinkedList<number>();
+    list = new CircularSinglyLinkedList<number>();
   });
 
   describe("unshift", () => {
