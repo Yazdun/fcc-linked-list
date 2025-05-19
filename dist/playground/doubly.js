@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DoublyLinkedList = exports.N = void 0;
+/** Node for doubly linked list */
 class N {
+    /** Creates a node with given data */
     constructor(data) {
         this.data = data;
         this.next = null;
@@ -9,14 +11,18 @@ class N {
     }
 }
 exports.N = N;
+/** Doubly linked list implementation */
 class DoublyLinkedList {
+    /** Creates an empty list */
     constructor() {
         this.head = null;
         this.tail = null;
         this.len = 0;
     }
-    // ======= MAIN OPERATIONS =======
-    // adds a new node to the beginning of the list
+    // ┌──────────────────────────┐
+    // │ CORE OPERATIONS
+    // └──────────────────────────┘
+    /** Adds node to list start */
     prepend(data) {
         let newNode = new N(data);
         if (!this.head) {
@@ -31,7 +37,7 @@ class DoublyLinkedList {
         }
         this.len++;
     }
-    // adds a new node to the end of the list
+    /** Adds node to list end */
     append(data) {
         let newNode = new N(data);
         if (!this.head) {
@@ -45,7 +51,7 @@ class DoublyLinkedList {
         }
         this.len++;
     }
-    // removes the first node in the list.
+    /** Removes and returns head node data */
     deleteHead() {
         if (!this.head)
             return null;
@@ -62,7 +68,7 @@ class DoublyLinkedList {
         this.len--;
         return removedItem.data;
     }
-    // removes the last node in the list
+    /** Removes and returns tail node data */
     deleteTail() {
         if (!this.tail)
             return null;
@@ -79,7 +85,7 @@ class DoublyLinkedList {
         this.len--;
         return removedItem.data;
     }
-    // removes the first node with the specified data from the list.
+    /** Removes first node with given data */
     delete(data) {
         let current = this.head;
         let idx = 0;
@@ -93,7 +99,7 @@ class DoublyLinkedList {
         }
         return false;
     }
-    // retrieves the node at the specified index
+    /** Finds node at given index */
     find(idx) {
         if (idx < 0 || idx >= this.len)
             return null;
@@ -112,8 +118,10 @@ class DoublyLinkedList {
         }
         return current;
     }
-    // ======= BONUS OPERATIONS =======
-    // inserts a new node at the given index
+    // ┌────────────────────────────┐
+    // │ BONUS OPERATIONS
+    // └────────────────────────────┘
+    /** Inserts node at given index */
     insertAt(idx, data) {
         if (idx < 0 || idx > this.len)
             return false;
@@ -136,7 +144,7 @@ class DoublyLinkedList {
         this.len++;
         return true;
     }
-    // removes the node at the specified index
+    /** Removes and returns node data at given index */
     removeAt(idx) {
         if (idx < 0 || idx >= this.len)
             return null;
@@ -154,7 +162,7 @@ class DoublyLinkedList {
         this.len--;
         return current.data;
     }
-    // traverses the list and returns an array of the data in the specified direction.
+    /** Returns array of node data */
     traverse(dir = "forward") {
         const isForward = dir === "forward";
         let current = isForward ? this.head : this.tail;
@@ -165,7 +173,7 @@ class DoublyLinkedList {
         }
         return result;
     }
-    // reverses the doubly linked list in place
+    /** Reverses list in place */
     reverse() {
         if (this.len <= 1)
             return;

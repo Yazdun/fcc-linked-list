@@ -1,8 +1,13 @@
+/** Node for doubly linked list */
 export class N<T> {
+  /** Node data */
   data: T;
+  /** Next node reference */
   next: N<T> | null;
+  /** Previous node reference */
   prev: N<T> | null;
 
+  /** Creates a node with given data */
   constructor(data: T) {
     this.data = data;
     this.next = null;
@@ -10,18 +15,26 @@ export class N<T> {
   }
 }
 
+/** Doubly linked list implementation */
 export class DoublyLinkedList<T> {
+  /** Head node */
   public head: N<T> | null;
+  /** Tail node */
   public tail: N<T> | null;
+  /** List length */
   public len: number;
 
+  /** Creates an empty list */
   constructor() {
     this.head = null;
     this.tail = null;
     this.len = 0;
   }
 
-  // ======= MAIN OPERATIONS =======
+  // ┌──────────────────────────┐
+  // │ CORE OPERATIONS
+  // └──────────────────────────┘
+  /** Adds node to list start */
   prepend(data: T): void {
     let newNode = new N(data);
 
@@ -38,6 +51,7 @@ export class DoublyLinkedList<T> {
     this.len++;
   }
 
+  /** Adds node to list end */
   append(data: T): void {
     let newNode = new N(data);
     if (!this.head) {
@@ -52,6 +66,7 @@ export class DoublyLinkedList<T> {
     this.len++;
   }
 
+  /** Removes and returns head node data */
   deleteHead(): T | null {
     if (!this.head) return null;
 
@@ -71,6 +86,7 @@ export class DoublyLinkedList<T> {
     return removedItem.data;
   }
 
+  /** Removes and returns tail node data */
   deleteTail(): T | null {
     if (!this.tail) return null;
 
@@ -90,6 +106,7 @@ export class DoublyLinkedList<T> {
     return removedItem.data;
   }
 
+  /** Removes first node with given data */
   delete(data: T): boolean {
     let current = this.head;
     let idx = 0;
@@ -104,6 +121,7 @@ export class DoublyLinkedList<T> {
     return false;
   }
 
+  /** Finds node at given index */
   find(idx: number): N<T> | null {
     if (idx < 0 || idx >= this.len) return null;
 
@@ -124,7 +142,10 @@ export class DoublyLinkedList<T> {
     return current;
   }
 
-  // ======= BONUS OPERATIONS =======
+  // ┌────────────────────────────┐
+  // │ BONUS OPERATIONS
+  // └────────────────────────────┘
+  /** Inserts node at given index */
   insertAt(idx: number, data: T): boolean {
     if (idx < 0 || idx > this.len) return false;
 
@@ -153,6 +174,7 @@ export class DoublyLinkedList<T> {
     return true;
   }
 
+  /** Removes and returns node data at given index */
   removeAt(idx: number): T | null {
     if (idx < 0 || idx >= this.len) return null;
 
@@ -173,6 +195,7 @@ export class DoublyLinkedList<T> {
     return current.data;
   }
 
+  /** Returns array of node data */
   traverse(dir: "forward" | "backward" = "forward"): T[] {
     const isForward = dir === "forward";
     let current = isForward ? this.head : this.tail;
@@ -186,6 +209,7 @@ export class DoublyLinkedList<T> {
     return result;
   }
 
+  /** Reverses list in place */
   reverse(): void {
     if (this.len <= 1) return;
     let current = this.head;

@@ -1,18 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CircularSinglyLinkedList = exports.N = void 0;
+/** Node for circular singly linked list */
 class N {
+    /** Creates a node with given data */
     constructor(data) {
         this.data = data;
         this.next = null;
     }
 }
 exports.N = N;
+/** Circular singly linked list implementation */
 class CircularSinglyLinkedList {
     constructor() {
+        /** Head node */
         this.head = null;
     }
-    // ======= MAIN OPERATIONS =======
+    // ┌──────────────────────────┐
+    // │ CORE OPERATIONS
+    // └──────────────────────────┘
+    /** Adds node to list start */
     prepend(data) {
         let newNode = new N(data);
         if (!this.head) {
@@ -31,6 +38,7 @@ class CircularSinglyLinkedList {
             this.head = newNode;
         }
     }
+    /** Adds node to list end */
     append(data) {
         let newNode = new N(data);
         if (!this.head) {
@@ -48,6 +56,7 @@ class CircularSinglyLinkedList {
             newNode.next = this.head;
         }
     }
+    /** Removes head node */
     deleteHead() {
         if (!this.head)
             return;
@@ -65,6 +74,7 @@ class CircularSinglyLinkedList {
         last.next = newHead;
         this.head = newHead;
     }
+    /** Removes tail node */
     deleteTail() {
         if (!this.head)
             return false;
@@ -81,6 +91,7 @@ class CircularSinglyLinkedList {
         prev.next = this.head;
         return true;
     }
+    /** Removes first node with given data */
     delete(data) {
         if (!this.head)
             return false;
@@ -100,6 +111,7 @@ class CircularSinglyLinkedList {
         } while (current !== this.head);
         return false;
     }
+    /** Finds data at given index */
     find(idx) {
         if (!this.head || idx < 0)
             return null;
@@ -116,7 +128,10 @@ class CircularSinglyLinkedList {
         } while (current !== this.head);
         return null;
     }
-    // ======= BONUS OPERATIONS =======
+    // ┌────────────────────────────┐
+    // │ BONUS OPERATIONS
+    // └────────────────────────────┘
+    /** Searches for node with given data */
     search(data) {
         if (!this.head)
             return false;
@@ -131,6 +146,7 @@ class CircularSinglyLinkedList {
         } while (current !== this.head);
         return false;
     }
+    /** Returns number of nodes */
     size() {
         if (!this.head)
             return 0;
@@ -144,6 +160,7 @@ class CircularSinglyLinkedList {
         }
         return count;
     }
+    /** Inserts node at given index */
     insertAt(data, idx) {
         if (idx < 0)
             return false;
@@ -178,6 +195,7 @@ class CircularSinglyLinkedList {
         }
         return false;
     }
+    /** Removes node at given index */
     deleteAt(idx) {
         if (!this.head || idx < 0)
             return false;
@@ -199,6 +217,7 @@ class CircularSinglyLinkedList {
         } while (current !== this.head);
         return false;
     }
+    /** Returns array of node data */
     traverse() {
         if (!this.head)
             return [];

@@ -1,19 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CircularSinglyLinkedList = exports.N = void 0;
+/** Node for circular singly linked list */
 class N {
+    /** Creates a node with given data */
     constructor(data) {
         this.data = data;
         this.next = null;
     }
 }
 exports.N = N;
+/** Circular singly linked list implementation */
 class CircularSinglyLinkedList {
     constructor() {
+        /** Head node */
         this.head = null;
     }
-    // ======= MAIN OPERATIONS =======
-    // adds a new node with the specified data to the beginning of the list
+    // ┌──────────────────────────┐
+    // │ CORE OPERATIONS
+    // └──────────────────────────┘
+    /** Adds node to list start */
     prepend(data) {
         let newNode = new N(data);
         if (!this.head) {
@@ -32,7 +38,7 @@ class CircularSinglyLinkedList {
             this.head = newNode;
         }
     }
-    // adds a new node with the specified data to the end of the list.
+    /** Adds node to list end */
     append(data) {
         let newNode = new N(data);
         if (!this.head) {
@@ -50,7 +56,7 @@ class CircularSinglyLinkedList {
             newNode.next = this.head;
         }
     }
-    // removes the first node from the list
+    /** Removes head node */
     deleteHead() {
         if (!this.head)
             return;
@@ -68,7 +74,7 @@ class CircularSinglyLinkedList {
         last.next = newHead;
         this.head = newHead;
     }
-    // removes the last node from the list.
+    /** Removes tail node */
     deleteTail() {
         if (!this.head)
             return false;
@@ -85,7 +91,7 @@ class CircularSinglyLinkedList {
         prev.next = this.head;
         return true;
     }
-    // removes the first node with the specified data.
+    /** Removes first node with given data */
     delete(data) {
         if (!this.head)
             return false;
@@ -105,7 +111,7 @@ class CircularSinglyLinkedList {
         } while (current !== this.head);
         return false;
     }
-    // retrieves the data at the specified index in the list
+    /** Finds data at given index */
     find(idx) {
         if (!this.head || idx < 0)
             return null;
@@ -122,8 +128,10 @@ class CircularSinglyLinkedList {
         } while (current !== this.head);
         return null;
     }
-    // ======= BONUS OPERATIONS =======
-    // searches for a node with the specified data in the list
+    // ┌────────────────────────────┐
+    // │ BONUS OPERATIONS
+    // └────────────────────────────┘
+    /** Searches for node with given data */
     search(data) {
         if (!this.head)
             return false;
@@ -138,7 +146,7 @@ class CircularSinglyLinkedList {
         } while (current !== this.head);
         return false;
     }
-    // returns the number of nodes in the list.
+    /** Returns number of nodes */
     size() {
         if (!this.head)
             return 0;
@@ -152,7 +160,7 @@ class CircularSinglyLinkedList {
         }
         return count;
     }
-    // inserts a new node with the specified data at the given index.
+    /** Inserts node at given index */
     insertAt(data, idx) {
         if (idx < 0)
             return false;
@@ -187,7 +195,7 @@ class CircularSinglyLinkedList {
         }
         return false;
     }
-    // removes the node at the specified index.
+    /** Removes node at given index */
     deleteAt(idx) {
         if (!this.head || idx < 0)
             return false;
@@ -209,7 +217,7 @@ class CircularSinglyLinkedList {
         } while (current !== this.head);
         return false;
     }
-    // traverses the list and returns an array of all data in the order of traversal.
+    /** Returns array of node data */
     traverse() {
         if (!this.head)
             return [];

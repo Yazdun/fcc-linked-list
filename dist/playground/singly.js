@@ -1,24 +1,31 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SinglyLinkedList = void 0;
+/** Node for singly linked list */
 class N {
+    /** Creates a node with given value */
     constructor(value) {
+        /** Next node reference */
         this.next = null;
         this.value = value;
     }
 }
+/** Singly linked list implementation */
 class SinglyLinkedList {
     constructor() {
+        /** Head node */
         this.head = null;
     }
-    // ======= MAIN OPERATIONS =======
-    // appends a new node to the begininng of the list
+    // ┌──────────────────────────┐
+    // │ CORE OPERATIONS
+    // └──────────────────────────┘
+    /** Adds node to list start */
     prepend(val) {
         const newNode = new N(val);
         newNode.next = this.head;
         this.head = newNode;
     }
-    // appends a new node to the end of the list
+    /** Adds node to list end */
     append(val) {
         const newNode = new N(val);
         if (!this.head) {
@@ -31,13 +38,13 @@ class SinglyLinkedList {
         }
         current.next = newNode;
     }
-    // deletes the head node of the list.
+    /** Removes head node */
     deleteHead() {
         if (this.head) {
             this.head = this.head.next;
         }
     }
-    // deletes the tail node of the list.
+    /** Removes tail node */
     deleteTail() {
         if (!this.head)
             return;
@@ -51,7 +58,7 @@ class SinglyLinkedList {
         }
         current.next = null;
     }
-    // deletes the first node with the specified value from the list
+    /** Removes first node with given value */
     delete(val) {
         if (!this.head)
             return;
@@ -68,7 +75,7 @@ class SinglyLinkedList {
             current = current.next;
         }
     }
-    // searches for a node with the specified value
+    /** Finds node with given value */
     find(val) {
         if (!this.head)
             return null;
@@ -80,7 +87,7 @@ class SinglyLinkedList {
         }
         return null;
     }
-    // traverses the list and logs each node's value to the console
+    /** Logs all node values */
     traverse() {
         let current = this.head;
         while (current) {
@@ -88,8 +95,10 @@ class SinglyLinkedList {
             current = current.next;
         }
     }
-    // ======= BONUS OPERATIONS =======
-    // inserts a new node at the given position
+    // ┌────────────────────────────┐
+    // │ BONUS OPERATIONS
+    // └────────────────────────────┘
+    /** Inserts node at given position */
     insertAt(pos, val) {
         const newNode = new N(val);
         let current = this.head;
@@ -110,7 +119,7 @@ class SinglyLinkedList {
         newNode.next = current.next;
         current.next = newNode;
     }
-    // deletes the node at the position
+    /** Removes node at given position */
     deleteAt(pos) {
         let current = this.head;
         let idx = 0;
@@ -125,7 +134,7 @@ class SinglyLinkedList {
             current.next = current.next.next;
         }
     }
-    // finds the middle node of the list using the slow and fast pointer technique
+    /** Finds middle node */
     findMiddle() {
         let slow = this.head;
         let fast = this.head;
@@ -135,7 +144,7 @@ class SinglyLinkedList {
         }
         return slow;
     }
-    // reverses the linked list in place
+    /** Reverses list in place */
     reverse() {
         let current = this.head;
         let following = this.head;

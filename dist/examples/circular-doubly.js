@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CircularDoublyLinkedList = exports.N = void 0;
+/** Node for circular doubly linked list */
 class N {
+    /** Creates a node with given data */
     constructor(data) {
         this.data = data;
         this.next = null;
@@ -9,13 +11,18 @@ class N {
     }
 }
 exports.N = N;
+/** Circular doubly linked list implementation */
 class CircularDoublyLinkedList {
+    /** Creates an empty list */
     constructor() {
         this.head = null;
         this.tail = null;
         this.len = 0;
     }
-    // ======= MAIN OPERATIONS =======
+    // ┌──────────────────────────┐
+    // │ CORE OPERATIONS
+    // └──────────────────────────┘
+    /** Adds node to list end */
     append(data) {
         let newNode = new N(data);
         if (!this.head) {
@@ -33,6 +40,7 @@ class CircularDoublyLinkedList {
         }
         this.len++;
     }
+    /** Removes and returns tail node data */
     deleteTail() {
         if (!this.tail)
             return null;
@@ -51,6 +59,7 @@ class CircularDoublyLinkedList {
         this.len--;
         return removedItem.data;
     }
+    /** Adds node to list start */
     prepend(data) {
         let newNode = new N(data);
         if (!this.head) {
@@ -68,6 +77,7 @@ class CircularDoublyLinkedList {
         }
         this.len++;
     }
+    /** Removes and returns head node data */
     deleteHead() {
         if (!this.head)
             return null;
@@ -86,6 +96,7 @@ class CircularDoublyLinkedList {
         removedItem.prev = null;
         return removedItem.data;
     }
+    /** Finds node at given index */
     find(idx) {
         if (!this.head || idx < 0 || idx >= this.len) {
             return null;
@@ -96,6 +107,7 @@ class CircularDoublyLinkedList {
         }
         return current;
     }
+    /** Removes first node with given data */
     delete(data) {
         let current = this.head;
         let idx = 0;
@@ -111,7 +123,10 @@ class CircularDoublyLinkedList {
         } while (current !== this.head);
         return false;
     }
-    // ======= BONUS OPERATIONS =======
+    // ┌────────────────────────────┐
+    // │ BONUS OPERATIONS
+    // └────────────────────────────┘
+    /** Inserts node at given index */
     insertAt(idx, data) {
         if (idx < 0 || idx > this.len)
             return false;
@@ -134,6 +149,7 @@ class CircularDoublyLinkedList {
         this.len++;
         return true;
     }
+    /** Removes and returns node data at given index */
     removeAt(idx) {
         if (idx < 0 || idx >= this.len || !this.head) {
             return null;
@@ -150,6 +166,7 @@ class CircularDoublyLinkedList {
         this.len--;
         return current.data;
     }
+    /** Returns array of node data */
     traverse() {
         if (!this.head)
             return [];

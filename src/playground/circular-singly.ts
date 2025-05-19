@@ -1,18 +1,26 @@
+/** Node for circular singly linked list */
 export class N<T> {
+  /** Node data */
   public data: T;
+  /** Next node reference */
   public next: N<T> | null;
 
+  /** Creates a node with given data */
   constructor(data: T) {
     this.data = data;
     this.next = null;
   }
 }
 
+/** Circular singly linked list implementation */
 export class CircularSinglyLinkedList<T> {
+  /** Head node */
   public head: N<T> | null = null;
 
-  // ======= MAIN OPERATIONS =======
-  // adds a new node with the specified data to the beginning of the list
+  // ┌──────────────────────────┐
+  // │ CORE OPERATIONS
+  // └──────────────────────────┘
+  /** Adds node to list start */
   prepend(data: T) {
     let newNode = new N(data);
 
@@ -33,7 +41,7 @@ export class CircularSinglyLinkedList<T> {
     }
   }
 
-  // adds a new node with the specified data to the end of the list.
+  /** Adds node to list end */
   append(data: T): void {
     let newNode = new N(data);
 
@@ -53,7 +61,7 @@ export class CircularSinglyLinkedList<T> {
     }
   }
 
-  // removes the first node from the list
+  /** Removes head node */
   deleteHead(): void {
     if (!this.head) return;
 
@@ -74,7 +82,7 @@ export class CircularSinglyLinkedList<T> {
     this.head = newHead;
   }
 
-  // removes the last node from the list.
+  /** Removes tail node */
   deleteTail(): boolean {
     if (!this.head) return false;
 
@@ -95,7 +103,7 @@ export class CircularSinglyLinkedList<T> {
     return true;
   }
 
-  // removes the first node with the specified data.
+  /** Removes first node with given data */
   delete(data: T): boolean {
     if (!this.head) return false;
 
@@ -120,7 +128,7 @@ export class CircularSinglyLinkedList<T> {
     return false;
   }
 
-  // retrieves the data at the specified index in the list
+  /** Finds data at given index */
   find(idx: number): T | null {
     if (!this.head || idx < 0) return null;
 
@@ -141,8 +149,10 @@ export class CircularSinglyLinkedList<T> {
     return null;
   }
 
-  // ======= BONUS OPERATIONS =======
-  // searches for a node with the specified data in the list
+  // ┌────────────────────────────┐
+  // │ BONUS OPERATIONS
+  // └────────────────────────────┘
+  /** Searches for node with given data */
   search(data: T): boolean {
     if (!this.head) return false;
 
@@ -161,7 +171,7 @@ export class CircularSinglyLinkedList<T> {
     return false;
   }
 
-  // returns the number of nodes in the list.
+  /** Returns number of nodes */
   size(): number {
     if (!this.head) return 0;
     let count = 1;
@@ -174,7 +184,7 @@ export class CircularSinglyLinkedList<T> {
     return count;
   }
 
-  // inserts a new node with the specified data at the given index.
+  /** Inserts node at given index */
   insertAt(data: T, idx: number): boolean {
     if (idx < 0) return false;
 
@@ -215,7 +225,7 @@ export class CircularSinglyLinkedList<T> {
     return false;
   }
 
-  // removes the node at the specified index.
+  /** Removes node at given index */
   deleteAt(idx: number): boolean {
     if (!this.head || idx < 0) return false;
 
@@ -241,7 +251,7 @@ export class CircularSinglyLinkedList<T> {
     return false;
   }
 
-  // traverses the list and returns an array of all data in the order of traversal.
+  /** Returns array of node data */
   traverse(): T[] {
     if (!this.head) return [];
     const result: T[] = [];
