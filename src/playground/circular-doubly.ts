@@ -32,6 +32,11 @@ export class CircularDoublyLinkedList<T> {
     return false;
   }
 
+  /** Returns array of node data */
+  traverse(): T[] {
+    return [];
+  }
+
   // ┌────────────────────────────┐
   // │ BONUS OPERATIONS
   // └────────────────────────────┘
@@ -43,10 +48,5 @@ export class CircularDoublyLinkedList<T> {
   /** Removes and returns node data at given index */
   removeAt(idx: number): T | null {
     return null;
-  }
-
-  /** Returns array of node data */
-  traverse(): T[] {
-    return [];
   }
 }

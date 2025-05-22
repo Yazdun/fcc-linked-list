@@ -33,6 +33,11 @@ export class CircularSinglyLinkedList<T> {
     return null;
   }
 
+  /** Returns array of node data */
+  traverse(): T[] {
+    return [];
+  }
+
   // ┌────────────────────────────┐
   // │ BONUS OPERATIONS
   // └────────────────────────────┘
@@ -54,10 +59,5 @@ export class CircularSinglyLinkedList<T> {
   /** Removes node at given index */
   deleteAt(idx: number): boolean {
     return false;
-  }
-
-  /** Returns array of node data */
-  traverse(): T[] {
-    return [];
   }
 }

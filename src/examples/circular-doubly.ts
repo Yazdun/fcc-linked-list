@@ -151,6 +151,24 @@ export class CircularDoublyLinkedList<T> {
     return false;
   }
 
+  /** Returns array of node data */
+  traverse(): T[] {
+    if (!this.head) return [];
+
+    let current = this.head;
+    const result: T[] = [];
+
+    do {
+      if (!current.next) throw new Error("invalid list");
+
+      result.push(current.data);
+
+      current = current.next;
+    } while (current !== this.head);
+
+    return result;
+  }
+
   // ┌────────────────────────────┐
   // │ BONUS OPERATIONS
   // └────────────────────────────┘
@@ -201,23 +219,5 @@ export class CircularDoublyLinkedList<T> {
     this.len--;
 
     return current!.data;
-  }
-
-  /** Returns array of node data */
-  traverse(): T[] {
-    if (!this.head) return [];
-
-    let current = this.head;
-    const result: T[] = [];
-
-    do {
-      if (!current.next) throw new Error("invalid list");
-
-      result.push(current.data);
-
-      current = current.next;
-    } while (current !== this.head);
-
-    return result;
   }
 }

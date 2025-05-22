@@ -149,6 +149,21 @@ export class CircularSinglyLinkedList<T> {
     return null;
   }
 
+  /** Returns array of node data */
+  traverse(): T[] {
+    if (!this.head) return [];
+    const result: T[] = [];
+
+    let current = this.head;
+
+    do {
+      result.push(current.data);
+      current = current.next!;
+    } while (current !== this.head);
+
+    return result;
+  }
+
   // ┌────────────────────────────┐
   // │ BONUS OPERATIONS
   // └────────────────────────────┘
@@ -249,20 +264,5 @@ export class CircularSinglyLinkedList<T> {
     } while (current !== this.head);
 
     return false;
-  }
-
-  /** Returns array of node data */
-  traverse(): T[] {
-    if (!this.head) return [];
-    const result: T[] = [];
-
-    let current = this.head;
-
-    do {
-      result.push(current.data);
-      current = current.next!;
-    } while (current !== this.head);
-
-    return result;
   }
 }

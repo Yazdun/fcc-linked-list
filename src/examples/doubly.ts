@@ -142,6 +142,20 @@ export class DoublyLinkedList<T> {
     return current;
   }
 
+  /** Returns array of node data */
+  traverse(dir: "forward" | "backward" = "forward"): T[] {
+    const isForward = dir === "forward";
+    let current = isForward ? this.head : this.tail;
+    const result: T[] = [];
+
+    while (current) {
+      result.push(current.data);
+      current = isForward ? current.next : current.prev;
+    }
+
+    return result;
+  }
+
   // ┌────────────────────────────┐
   // │ BONUS OPERATIONS
   // └────────────────────────────┘
@@ -193,20 +207,6 @@ export class DoublyLinkedList<T> {
     this.len--;
 
     return current.data;
-  }
-
-  /** Returns array of node data */
-  traverse(dir: "forward" | "backward" = "forward"): T[] {
-    const isForward = dir === "forward";
-    let current = isForward ? this.head : this.tail;
-    const result: T[] = [];
-
-    while (current) {
-      result.push(current.data);
-      current = isForward ? current.next : current.prev;
-    }
-
-    return result;
   }
 
   /** Reverses list in place */

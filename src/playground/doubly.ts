@@ -46,6 +46,11 @@ export class DoublyLinkedList<T> {
     return null;
   }
 
+  /** Returns array of node data */
+  traverse(dir: "forward" | "backward" = "forward"): T[] {
+    return [];
+  }
+
   // ┌────────────────────────────┐
   // │ BONUS OPERATIONS
   // └────────────────────────────┘
@@ -57,11 +62,6 @@ export class DoublyLinkedList<T> {
   /** Removes and returns node data at given index */
   removeAt(idx: number): T | null {
     return null;
-  }
-
-  /** Returns array of node data */
-  traverse(dir: "forward" | "backward" = "forward"): T[] {
-    return [];
   }
 
   /** Reverses list in place */
