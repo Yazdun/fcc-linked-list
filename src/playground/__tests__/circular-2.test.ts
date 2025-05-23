@@ -1,4 +1,4 @@
-import { CircularDoublyLinkedList } from "../circular-doubly";
+import { CircularDoublyLinkedList } from "../circular-2";
 
 describe("CircularDoublyLinkedList", () => {
   let list: CircularDoublyLinkedList<number>;

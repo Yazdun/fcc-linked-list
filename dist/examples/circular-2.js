@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DoublyLinkedList = exports.N = void 0;
-/** Node for doubly linked list */
+exports.CircularDoublyLinkedList = exports.N = void 0;
+/** Node for circular doubly linked list */
 class N {
     /** Creates a node with given data */
     constructor(data) {
@@ -11,8 +11,8 @@ class N {
     }
 }
 exports.N = N;
-/** Doubly linked list implementation */
-class DoublyLinkedList {
+/** Circular doubly linked list implementation */
+class CircularDoublyLinkedList {
     /** Creates an empty list */
     constructor() {
         this.head = null;
@@ -22,32 +22,58 @@ class DoublyLinkedList {
     // ┌──────────────────────────┐
     // │ CORE OPERATIONS
     // └──────────────────────────┘
-    /** Adds node to list start */
-    prepend(data) {
-        let newNode = new N(data);
-        if (!this.head) {
-            this.head = newNode;
-            this.tail = newNode;
-        }
-        else {
-            let prevHead = this.head;
-            newNode.next = prevHead;
-            prevHead.prev = newNode;
-            this.head = newNode;
-        }
-        this.len++;
-    }
     /** Adds node to list end */
     append(data) {
         let newNode = new N(data);
         if (!this.head) {
             this.head = newNode;
             this.tail = newNode;
+            newNode.next = newNode;
+            newNode.prev = newNode;
         }
         else {
-            this.tail.next = newNode;
+            newNode.next = this.head;
             newNode.prev = this.tail;
+            this.tail.next = newNode;
+            this.head.prev = newNode;
             this.tail = newNode;
+        }
+        this.len++;
+    }
+    /** Removes and returns tail node data */
+    deleteTail() {
+        if (!this.tail)
+            return null;
+        let removedItem = this.tail;
+        if (this.len === 1) {
+            this.head = null;
+            this.tail = null;
+        }
+        else {
+            this.tail = this.tail.prev;
+            this.tail.next = this.head;
+            this.head.prev = this.tail;
+        }
+        removedItem.next = null;
+        removedItem.prev = null;
+        this.len--;
+        return removedItem.data;
+    }
+    /** Adds node to list start */
+    prepend(data) {
+        let newNode = new N(data);
+        if (!this.head) {
+            this.head = newNode;
+            this.tail = newNode;
+            newNode.next = newNode;
+            newNode.prev = newNode;
+        }
+        else {
+            newNode.next = this.head;
+            newNode.prev = this.tail;
+            this.head.prev = newNode;
+            this.tail.next = newNode;
+            this.head = newNode;
         }
         this.len++;
     }
@@ -62,71 +88,53 @@ class DoublyLinkedList {
         }
         else {
             this.head = removedItem.next;
-            this.head.prev = null;
-            removedItem.next = null;
+            this.head.prev = this.tail;
+            this.tail.next = this.head;
         }
         this.len--;
+        removedItem.next = null;
+        removedItem.prev = null;
         return removedItem.data;
     }
-    /** Removes and returns tail node data */
-    deleteTail() {
-        if (!this.tail)
+    /** Finds node at given index */
+    find(idx) {
+        if (!this.head || idx < 0 || idx >= this.len) {
             return null;
-        let removedItem = this.tail;
-        if (this.len === 1) {
-            this.head = null;
-            this.tail = null;
         }
-        else {
-            this.tail = this.tail.prev;
-            this.tail.next = null;
-            removedItem.prev = null;
+        let current = this.head;
+        for (let i = 0; i < idx; i++) {
+            current = current.next;
         }
-        this.len--;
-        return removedItem.data;
+        return current;
     }
     /** Removes first node with given data */
     delete(data) {
         let current = this.head;
         let idx = 0;
-        while (current) {
+        if (!current)
+            return false;
+        do {
             if (current.data === data) {
                 this.removeAt(idx);
                 return true;
             }
             current = current.next;
             idx++;
-        }
+        } while (current !== this.head);
         return false;
     }
-    /** Finds node at given index */
-    find(idx) {
-        if (idx < 0 || idx >= this.len)
-            return null;
-        let current = this.head;
-        if (idx <= this.len / 2) {
-            current = this.head;
-            for (let i = 0; i < idx; i++) {
-                current = current.next;
-            }
-        }
-        else {
-            current = this.tail;
-            for (let i = this.len - 1; i > idx; i--) {
-                current = current?.prev ?? null;
-            }
-        }
-        return current;
-    }
     /** Returns array of node data */
-    traverse(dir = "forward") {
-        const isForward = dir === "forward";
-        let current = isForward ? this.head : this.tail;
+    traverse() {
+        if (!this.head)
+            return [];
+        let current = this.head;
         const result = [];
-        while (current) {
+        do {
+            if (!current.next)
+                throw new Error("invalid list");
             result.push(current.data);
-            current = isForward ? current.next : current.prev;
-        }
+            current = current.next;
+        } while (current !== this.head);
         return result;
     }
     // ┌────────────────────────────┐
@@ -149,7 +157,7 @@ class DoublyLinkedList {
         if (!current)
             return false;
         newNode.next = current;
-        newNode.prev = current?.prev ?? null;
+        newNode.prev = current.prev;
         current.prev.next = newNode;
         current.prev = newNode;
         this.len++;
@@ -157,15 +165,14 @@ class DoublyLinkedList {
     }
     /** Removes and returns node data at given index */
     removeAt(idx) {
-        if (idx < 0 || idx >= this.len)
+        if (idx < 0 || idx >= this.len || !this.head) {
             return null;
+        }
         if (idx === 0)
             return this.deleteHead();
         if (idx === this.len - 1)
             return this.deleteTail();
         let current = this.find(idx);
-        if (!current)
-            return null;
         current.next.prev = current.prev;
         current.prev.next = current.next;
         current.next = null;
@@ -173,21 +180,5 @@ class DoublyLinkedList {
         this.len--;
         return current.data;
     }
-    /** Reverses list in place */
-    reverse() {
-        if (this.len <= 1)
-            return;
-        let current = this.head;
-        let temp = null;
-        while (current) {
-            temp = current.prev;
-            current.prev = current.next;
-            current.next = temp;
-            current = current.prev;
-        }
-        temp = this.head;
-        this.head = this.tail;
-        this.tail = temp;
-    }
 }
-exports.DoublyLinkedList = DoublyLinkedList;
+exports.CircularDoublyLinkedList = CircularDoublyLinkedList;

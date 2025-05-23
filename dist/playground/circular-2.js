@@ -1,43 +1,37 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DoublyLinkedList = exports.N = void 0;
-/** Node for doubly linked list */
+exports.CircularDoublyLinkedList = exports.N = void 0;
+/** Node for circular doubly linked list */
 class N {
 }
 exports.N = N;
-/** Doubly linked list implementation */
-class DoublyLinkedList {
-    /** Creates an empty list */
-    constructor() {
-        this.head = null;
-        this.tail = null;
-        this.len = 0;
-    }
+/** Circular doubly linked list implementation */
+class CircularDoublyLinkedList {
     // ┌──────────────────────────┐
     // │ CORE OPERATIONS
     // └──────────────────────────┘
-    /** Adds node to list start */
-    prepend(data) { }
     /** Adds node to list end */
     append(data) { }
+    /** Removes and returns tail node data */
+    deleteTail() {
+        return null;
+    }
+    /** Adds node to list start */
+    prepend(data) { }
     /** Removes and returns head node data */
     deleteHead() {
         return null;
     }
-    /** Removes and returns tail node data */
-    deleteTail() {
+    /** Finds node at given index */
+    find(idx) {
         return null;
     }
     /** Removes first node with given data */
     delete(data) {
         return false;
     }
-    /** Finds node at given index */
-    find(idx) {
-        return null;
-    }
     /** Returns array of node data */
-    traverse(dir = "forward") {
+    traverse() {
         return [];
     }
     // ┌────────────────────────────┐
@@ -51,7 +45,5 @@ class DoublyLinkedList {
     removeAt(idx) {
         return null;
     }
-    /** Reverses list in place */
-    reverse() { }
 }
-exports.DoublyLinkedList = DoublyLinkedList;
+exports.CircularDoublyLinkedList = CircularDoublyLinkedList;

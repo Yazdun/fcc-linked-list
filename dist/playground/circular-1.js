@@ -1,17 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DoublyLinkedList = exports.N = void 0;
-/** Node for doubly linked list */
+exports.CircularSinglyLinkedList = exports.N = void 0;
+/** Node for circular singly linked list */
 class N {
 }
 exports.N = N;
-/** Doubly linked list implementation */
-class DoublyLinkedList {
-    /** Creates an empty list */
+/** Circular singly linked list implementation */
+class CircularSinglyLinkedList {
     constructor() {
+        /** Head node */
         this.head = null;
-        this.tail = null;
-        this.len = 0;
     }
     // ┌──────────────────────────┐
     // │ CORE OPERATIONS
@@ -20,38 +18,42 @@ class DoublyLinkedList {
     prepend(data) { }
     /** Adds node to list end */
     append(data) { }
-    /** Removes and returns head node data */
-    deleteHead() {
-        return null;
-    }
-    /** Removes and returns tail node data */
+    /** Removes head node */
+    deleteHead() { }
+    /** Removes tail node */
     deleteTail() {
-        return null;
+        return false;
     }
     /** Removes first node with given data */
     delete(data) {
         return false;
     }
-    /** Finds node at given index */
+    /** Finds data at given index */
     find(idx) {
         return null;
     }
     /** Returns array of node data */
-    traverse(dir = "forward") {
+    traverse() {
         return [];
     }
     // ┌────────────────────────────┐
     // │ BONUS OPERATIONS
     // └────────────────────────────┘
-    /** Inserts node at given index */
-    insertAt(idx, data) {
+    /** Searches for node with given data */
+    search(data) {
         return false;
     }
-    /** Removes and returns node data at given index */
-    removeAt(idx) {
-        return null;
+    /** Returns number of nodes */
+    size() {
+        return 0;
     }
-    /** Reverses list in place */
-    reverse() { }
+    /** Inserts node at given index */
+    insertAt(data, idx) {
+        return false;
+    }
+    /** Removes node at given index */
+    deleteAt(idx) {
+        return false;
+    }
 }
-exports.DoublyLinkedList = DoublyLinkedList;
+exports.CircularSinglyLinkedList = CircularSinglyLinkedList;
