@@ -6,9 +6,6 @@ export class SinglyLinkedList<T> {
   /** Head node */
   protected head: N<T> | null = null;
 
-  // ┌──────────────────────────┐
-  // │ CORE OPERATIONS
-  // └──────────────────────────┘
   /** Adds node to list start */
   prepend(val: T): void {}
 
@@ -31,21 +28,4 @@ export class SinglyLinkedList<T> {
 
   /** Logs all node values */
   traverse(): void {}
-
-  // ┌────────────────────────────┐
-  // │ BONUS OPERATIONS
-  // └────────────────────────────┘
-  /** Inserts node at given position */
-  insertAt(pos: number, val: T): void {}
-
-  /** Removes node at given position */
-  deleteAt(pos: number): void {}
-
-  /** Finds middle node */
-  findMiddle(): N<T> | null {
-    return null;
-  }
-
-  /** Reverses list in place */
-  reverse(): void {}
 }

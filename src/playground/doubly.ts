@@ -17,9 +17,6 @@ export class DoublyLinkedList<T> {
     this.len = 0;
   }
 
-  // ┌──────────────────────────┐
-  // │ CORE OPERATIONS
-  // └──────────────────────────┘
   /** Adds node to list start */
   prepend(data: T): void {}
 
@@ -50,20 +47,4 @@ export class DoublyLinkedList<T> {
   traverse(dir: "forward" | "backward" = "forward"): T[] {
     return [];
   }
-
-  // ┌────────────────────────────┐
-  // │ BONUS OPERATIONS
-  // └────────────────────────────┘
-  /** Inserts node at given index */
-  insertAt(idx: number, data: T): boolean {
-    return false;
-  }
-
-  /** Removes and returns node data at given index */
-  removeAt(idx: number): T | null {
-    return null;
-  }
-
-  /** Reverses list in place */
-  reverse(): void {}
 }

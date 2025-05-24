@@ -37,27 +37,4 @@ export class CircularSinglyLinkedList<T> {
   traverse(): T[] {
     return [];
   }
-
-  // ┌────────────────────────────┐
-  // │ BONUS OPERATIONS
-  // └────────────────────────────┘
-  /** Searches for node with given data */
-  search(data: T): boolean {
-    return false;
-  }
-
-  /** Returns number of nodes */
-  size(): number {
-    return 0;
-  }
-
-  /** Inserts node at given index */
-  insertAt(data: T, idx: number): boolean {
-    return false;
-  }
-
-  /** Removes node at given index */
-  deleteAt(idx: number): boolean {
-    return false;
-  }
 }

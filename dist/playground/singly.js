@@ -10,9 +10,6 @@ class SinglyLinkedList {
         /** Head node */
         this.head = null;
     }
-    // ┌──────────────────────────┐
-    // │ CORE OPERATIONS
-    // └──────────────────────────┘
     /** Adds node to list start */
     prepend(val) { }
     /** Adds node to list end */
@@ -29,18 +26,5 @@ class SinglyLinkedList {
     }
     /** Logs all node values */
     traverse() { }
-    // ┌────────────────────────────┐
-    // │ BONUS OPERATIONS
-    // └────────────────────────────┘
-    /** Inserts node at given position */
-    insertAt(pos, val) { }
-    /** Removes node at given position */
-    deleteAt(pos) { }
-    /** Finds middle node */
-    findMiddle() {
-        return null;
-    }
-    /** Reverses list in place */
-    reverse() { }
 }
 exports.SinglyLinkedList = SinglyLinkedList;

@@ -13,9 +13,6 @@ class DoublyLinkedList {
         this.tail = null;
         this.len = 0;
     }
-    // ┌──────────────────────────┐
-    // │ CORE OPERATIONS
-    // └──────────────────────────┘
     /** Adds node to list start */
     prepend(data) { }
     /** Adds node to list end */
@@ -40,18 +37,5 @@ class DoublyLinkedList {
     traverse(dir = "forward") {
         return [];
     }
-    // ┌────────────────────────────┐
-    // │ BONUS OPERATIONS
-    // └────────────────────────────┘
-    /** Inserts node at given index */
-    insertAt(idx, data) {
-        return false;
-    }
-    /** Removes and returns node data at given index */
-    removeAt(idx) {
-        return null;
-    }
-    /** Reverses list in place */
-    reverse() { }
 }
 exports.DoublyLinkedList = DoublyLinkedList;

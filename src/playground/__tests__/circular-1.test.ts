@@ -1,4 +1,4 @@
-import { CircularSinglyLinkedList } from "../circular-singly";
+import { CircularSinglyLinkedList } from "../circular-1";
 
 describe("CircularSinglyLinkedList", () => {
   let list: CircularSinglyLinkedList<number>;
@@ -197,113 +197,6 @@ describe("CircularSinglyLinkedList", () => {
       list.append(1);
       expect(list.find(-1)).toBeNull();
       expect(list.find(1)).toBeNull();
-    });
-  });
-
-  describe("search", () => {
-    test("search in empty list", () => {
-      expect(list.search(1)).toBe(false);
-    });
-
-    test("search existing data", () => {
-      list.append(1);
-      list.append(2);
-      expect(list.search(2)).toBe(true);
-    });
-
-    test("search non-existent data", () => {
-      list.append(1);
-      list.append(2);
-      expect(list.search(3)).toBe(false);
-    });
-  });
-
-  describe("size", () => {
-    test("size of empty list", () => {
-      expect(list.size()).toBe(0);
-    });
-
-    test("size of single-node list", () => {
-      list.append(1);
-      expect(list.size()).toBe(1);
-    });
-
-    test("size of multi-node list", () => {
-      list.append(1);
-      list.append(2);
-      list.append(3);
-      expect(list.size()).toBe(3);
-    });
-  });
-
-  describe("insertAt", () => {
-    test("insertAt head (index 0)", () => {
-      list.append(2);
-      expect(list.insertAt(1, 0)).toBe(true);
-      expect(getListValues(list)).toEqual([1, 2]);
-      expect(list.size()).toBe(2);
-      expect(verifyCircular(list)).toBe(true);
-    });
-
-    test("insertAt tail (index equal to size)", () => {
-      list.append(1);
-      expect(list.insertAt(2, 1)).toBe(true);
-      expect(getListValues(list)).toEqual([1, 2]);
-      expect(list.size()).toBe(2);
-      expect(verifyCircular(list)).toBe(true);
-    });
-
-    test("insertAt middle", () => {
-      list.append(1);
-      list.append(3);
-      expect(list.insertAt(2, 1)).toBe(true);
-      expect(getListValues(list)).toEqual([1, 2, 3]);
-      expect(list.size()).toBe(3);
-      expect(verifyCircular(list)).toBe(true);
-    });
-
-    test("insertAt invalid index", () => {
-      list.append(1);
-      expect(list.insertAt(2, 2)).toBe(false);
-      expect(getListValues(list)).toEqual([1]);
-      expect(list.size()).toBe(1);
-    });
-  });
-
-  describe("deleteAt", () => {
-    test("deleteAt invalid index", () => {
-      expect(list.deleteAt(-1)).toBe(false);
-      expect(list.deleteAt(0)).toBe(false);
-      expect(getListValues(list)).toEqual([]);
-      expect(list.size()).toBe(0);
-    });
-
-    test("deleteAt head (index 0)", () => {
-      list.append(1);
-      list.append(2);
-      expect(list.deleteAt(0)).toBe(true);
-      expect(getListValues(list)).toEqual([2]);
-      expect(list.size()).toBe(1);
-      expect(verifyCircular(list)).toBe(true);
-    });
-
-    test("deleteAt middle", () => {
-      list.append(1);
-      list.append(2);
-      list.append(3);
-      expect(list.deleteAt(1)).toBe(true);
-      expect(getListValues(list)).toEqual([1, 3]);
-      expect(list.size()).toBe(2);
-      expect(verifyCircular(list)).toBe(true);
-    });
-
-    test("deleteAt tail (index size-1)", () => {
-      list.append(1);
-      list.append(2);
-      expect(list.deleteAt(1)).toBe(true);
-      expect(getListValues(list)).toEqual([1]);
-      expect(list.size()).toBe(1);
-      expect(verifyCircular(list)).toBe(true);
     });
   });
 

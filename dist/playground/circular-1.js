@@ -36,24 +36,5 @@ class CircularSinglyLinkedList {
     traverse() {
         return [];
     }
-    // ┌────────────────────────────┐
-    // │ BONUS OPERATIONS
-    // └────────────────────────────┘
-    /** Searches for node with given data */
-    search(data) {
-        return false;
-    }
-    /** Returns number of nodes */
-    size() {
-        return 0;
-    }
-    /** Inserts node at given index */
-    insertAt(data, idx) {
-        return false;
-    }
-    /** Removes node at given index */
-    deleteAt(idx) {
-        return false;
-    }
 }
 exports.CircularSinglyLinkedList = CircularSinglyLinkedList;

@@ -210,81 +210,6 @@ describe("DoublyLinkedList", () => {
     });
   });
 
-  describe("insertAt", () => {
-    test("insertAt head (index 0)", () => {
-      list.append(2);
-      expect(list.insertAt(0, 1)).toBe(true);
-      expect(list.len).toBe(2);
-      expect(getListValues(list)).toEqual([1, 2]);
-      expect(list.head!.prev).toBeNull();
-      expect(list.head!.next!.prev!.data).toBe(1);
-    });
-
-    test("insertAt tail (index len)", () => {
-      list.append(1);
-      expect(list.insertAt(1, 2)).toBe(true);
-      expect(list.len).toBe(2);
-      expect(getListValues(list)).toEqual([1, 2]);
-      expect(list.tail!.next).toBeNull();
-      expect(list.tail!.prev!.next!.data).toBe(2);
-    });
-
-    test("insertAt middle", () => {
-      list.append(1);
-      list.append(3);
-      expect(list.insertAt(1, 2)).toBe(true);
-      expect(list.len).toBe(3);
-      expect(getListValues(list)).toEqual([1, 2, 3]);
-      expect(list.head!.next!.prev!.data).toBe(1);
-      expect(list.tail!.prev!.next!.data).toBe(3);
-    });
-
-    test("insertAt invalid index", () => {
-      expect(list.insertAt(-1, 1)).toBe(false);
-      expect(list.insertAt(1, 1)).toBe(false);
-      expect(list.len).toBe(0);
-      expect(getListValues(list)).toEqual([]);
-    });
-  });
-
-  describe("removeAt", () => {
-    test("removeAt invalid index", () => {
-      expect(list.removeAt(-1)).toBeNull();
-      expect(list.removeAt(0)).toBeNull();
-      expect(list.len).toBe(0);
-      expect(getListValues(list)).toEqual([]);
-    });
-
-    test("removeAt head (index 0)", () => {
-      list.append(1);
-      list.append(2);
-      expect(list.removeAt(0)).toBe(1);
-      expect(list.len).toBe(1);
-      expect(getListValues(list)).toEqual([2]);
-      expect(list.head!.prev).toBeNull();
-    });
-
-    test("removeAt tail (index len-1)", () => {
-      list.append(1);
-      list.append(2);
-      expect(list.removeAt(1)).toBe(2);
-      expect(list.len).toBe(1);
-      expect(getListValues(list)).toEqual([1]);
-      expect(list.tail!.next).toBeNull();
-    });
-
-    test("removeAt middle", () => {
-      list.append(1);
-      list.append(2);
-      list.append(3);
-      expect(list.removeAt(1)).toBe(2);
-      expect(list.len).toBe(2);
-      expect(getListValues(list)).toEqual([1, 3]);
-      expect(list.head!.next!.prev!.data).toBe(1);
-      expect(list.tail!.prev!.next!.data).toBe(3);
-    });
-  });
-
   describe("traverse", () => {
     test("traverse empty list", () => {
       expect(getListValues(list)).toEqual([]);
@@ -313,38 +238,6 @@ describe("DoublyLinkedList", () => {
       list.append(2);
       list.append(3);
       expect(getListValues(list, "backward")).toEqual([3, 2, 1]);
-    });
-  });
-
-  describe("reverse", () => {
-    test("reverse empty list", () => {
-      list.reverse();
-      expect(list.len).toBe(0);
-      expect(getListValues(list)).toEqual([]);
-      expect(list.head).toBeNull();
-      expect(list.tail).toBeNull();
-    });
-
-    test("reverse single-node list", () => {
-      list.append(1);
-      list.reverse();
-      expect(list.len).toBe(1);
-      expect(getListValues(list)).toEqual([1]);
-      expect(list.head!.data).toBe(1);
-      expect(list.tail!.data).toBe(1);
-    });
-
-    test("reverse multi-node list", () => {
-      list.append(1);
-      list.append(2);
-      list.append(3);
-      list.reverse();
-      expect(list.len).toBe(3);
-      expect(getListValues(list)).toEqual([3, 2, 1]);
-      expect(list.head!.data).toBe(3);
-      expect(list.tail!.data).toBe(1);
-      expect(list.head!.next!.prev!.data).toBe(3);
-      expect(list.tail!.prev!.next!.data).toBe(1);
     });
   });
 });

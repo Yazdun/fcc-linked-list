@@ -34,16 +34,5 @@ class CircularDoublyLinkedList {
     traverse() {
         return [];
     }
-    // ┌────────────────────────────┐
-    // │ BONUS OPERATIONS
-    // └────────────────────────────┘
-    /** Inserts node at given index */
-    insertAt(idx, data) {
-        return false;
-    }
-    /** Removes and returns node data at given index */
-    removeAt(idx) {
-        return null;
-    }
 }
 exports.CircularDoublyLinkedList = CircularDoublyLinkedList;

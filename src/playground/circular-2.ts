@@ -36,17 +36,4 @@ export class CircularDoublyLinkedList<T> {
   traverse(): T[] {
     return [];
   }
-
-  // ┌────────────────────────────┐
-  // │ BONUS OPERATIONS
-  // └────────────────────────────┘
-  /** Inserts node at given index */
-  insertAt(idx: number, data: T): boolean {
-    return false;
-  }
-
-  /** Removes and returns node data at given index */
-  removeAt(idx: number): T | null {
-    return null;
-  }
 }
