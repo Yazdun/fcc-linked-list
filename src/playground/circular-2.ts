@@ -3,9 +3,8 @@ export class N<T> {}
 
 /** Circular doubly linked list implementation */
 export class CircularDoublyLinkedList<T> {
-  // ┌──────────────────────────┐
-  // │ CORE OPERATIONS
-  // └──────────────────────────┘
+  public head: N<T> | null = null;
+
   /** Adds node to list end */
   append(data: T): void {}
 

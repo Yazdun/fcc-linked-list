@@ -133,19 +133,29 @@ export class CircularDoublyLinkedList<T> {
 
   /** Removes first node with given data */
   delete(data: T): boolean {
-    let current = this.head;
-    let idx = 0;
+    if (!this.head) return false;
 
-    if (!current) return false;
+    let current = this.head;
 
     do {
-      if (current!.data === data) {
-        this.removeAt(idx);
+      if (current.data === data) {
+        if (this.len === 1) {
+          this.head = null;
+          this.tail = null;
+        } else {
+          current.prev!.next = current.next;
+          current.next!.prev = current.prev;
+          if (current === this.head) {
+            this.head = current.next;
+          }
+          if (current === this.tail) {
+            this.tail = current.prev;
+          }
+        }
+        this.len--;
         return true;
       }
-
-      current = current!.next;
-      idx++;
+      current = current.next!;
     } while (current !== this.head);
 
     return false;
