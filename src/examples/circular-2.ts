@@ -31,9 +31,6 @@ export class CircularDoublyLinkedList<T> {
     this.len = 0;
   }
 
-  // ┌──────────────────────────┐
-  // │ CORE OPERATIONS
-  // └──────────────────────────┘
   /** Adds node to list end */
   append(data: T): void {
     let newNode = new N(data);
