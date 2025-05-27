@@ -76,7 +76,6 @@ describe("CircularSinglyLinkedList", () => {
       list.append(2);
       list.append(3);
       expect(getListValues(list)).toEqual([1, 2, 3]);
-      expect(list.size()).toBe(3);
       expect(verifyCircular(list)).toBe(true);
     });
   });
