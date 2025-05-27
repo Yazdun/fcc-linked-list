@@ -27,7 +27,6 @@ describe("CircularSinglyLinkedList", () => {
     test("creates an empty list", () => {
       expect(list.head).toBeNull();
       expect(getListValues(list)).toEqual([]);
-      expect(list.size()).toBe(0);
     });
   });
 
@@ -35,7 +34,6 @@ describe("CircularSinglyLinkedList", () => {
     test("prepend to empty list", () => {
       list.prepend(1);
       expect(getListValues(list)).toEqual([1]);
-      expect(list.size()).toBe(1);
       expect(list.head!.next).toBe(list.head);
       expect(verifyCircular(list)).toBe(true);
     });
@@ -44,7 +42,6 @@ describe("CircularSinglyLinkedList", () => {
       list.append(2);
       list.prepend(1);
       expect(getListValues(list)).toEqual([1, 2]);
-      expect(list.size()).toBe(2);
       expect(list.head!.next!.next).toBe(list.head);
       expect(verifyCircular(list)).toBe(true);
     });
@@ -54,7 +51,6 @@ describe("CircularSinglyLinkedList", () => {
       list.prepend(2);
       list.prepend(1);
       expect(getListValues(list)).toEqual([1, 2, 3]);
-      expect(list.size()).toBe(3);
       expect(verifyCircular(list)).toBe(true);
     });
   });
@@ -63,7 +59,6 @@ describe("CircularSinglyLinkedList", () => {
     test("append to empty list", () => {
       list.append(1);
       expect(getListValues(list)).toEqual([1]);
-      expect(list.size()).toBe(1);
       expect(list.head!.next).toBe(list.head);
       expect(verifyCircular(list)).toBe(true);
     });
@@ -72,7 +67,6 @@ describe("CircularSinglyLinkedList", () => {
       list.append(1);
       list.append(2);
       expect(getListValues(list)).toEqual([1, 2]);
-      expect(list.size()).toBe(2);
       expect(list.head!.next!.next).toBe(list.head);
       expect(verifyCircular(list)).toBe(true);
     });
@@ -91,7 +85,6 @@ describe("CircularSinglyLinkedList", () => {
     test("deleteHead from empty list", () => {
       list.deleteHead();
       expect(getListValues(list)).toEqual([]);
-      expect(list.size()).toBe(0);
       expect(list.head).toBeNull();
     });
 
@@ -99,7 +92,6 @@ describe("CircularSinglyLinkedList", () => {
       list.append(1);
       list.deleteHead();
       expect(getListValues(list)).toEqual([]);
-      expect(list.size()).toBe(0);
       expect(list.head).toBeNull();
     });
 
@@ -108,7 +100,6 @@ describe("CircularSinglyLinkedList", () => {
       list.append(2);
       list.deleteHead();
       expect(getListValues(list)).toEqual([2]);
-      expect(list.size()).toBe(1);
       expect(list.head!.next).toBe(list.head);
       expect(verifyCircular(list)).toBe(true);
     });
@@ -118,14 +109,12 @@ describe("CircularSinglyLinkedList", () => {
     test("deleteTail from empty list", () => {
       expect(list.deleteTail()).toBe(false);
       expect(getListValues(list)).toEqual([]);
-      expect(list.size()).toBe(0);
     });
 
     test("deleteTail from single-node list", () => {
       list.append(1);
       expect(list.deleteTail()).toBe(true);
       expect(getListValues(list)).toEqual([]);
-      expect(list.size()).toBe(0);
       expect(list.head).toBeNull();
     });
 
@@ -135,7 +124,6 @@ describe("CircularSinglyLinkedList", () => {
       list.append(3);
       expect(list.deleteTail()).toBe(true);
       expect(getListValues(list)).toEqual([1, 2]);
-      expect(list.size()).toBe(2);
       expect(verifyCircular(list)).toBe(true);
     });
   });
@@ -144,7 +132,6 @@ describe("CircularSinglyLinkedList", () => {
     test("delete from empty list", () => {
       expect(list.delete(1)).toBe(false);
       expect(getListValues(list)).toEqual([]);
-      expect(list.size()).toBe(0);
     });
 
     test("delete head value", () => {
@@ -152,7 +139,7 @@ describe("CircularSinglyLinkedList", () => {
       list.append(2);
       expect(list.delete(1)).toBe(true);
       expect(getListValues(list)).toEqual([2]);
-      expect(list.size()).toBe(1);
+
       expect(verifyCircular(list)).toBe(true);
     });
 
@@ -162,7 +149,7 @@ describe("CircularSinglyLinkedList", () => {
       list.append(3);
       expect(list.delete(2)).toBe(true);
       expect(getListValues(list)).toEqual([1, 3]);
-      expect(list.size()).toBe(2);
+
       expect(verifyCircular(list)).toBe(true);
     });
 
@@ -171,7 +158,7 @@ describe("CircularSinglyLinkedList", () => {
       list.append(2);
       expect(list.delete(3)).toBe(false);
       expect(getListValues(list)).toEqual([1, 2]);
-      expect(list.size()).toBe(2);
+
       expect(verifyCircular(list)).toBe(true);
     });
   });
@@ -215,6 +202,38 @@ describe("CircularSinglyLinkedList", () => {
       list.append(2);
       list.append(3);
       expect(getListValues(list)).toEqual([1, 2, 3]);
+    });
+  });
+
+  describe("insertAt", () => {
+    test("insertAt head (index 0)", () => {
+      list.append(2);
+      expect(list.insertAt(1, 0)).toBe(true);
+      expect(getListValues(list)).toEqual([1, 2]);
+      expect(verifyCircular(list)).toBe(true);
+    });
+
+    test("insertAt tail (index equal to size)", () => {
+      list.append(1);
+      expect(list.insertAt(2, 1)).toBe(true);
+      expect(getListValues(list)).toEqual([1, 2]);
+
+      expect(verifyCircular(list)).toBe(true);
+    });
+
+    test("insertAt middle", () => {
+      list.append(1);
+      list.append(3);
+      expect(list.insertAt(2, 1)).toBe(true);
+      expect(getListValues(list)).toEqual([1, 2, 3]);
+
+      expect(verifyCircular(list)).toBe(true);
+    });
+
+    test("insertAt invalid index", () => {
+      list.append(1);
+      expect(list.insertAt(2, 2)).toBe(false);
+      expect(getListValues(list)).toEqual([1]);
     });
   });
 });

@@ -47,4 +47,9 @@ export class DoublyLinkedList<T> {
   traverse(dir: "forward" | "backward" = "forward"): T[] {
     return [];
   }
+
+  /** Inserts node at given index */
+  insertAt(idx: number, data: T): boolean {
+    return false;
+  }
 }

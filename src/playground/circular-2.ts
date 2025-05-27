@@ -3,7 +3,19 @@ export class N<T> {}
 
 /** Circular doubly linked list implementation */
 export class CircularDoublyLinkedList<T> {
-  public head: N<T> | null = null;
+  /** Head node */
+  public head: N<T> | null;
+  /** Tail node */
+  public tail: N<T> | null;
+  /** List length */
+  public len: number;
+
+  /** Creates an empty list */
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.len = 0;
+  }
 
   /** Adds node to list end */
   append(data: T): void {}
@@ -34,5 +46,10 @@ export class CircularDoublyLinkedList<T> {
   /** Returns array of node data */
   traverse(): T[] {
     return [];
+  }
+
+  /** Inserts node at given index */
+  insertAt(idx: number, data: T): boolean {
+    return false;
   }
 }

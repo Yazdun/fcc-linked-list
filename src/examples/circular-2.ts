@@ -179,9 +179,6 @@ export class CircularDoublyLinkedList<T> {
     return result;
   }
 
-  // ┌────────────────────────────┐
-  // │ BONUS OPERATIONS
-  // └────────────────────────────┘
   /** Inserts node at given index */
   insertAt(idx: number, data: T): boolean {
     if (idx < 0 || idx > this.len) return false;
@@ -208,26 +205,5 @@ export class CircularDoublyLinkedList<T> {
 
     this.len++;
     return true;
-  }
-
-  /** Removes and returns node data at given index */
-  removeAt(idx: number): T | null {
-    if (idx < 0 || idx >= this.len || !this.head) {
-      return null;
-    }
-
-    if (idx === 0) return this.deleteHead();
-    if (idx === this.len - 1) return this.deleteTail();
-
-    let current = this.find(idx);
-
-    current!.next!.prev = current!.prev;
-    current!.prev!.next = current!.next;
-
-    current!.next = null;
-    current!.prev = null;
-    this.len--;
-
-    return current!.data;
   }
 }

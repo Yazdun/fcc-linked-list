@@ -6,11 +6,8 @@ export class CircularSinglyLinkedList<T> {
   /** Head node */
   public head: N<T> | null = null;
 
-  // ┌──────────────────────────┐
-  // │ CORE OPERATIONS
-  // └──────────────────────────┘
   /** Adds node to list start */
-  prepend(data: T): void {}
+  prepend(data: T) {}
 
   /** Adds node to list end */
   append(data: T): void {}
@@ -36,5 +33,10 @@ export class CircularSinglyLinkedList<T> {
   /** Returns array of node data */
   traverse(): T[] {
     return [];
+  }
+
+  /** Inserts node at given index */
+  insertAt(data: T, idx: number): boolean {
+    return false;
   }
 }

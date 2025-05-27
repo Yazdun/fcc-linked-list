@@ -240,4 +240,41 @@ describe("DoublyLinkedList", () => {
       expect(getListValues(list, "backward")).toEqual([3, 2, 1]);
     });
   });
+
+  describe("insertAt", () => {
+    test("insertAt head (index 0)", () => {
+      list.append(2);
+      expect(list.insertAt(0, 1)).toBe(true);
+      expect(list.len).toBe(2);
+      expect(getListValues(list)).toEqual([1, 2]);
+      expect(list.head!.prev).toBeNull();
+      expect(list.head!.next!.prev!.data).toBe(1);
+    });
+
+    test("insertAt tail (index len)", () => {
+      list.append(1);
+      expect(list.insertAt(1, 2)).toBe(true);
+      expect(list.len).toBe(2);
+      expect(getListValues(list)).toEqual([1, 2]);
+      expect(list.tail!.next).toBeNull();
+      expect(list.tail!.prev!.next!.data).toBe(2);
+    });
+
+    test("insertAt middle", () => {
+      list.append(1);
+      list.append(3);
+      expect(list.insertAt(1, 2)).toBe(true);
+      expect(list.len).toBe(3);
+      expect(getListValues(list)).toEqual([1, 2, 3]);
+      expect(list.head!.next!.prev!.data).toBe(1);
+      expect(list.tail!.prev!.next!.data).toBe(3);
+    });
+
+    test("insertAt invalid index", () => {
+      expect(list.insertAt(-1, 1)).toBe(false);
+      expect(list.insertAt(1, 1)).toBe(false);
+      expect(list.len).toBe(0);
+      expect(getListValues(list)).toEqual([]);
+    });
+  });
 });

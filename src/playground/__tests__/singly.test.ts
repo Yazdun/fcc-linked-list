@@ -182,4 +182,28 @@ describe("SinglyLinkedList", () => {
       expect(console.log).toHaveBeenCalledTimes(3);
     });
   });
+
+  describe("insertAt", () => {
+    test("insertAt position 0 (head)", () => {
+      list.append(2);
+      list.insertAt(0, 1);
+      expect(getListValues(list)).toEqual([1, 2]);
+    });
+
+    test("insertAt middle position", () => {
+      list.append(1);
+      list.append(3);
+      list.insertAt(1, 2);
+      expect(getListValues(list)).toEqual([1, 2, 3]);
+    });
+
+    test("insertAt invalid negative position throws error", () => {
+      expect(() => list.insertAt(-1, 1)).toThrow("failed");
+    });
+
+    test("insertAt position beyond length throws error", () => {
+      list.append(1);
+      expect(() => list.insertAt(2, 2)).toThrow("failed");
+    });
+  });
 });

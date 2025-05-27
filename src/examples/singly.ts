@@ -14,7 +14,7 @@ class N<T> {
 /** Singly linked list implementation */
 export class SinglyLinkedList<T> {
   /** Head node */
-  protected head: N<T> | null = null;
+  public head: N<T> | null = null;
 
   // ┌──────────────────────────┐
   // │ CORE OPERATIONS
@@ -27,8 +27,8 @@ export class SinglyLinkedList<T> {
   }
 
   /** Adds node to list end */
-  append(val: T): void {
-    const newNode = new N(val);
+  append(data: T): void {
+    const newNode = new N(data);
 
     if (!this.head) {
       this.head = newNode;
@@ -69,10 +69,10 @@ export class SinglyLinkedList<T> {
   }
 
   /** Removes first node with given value */
-  delete(val: T): void {
+  delete(data: T): void {
     if (!this.head) return;
 
-    if (this.head.data === val) {
+    if (this.head.data === data) {
       this.head = this.head.next;
       return;
     }
@@ -80,7 +80,7 @@ export class SinglyLinkedList<T> {
     let current = this.head;
 
     while (current.next) {
-      if (current.next.data === val) {
+      if (current.next.data === data) {
         current.next = current.next.next;
         return;
       }
@@ -90,13 +90,13 @@ export class SinglyLinkedList<T> {
   }
 
   /** Finds node with given value */
-  find(val: T): N<T> | null {
+  find(data: T): N<T> | null {
     if (!this.head) return null;
 
     let current: N<T> | null = this.head;
 
     while (current) {
-      if (current.data === val) return current;
+      if (current.data === data) return current;
       current = current.next;
     }
 
@@ -112,12 +112,9 @@ export class SinglyLinkedList<T> {
     }
   }
 
-  // ┌────────────────────────────┐
-  // │ BONUS OPERATIONS
-  // └────────────────────────────┘
   /** Inserts node at given position */
-  insertAt(pos: number, val: T): void {
-    const newNode = new N(val);
+  insertAt(pos: number, data: T): void {
+    const newNode = new N(data);
     let current: N<T> | null = this.head;
 
     if (pos < 0) throw new Error("failed");
@@ -141,37 +138,9 @@ export class SinglyLinkedList<T> {
     current.next = newNode;
   }
 
-  /** Removes node at given position */
-  deleteAt(pos: number): void {
-    let current: N<T> | null = this.head;
-    let idx = 0;
-
-    if (pos === 0) {
-      this.head = current?.next ?? null;
-    }
-
-    while (current && idx < pos - 1) {
-      current = current.next;
-      idx++;
-    }
-
-    if (current && current.next) {
-      current.next = current.next.next;
-    }
-  }
-
-  /** Finds middle node */
-  findMiddle(): N<T> | null {
-    let slow: N<T> | null = this.head;
-    let fast: N<T> | null | undefined = this.head;
-
-    while (fast && fast.next?.next) {
-      slow = slow?.next ?? null;
-      fast = fast.next.next;
-    }
-
-    return slow;
-  }
+  // ┌────────────────────────────┐
+  // │ BONUS OPERATIONS
+  // └────────────────────────────┘
 
   /** Reverses list in place */
   reverse(): void {

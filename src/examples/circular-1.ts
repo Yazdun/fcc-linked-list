@@ -17,9 +17,6 @@ export class CircularSinglyLinkedList<T> {
   /** Head node */
   public head: N<T> | null = null;
 
-  // ┌──────────────────────────┐
-  // │ CORE OPERATIONS
-  // └──────────────────────────┘
   /** Adds node to list start */
   prepend(data: T) {
     let newNode = new N(data);
@@ -164,41 +161,6 @@ export class CircularSinglyLinkedList<T> {
     return result;
   }
 
-  // ┌────────────────────────────┐
-  // │ BONUS OPERATIONS
-  // └────────────────────────────┘
-  /** Searches for node with given data */
-  search(data: T): boolean {
-    if (!this.head) return false;
-
-    let current = this.head;
-
-    do {
-      if (!current.next) throw new Error("invalid list");
-
-      if (current.data === data) {
-        return true;
-      }
-
-      current = current.next;
-    } while (current !== this.head);
-
-    return false;
-  }
-
-  /** Returns number of nodes */
-  size(): number {
-    if (!this.head) return 0;
-    let count = 1;
-    let current = this.head.next;
-    while (current !== this.head) {
-      if (!current?.next) throw new Error("invalid list");
-      count++;
-      current = current.next;
-    }
-    return count;
-  }
-
   /** Inserts node at given index */
   insertAt(data: T, idx: number): boolean {
     if (idx < 0) return false;
@@ -236,32 +198,6 @@ export class CircularSinglyLinkedList<T> {
       this.append(data);
       return true;
     }
-
-    return false;
-  }
-
-  /** Removes node at given index */
-  deleteAt(idx: number): boolean {
-    if (!this.head || idx < 0) return false;
-
-    if (idx === 0) {
-      this.deleteHead();
-      return true;
-    }
-
-    let current: N<T> = this.head;
-    let prev: N<T> | null = null;
-    let count = 0;
-
-    do {
-      if (count === idx) {
-        prev!.next = current.next;
-        return true;
-      }
-      prev = current;
-      current = current.next!;
-      count++;
-    } while (current !== this.head);
 
     return false;
   }

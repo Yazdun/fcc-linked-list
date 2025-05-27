@@ -31,9 +31,6 @@ export class DoublyLinkedList<T> {
     this.len = 0;
   }
 
-  // ┌──────────────────────────┐
-  // │ CORE OPERATIONS
-  // └──────────────────────────┘
   /** Adds node to list start */
   prepend(data: T): void {
     let newNode = new N(data);
@@ -109,15 +106,31 @@ export class DoublyLinkedList<T> {
   /** Removes first node with given data */
   delete(data: T): boolean {
     let current = this.head;
-    let idx = 0;
-    while (current) {
-      if (current.data === data) {
-        this.removeAt(idx);
+
+    if (!current) return false;
+
+    if (current.data === data) {
+      this.head = current.next;
+      if (this.head) this.head.prev = null;
+      else this.tail = null;
+      this.len--;
+      return true;
+    }
+
+    while (current.next) {
+      if (current.next.data === data) {
+        let nodeToRemove = current.next;
+        current.next = nodeToRemove.next;
+        if (current.next) current.next.prev = current;
+        else this.tail = current;
+        nodeToRemove.next = null;
+        nodeToRemove.prev = null;
+        this.len--;
         return true;
       }
       current = current.next;
-      idx++;
     }
+
     return false;
   }
 
@@ -156,9 +169,6 @@ export class DoublyLinkedList<T> {
     return result;
   }
 
-  // ┌────────────────────────────┐
-  // │ BONUS OPERATIONS
-  // └────────────────────────────┘
   /** Inserts node at given index */
   insertAt(idx: number, data: T): boolean {
     if (idx < 0 || idx > this.len) return false;
@@ -186,42 +196,5 @@ export class DoublyLinkedList<T> {
     this.len++;
 
     return true;
-  }
-
-  /** Removes and returns node data at given index */
-  removeAt(idx: number): T | null {
-    if (idx < 0 || idx >= this.len) return null;
-
-    if (idx === 0) return this.deleteHead();
-    if (idx === this.len - 1) return this.deleteTail();
-
-    let current = this.find(idx);
-
-    if (!current) return null;
-
-    current.next!.prev = current!.prev;
-    current.prev!.next = current!.next;
-    current.next = null;
-    current.prev = null;
-
-    this.len--;
-
-    return current.data;
-  }
-
-  /** Reverses list in place */
-  reverse(): void {
-    if (this.len <= 1) return;
-    let current = this.head;
-    let temp: N<T> | null = null;
-    while (current) {
-      temp = current.prev;
-      current.prev = current.next;
-      current.next = temp;
-      current = current.prev;
-    }
-    temp = this.head;
-    this.head = this.tail;
-    this.tail = temp;
   }
 }
