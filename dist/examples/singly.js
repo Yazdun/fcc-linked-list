@@ -26,8 +26,8 @@ class SinglyLinkedList {
         this.head = newNode;
     }
     /** Adds node to list end */
-    append(val) {
-        const newNode = new N(val);
+    append(data) {
+        const newNode = new N(data);
         if (!this.head) {
             this.head = newNode;
             return;
@@ -59,16 +59,16 @@ class SinglyLinkedList {
         current.next = null;
     }
     /** Removes first node with given value */
-    delete(val) {
+    delete(data) {
         if (!this.head)
             return;
-        if (this.head.data === val) {
+        if (this.head.data === data) {
             this.head = this.head.next;
             return;
         }
         let current = this.head;
         while (current.next) {
-            if (current.next.data === val) {
+            if (current.next.data === data) {
                 current.next = current.next.next;
                 return;
             }
@@ -76,12 +76,12 @@ class SinglyLinkedList {
         }
     }
     /** Finds node with given value */
-    find(val) {
+    find(data) {
         if (!this.head)
             return null;
         let current = this.head;
         while (current) {
-            if (current.data === val)
+            if (current.data === data)
                 return current;
             current = current.next;
         }
@@ -95,12 +95,9 @@ class SinglyLinkedList {
             current = current.next;
         }
     }
-    // ┌────────────────────────────┐
-    // │ BONUS OPERATIONS
-    // └────────────────────────────┘
     /** Inserts node at given position */
-    insertAt(pos, val) {
-        const newNode = new N(val);
+    insertAt(pos, data) {
+        const newNode = new N(data);
         let current = this.head;
         if (pos < 0)
             throw new Error("failed");
@@ -119,31 +116,9 @@ class SinglyLinkedList {
         newNode.next = current.next;
         current.next = newNode;
     }
-    /** Removes node at given position */
-    deleteAt(pos) {
-        let current = this.head;
-        let idx = 0;
-        if (pos === 0) {
-            this.head = current?.next ?? null;
-        }
-        while (current && idx < pos - 1) {
-            current = current.next;
-            idx++;
-        }
-        if (current && current.next) {
-            current.next = current.next.next;
-        }
-    }
-    /** Finds middle node */
-    findMiddle() {
-        let slow = this.head;
-        let fast = this.head;
-        while (fast && fast.next?.next) {
-            slow = slow?.next ?? null;
-            fast = fast.next.next;
-        }
-        return slow;
-    }
+    // ┌────────────────────────────┐
+    // │ BONUS OPERATIONS
+    // └────────────────────────────┘
     /** Reverses list in place */
     reverse() {
         let current = this.head;

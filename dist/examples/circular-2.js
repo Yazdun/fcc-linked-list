@@ -109,17 +109,29 @@ class CircularDoublyLinkedList {
     }
     /** Removes first node with given data */
     delete(data) {
-        let current = this.head;
-        let idx = 0;
-        if (!current)
+        if (!this.head)
             return false;
+        let current = this.head;
         do {
             if (current.data === data) {
-                this.removeAt(idx);
+                if (this.len === 1) {
+                    this.head = null;
+                    this.tail = null;
+                }
+                else {
+                    current.prev.next = current.next;
+                    current.next.prev = current.prev;
+                    if (current === this.head) {
+                        this.head = current.next;
+                    }
+                    if (current === this.tail) {
+                        this.tail = current.prev;
+                    }
+                }
+                this.len--;
                 return true;
             }
             current = current.next;
-            idx++;
         } while (current !== this.head);
         return false;
     }
@@ -137,9 +149,6 @@ class CircularDoublyLinkedList {
         } while (current !== this.head);
         return result;
     }
-    // ┌────────────────────────────┐
-    // │ BONUS OPERATIONS
-    // └────────────────────────────┘
     /** Inserts node at given index */
     insertAt(idx, data) {
         if (idx < 0 || idx > this.len)
@@ -162,23 +171,6 @@ class CircularDoublyLinkedList {
         current.prev = newNode;
         this.len++;
         return true;
-    }
-    /** Removes and returns node data at given index */
-    removeAt(idx) {
-        if (idx < 0 || idx >= this.len || !this.head) {
-            return null;
-        }
-        if (idx === 0)
-            return this.deleteHead();
-        if (idx === this.len - 1)
-            return this.deleteTail();
-        let current = this.find(idx);
-        current.next.prev = current.prev;
-        current.prev.next = current.next;
-        current.next = null;
-        current.prev = null;
-        this.len--;
-        return current.data;
     }
 }
 exports.CircularDoublyLinkedList = CircularDoublyLinkedList;

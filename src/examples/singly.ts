@@ -16,9 +16,6 @@ export class SinglyLinkedList<T> {
   /** Head node */
   public head: N<T> | null = null;
 
-  // ┌──────────────────────────┐
-  // │ CORE OPERATIONS
-  // └──────────────────────────┘
   /** Adds node to list start */
   prepend(val: T): void {
     const newNode = new N(val);
@@ -139,7 +136,7 @@ export class SinglyLinkedList<T> {
   }
 
   // ┌────────────────────────────┐
-  // │ BONUS OPERATIONS
+  // │ BONUS OPERATION
   // └────────────────────────────┘
 
   /** Reverses list in place */

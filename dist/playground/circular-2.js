@@ -7,9 +7,12 @@ class N {
 exports.N = N;
 /** Circular doubly linked list implementation */
 class CircularDoublyLinkedList {
-    // ┌──────────────────────────┐
-    // │ CORE OPERATIONS
-    // └──────────────────────────┘
+    /** Creates an empty list */
+    constructor() {
+        this.head = null;
+        this.tail = null;
+        this.len = 0;
+    }
     /** Adds node to list end */
     append(data) { }
     /** Removes and returns tail node data */
@@ -33,6 +36,10 @@ class CircularDoublyLinkedList {
     /** Returns array of node data */
     traverse() {
         return [];
+    }
+    /** Inserts node at given index */
+    insertAt(idx, data) {
+        return false;
     }
 }
 exports.CircularDoublyLinkedList = CircularDoublyLinkedList;

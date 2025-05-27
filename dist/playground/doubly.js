@@ -37,5 +37,9 @@ class DoublyLinkedList {
     traverse(dir = "forward") {
         return [];
     }
+    /** Inserts node at given index */
+    insertAt(idx, data) {
+        return false;
+    }
 }
 exports.DoublyLinkedList = DoublyLinkedList;

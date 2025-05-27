@@ -11,9 +11,6 @@ class CircularSinglyLinkedList {
         /** Head node */
         this.head = null;
     }
-    // ┌──────────────────────────┐
-    // │ CORE OPERATIONS
-    // └──────────────────────────┘
     /** Adds node to list start */
     prepend(data) { }
     /** Adds node to list end */
@@ -35,6 +32,10 @@ class CircularSinglyLinkedList {
     /** Returns array of node data */
     traverse() {
         return [];
+    }
+    /** Inserts node at given index */
+    insertAt(data, idx) {
+        return false;
     }
 }
 exports.CircularSinglyLinkedList = CircularSinglyLinkedList;

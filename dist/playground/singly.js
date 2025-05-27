@@ -13,18 +13,20 @@ class SinglyLinkedList {
     /** Adds node to list start */
     prepend(val) { }
     /** Adds node to list end */
-    append(val) { }
+    append(data) { }
     /** Removes head node */
     deleteHead() { }
     /** Removes tail node */
     deleteTail() { }
     /** Removes first node with given value */
-    delete(val) { }
+    delete(data) { }
     /** Finds node with given value */
-    find(val) {
+    find(data) {
         return null;
     }
     /** Logs all node values */
     traverse() { }
+    /** Inserts node at given position */
+    insertAt(pos, data) { }
 }
 exports.SinglyLinkedList = SinglyLinkedList;

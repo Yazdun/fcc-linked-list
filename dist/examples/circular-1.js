@@ -16,9 +16,6 @@ class CircularSinglyLinkedList {
         /** Head node */
         this.head = null;
     }
-    // ┌──────────────────────────┐
-    // │ CORE OPERATIONS
-    // └──────────────────────────┘
     /** Adds node to list start */
     prepend(data) {
         let newNode = new N(data);
@@ -140,38 +137,6 @@ class CircularSinglyLinkedList {
         } while (current !== this.head);
         return result;
     }
-    // ┌────────────────────────────┐
-    // │ BONUS OPERATIONS
-    // └────────────────────────────┘
-    /** Searches for node with given data */
-    search(data) {
-        if (!this.head)
-            return false;
-        let current = this.head;
-        do {
-            if (!current.next)
-                throw new Error("invalid list");
-            if (current.data === data) {
-                return true;
-            }
-            current = current.next;
-        } while (current !== this.head);
-        return false;
-    }
-    /** Returns number of nodes */
-    size() {
-        if (!this.head)
-            return 0;
-        let count = 1;
-        let current = this.head.next;
-        while (current !== this.head) {
-            if (!current?.next)
-                throw new Error("invalid list");
-            count++;
-            current = current.next;
-        }
-        return count;
-    }
     /** Inserts node at given index */
     insertAt(data, idx) {
         if (idx < 0)
@@ -205,28 +170,6 @@ class CircularSinglyLinkedList {
             this.append(data);
             return true;
         }
-        return false;
-    }
-    /** Removes node at given index */
-    deleteAt(idx) {
-        if (!this.head || idx < 0)
-            return false;
-        if (idx === 0) {
-            this.deleteHead();
-            return true;
-        }
-        let current = this.head;
-        let prev = null;
-        let count = 0;
-        do {
-            if (count === idx) {
-                prev.next = current.next;
-                return true;
-            }
-            prev = current;
-            current = current.next;
-            count++;
-        } while (current !== this.head);
         return false;
     }
 }
