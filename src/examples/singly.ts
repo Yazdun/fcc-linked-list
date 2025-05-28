@@ -17,8 +17,8 @@ export class SinglyLinkedList<T> {
   public head: N<T> | null = null;
 
   /** Adds node to list start */
-  prepend(val: T): void {
-    const newNode = new N(val);
+  prepend(data: T): void {
+    const newNode = new N(data);
     newNode.next = this.head;
     this.head = newNode;
   }

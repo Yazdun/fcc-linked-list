@@ -7,7 +7,7 @@ export class SinglyLinkedList<T> {
   public head: N<T> | null = null;
 
   /** Adds node to list start */
-  prepend(val: T): void {}
+  prepend(data: T): void {}
 
   /** Adds node to list end */
   append(data: T): void {}

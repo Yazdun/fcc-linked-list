@@ -16,9 +16,6 @@ class SinglyLinkedList {
         /** Head node */
         this.head = null;
     }
-    // ┌──────────────────────────┐
-    // │ CORE OPERATIONS
-    // └──────────────────────────┘
     /** Adds node to list start */
     prepend(val) {
         const newNode = new N(val);
@@ -117,7 +114,7 @@ class SinglyLinkedList {
         current.next = newNode;
     }
     // ┌────────────────────────────┐
-    // │ BONUS OPERATIONS
+    // │ BONUS OPERATION
     // └────────────────────────────┘
     /** Reverses list in place */
     reverse() {
